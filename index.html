@@ -1,41 +1,79 @@
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css">
-    </head> <body>
-        <div id="container">
-            <header>
-                <img src="images/rotarypub-logga.png" id="logo">
-                <ul id="menu">
-                    <li><a href=""></a></li>
-                </ul>
-            </header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rotary Pub</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
 
-            <main>
+    <div class="container">
 
-                <div id="welcome">
-                    <h2>Välkommen</h2>
-                    <p></p>
-                </div>
+      <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
 
-                <div id="news">
-                </div>
-
-                <div id="hours">
-                </div>
-
-                <div id="map">
-                    <h2>Hitta Hit</h2>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2132.48154199987!2d11.98127941600669!3d57.69128828111599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x464ff37540c3f44f%3A0x34b27b50dc84b05d!2sRotary%20Pub!5e0!3m2!1sen!2sse!4v1620140731799!5m2!1sen!2sse" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-
-            </main>
-
-            <footer>
-            </footer>
+        <div class="navbar-brand">
+          <a class="navbar-item" href="https://rotarypub.se">
+            <img src="images/rotarypub-logga.png">
+          </a>
+          <a role="button" class="navbar-burger" aria-label="menu" data-target="navmenu" aria-expanded="false" >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
         </div>
 
-    </body>
+        <div id="navmenu" class="navbar-menu">
+
+          <div class="navbar-start">
+            <a class="navbar-item">Home</a>
+            <a class="navbar-item">Menu</a>
+            <a class="navbar-item">Contact</a>
+          </div>
+
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <a class="button is-primary">EN/SE</a>
+
+            </div>
+          </div>
+
+        </div>
+
+      </nav>
+
+      <div class="columns is-desktop">
+        <div class="column is-two-thirds-desktop">
+          <div class="content welcome">
+            <h1>Welcome</h1>
+            <img>
+            <p></p>
+
+          </div>
+        </div>
+        <div class="column">
+          <div class="content hours">
+            <h1>Opening Hours</h1>
+          </div>
+          <div class="content map">
+            <h1>Find Us</h1>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2132.48154199987!2d11.98127941600669!3d57.69128828111599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x464ff37540c3f44f%3A0x34b27b50dc84b05d!2sRotary%20Pub!5e0!3m2!1sen!2sse!4v1620212844072!5m2!1sen!2sse" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <footer class="footer">
+        <div class="content has-text-centered">
+          <p>© 2021 Rotary Pub | made with 🍺 </p>
+        </div>
+
+
+      </footer>
+    </div>
+
+
+  </body>
 </html>
