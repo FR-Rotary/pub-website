@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{%  endblock %} - Rotary Pub</title>
+    <link rel="stylesheet" href="static/css/style.css">
+  </head>
+  <body>
+
+    <div class="container">
+
+      <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
+
+        <div class="navbar-brand">
+          <a class="navbar-item" href="{{ url_for('index') }}">
+            <img src="static/images/rotarypub-logga.png">
+          </a>
+          <a role="button" class="navbar-burger" aria-label="menu" data-target="navmenu" aria-expanded="false" >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+
+        <div id="navmenu" class="navbar-menu">
+
+          <div class="navbar-start">
+            <a class='navbar-item' href="{{ url_for('external.index') }}">{{ g.strings.nav.index }}</a>
+            <a class='navbar-item' href="{{ url_for('external.menu') }}">{{ g.strings.nav.menu }}</a>
+            <a class='navbar-item' href="{{ url_for('external.contact') }}">{{ g.strings.nav.contact }}</a>
+          </div>
+
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <a class="button"  href="{{ url_for('i18n.toggle') }}">en/se</a>
+
+            </div>
+          </div>
+
+        </div>
+
+      </nav>
+
+      {% block content %}
+      {%  endblock %}
+
+      <footer class="footer">
+        <nav class="level">
+
+          <div class="level-item content has-text-centered">
+            <p class="heading">Currently Serving <strong>x</strong> beers</p>
+          </div>
+
+          <div class="level-item content has-text-centered">
+            <p class="heading">© 2021 Rotary Pub </p>
+          </div>
+
+          <div class="level-item content has-text-centered">
+            <p class="heading">made with 🍺 </p>
+          </div>
+
+        </nav>
+
+      </footer>
+    </div>
+
+  </body>
+</html>

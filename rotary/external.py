@@ -18,6 +18,9 @@ def index():
 
     return render_template('index.html', news=news)
 
+@bp.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 @bp.route('/menu')
 def menu():

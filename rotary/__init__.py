@@ -37,6 +37,9 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
+    from . import i18n
+    app.register_blueprint(i18n.bp)
+
     from . import external
     app.register_blueprint(external.bp)
     app.add_url_rule('/', endpoint='index')
