@@ -9,29 +9,29 @@
     <p>{{ g.strings.contact.text }}</p>
   </div>
 
-  <div class="form" >
+  <form class="form" action="{{ request.path }}" method="post">
 
     <div class="field">
       <label class="label">{{ g.strings.contact.email }}</label>
       <div class="control">
-        <input class="input" type="email" placeholder="name@example.com">
+        <input class="input" type="email" name="email" placeholder="name@example.com">
       </div>
     </div>
 
     <div class="field">
       <label class="label">{{ g.strings.contact.message }}</label>
       <div class="control">
-        <textarea class="textarea" placeholder="Textarea"></textarea>
+        <textarea class="textarea" name="body" placeholder="Textarea"></textarea>
       </div>
     </div>
 
     <div class="field is-grouped is-grouped-right">
       <div class="control">
-        <button class="button is-link">{{ g.strings.contact.submit }}</button>
+        <button type="submit" formmethod="post" class="button is-link">{{ g.strings.contact.submit }}</button>
       </div>
     </div>
 
-  </div>
+  </form>
 
 </div>
 {% endblock %}

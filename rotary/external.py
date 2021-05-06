@@ -19,10 +19,13 @@ def index():
     return render_template('index.html', news=news)
 
 
-@bp.route('/contact')
+@bp.route('/contact', methods=('GET', 'POST'))
 def contact():
-    return render_template('contact.html')
-
+    if request.method == 'GET':
+        return render_template('contact.html', submitted=False)
+    else:
+        # TODO: Handle the form data
+        return render_template('contact.html', submitted=True)
 
 @bp.route('/menu')
 def menu():
@@ -48,8 +51,7 @@ def menu():
         }
         categories.append(category)
 
-    foods = db.execute(
-        'SELECT * FROM food ORDER BY name ASC'
-    ).fetchall()
+    foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
+    snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
 
-    return render_template('menu.html', beer_categories=categories, foods=foods)
+    return render_template('menu.html', beer_categories=categories, foods=foods, snacks=snacks)
