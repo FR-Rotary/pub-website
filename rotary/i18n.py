@@ -21,6 +21,8 @@ strings_en = {
         'news': {
             'header': 'Latest updates',
         },
+        'opening_hours': 'Opening Hours',
+        'closed': 'closed',
     },
     'menu': {
         'beer_categories': {
@@ -72,7 +74,9 @@ strings_sv = {
         'tagline': '…till den studentdrivna puben med studentförmånliga priser för alla mitt i Göteborg.',
         'news': {
             'header': 'Senaste nytt',
-        }
+        },
+        'opening_hours': 'Öppettider',
+        'closed': 'stängt',
     },
     'menu': {
         'beer_categories': {

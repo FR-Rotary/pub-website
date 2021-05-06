@@ -68,21 +68,9 @@ CREATE TABLE shift (
 
 CREATE TABLE opening_hours (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    week_of TEXT NOT NULL,
-    monday_start TEXT,
-    monday_end TEXT,
-    tuesday_start TEXT,
-    tuesday_end TEXT,
-    wednesday_start TEXT,
-    wednesday_end TEXT,
-    thursday_start TEXT,
-    thursday_end TEXT,
-    friday_start TEXT,
-    friday_end TEXT,
-    saturday_start TEXT,
-    saturday_end TEXT,
-    sunday_start TEXT,
-    sunday_end TEXT
+    date TEXT NOT NULL,
+    start TEXT,
+    end TEXT
 );
 
 CREATE TABLE news (

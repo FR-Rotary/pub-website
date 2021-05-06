@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, g, render_template, request, session
+from datetime import date, timedelta
 
 from rotary.db import get_db
 
@@ -24,7 +25,38 @@ def index():
 
     news = db.execute(query).fetchone()
 
-    return render_template('index.html', news=news)
+    today = date.today()
+    days_after_monday = today.weekday()
+    monday = today - timedelta(days=days_after_monday)
+
+    opening_hours = []
+    closed_string = ''
+
+    for i in range(7):
+        day = monday + timedelta(days=i)
+        result = db.execute(
+            'SELECT start, end FROM opening_hours WHERE date = ?',
+            (day.isoformat(),)
+        ).fetchone()
+        day = day.strftime('%d/%m')
+
+        if result is None:
+            opening_hours.append(
+                {
+                    'date': day,
+                    'hours': None,
+                }
+            )
+        else:
+            start, end = result
+            opening_hours.append(
+                {
+                    'date': day,
+                    'hours': f'{start}-{end}',
+                }
+            )
+
+    return render_template('index.html', news=news, opening_hours=opening_hours)
 
 
 @bp.route('/contact', methods=('GET', 'POST'))
