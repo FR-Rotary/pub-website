@@ -23,6 +23,7 @@ strings_en = {
         },
         'opening_hours': 'Opening Hours',
         'closed': 'closed',
+        'find' : 'Find Us',
     },
     'menu': {
         'beer_categories': {
@@ -77,6 +78,7 @@ strings_sv = {
         },
         'opening_hours': 'Öppettider',
         'closed': 'stängt',
+        'find' : 'Hitta oss',
     },
     'menu': {
         'beer_categories': {
@@ -109,6 +111,10 @@ strings_sv = {
         'email': 'Epost',
         'message': 'Meddelande',
     },
+    'work' : {
+        'header' : 'Working at Rotary Pub',
+        'text' : 'Do you also like Rotary? Why not <strong>work here</strong>!<br>'
+        },
     'days' : ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'],
 }
 
