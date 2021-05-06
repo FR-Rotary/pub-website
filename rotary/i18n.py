@@ -14,6 +14,22 @@ strings_en = {
         'menu': 'Menu',
         'contact': 'Contact',
     },
+    'menu': {
+        'beer_categories': {
+            'on_keg': 'On Keg',
+            'lager': 'Lagers',
+            'ale': 'Ales',
+            'porter_stout': 'Porters & Stouts',
+            'weiss': 'Weißbiers',
+            'barleywine': 'Barley Wines',
+            'belgian': 'Belgians',
+            'lambic': 'Lambics',
+            'other': 'Other',
+            'wine': 'Wines',
+            'cider': 'Ciders',
+            'nonalcoholic': '< 2.25% abv',
+        }
+    }
 }
 
 strings_sv = {
@@ -22,6 +38,22 @@ strings_sv = {
         'menu': 'Meny',
         'contact': 'Kontakt',
     },
+    'menu': {
+        'beer_categories': {
+            'on_keg': 'På fat',
+            'lager': 'Lager',
+            'ale': 'Ale',
+            'porter_stout': 'Porter & Stout',
+            'weiss': 'Weißbier',
+            'barleywine': 'Barley Wine',
+            'belgian': 'Belgare',
+            'lambic': 'Lambics',
+            'other': 'Random Annat',
+            'wine': 'Vin',
+            'cider': 'Cider',
+            'nonalcoholic': '< 2.25% alkohol',
+        }
+    }
 }
 
 @bp.route('/language')

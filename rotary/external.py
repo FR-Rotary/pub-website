@@ -18,30 +18,38 @@ def index():
 
     return render_template('index.html', news=news)
 
+
 @bp.route('/contact')
 def contact():
     return render_template('contact.html')
+
 
 @bp.route('/menu')
 def menu():
     db = get_db()
 
-    categories = db.execute('SELECT name FROM beer_category ORDER BY id ASC')
-    beers = {}
+    category_names = db.execute(
+        'SELECT name FROM beer_category ORDER BY id ASC'
+    ).fetchall()
 
-    for category in categories:
-        q = (
+    categories = []
+
+    for index, category_name in enumerate(category_names):
+        query = (
             'SELECT beer.name as name, style, beer_category.name as category, '
-            'country_iso_3166_id as country, abv, volume_ml as volume '
+            'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
             'FROM beer INNER JOIN beer_category '
             'ON beer.category_id = beer_category.id '
-            f'WHERE available = 1 AND beer_category.name = \'{category["name"]}\''
+            f'WHERE available = 1 AND beer_category.id = \'{index + 1}\''
         )
-        print(q)
-        beers[category] = db.execute(
-            q
-        ).fetchall()
+        category = {
+            'name': category_name["name"],
+            'beers': db.execute(query).fetchall()
+        }
+        categories.append(category)
 
-    return render_template('menu.html', beers=beers)
+    foods = db.execute(
+        'SELECT * FROM food ORDER BY name ASC'
+    ).fetchall()
 
-    # SELECT beer.name as name, style, beer_category.name as category, country_iso_3166_id as country, abv, volume_ml as volume FROM beer INNER JOIN beer_category ON beer.category_id = beer_category.id WHERE available = 1 AND beer_category.name = 'porter_stout';
+    return render_template('menu.html', beer_categories=categories, foods=foods)

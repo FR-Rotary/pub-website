@@ -44,4 +44,7 @@ def create_app(test_config=None):
     app.register_blueprint(external.bp)
     app.add_url_rule('/', endpoint='index')
 
+    from . import countries
+    app.jinja_env.globals.update(to_letter_code=countries.to_letter_code, to_pretty_name=countries.to_pretty_name)
+
     return app
