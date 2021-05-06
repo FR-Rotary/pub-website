@@ -4,7 +4,6 @@ from flask import (
     Blueprint, current_app, flash, g, redirect,
     render_template, request, session, url_for,
 )
-from rotary.db import get_db
 
 bp = Blueprint('auth', __name__)
 
@@ -17,20 +16,20 @@ def login():
 
         error = None
 
-        if (username is None or
-                password is None or
-                username != current_app.config["USERNAME"] or
-                current_app.config["PASSWORD"]):
-            error = 'Incorrect username or password'
-
-        if error is None:
+        if (username is not None and
+                password is not None and
+                username == current_app.config["USERNAME"] and
+                password == current_app.config["PASSWORD"]):
+            # Correct login
             session.clear()
             session['authenticated'] = True
-            return redirect(url_for('internal'))
+            return redirect(url_for('internal.index'))
+        else:
+            # Wrong login
+            return render_template('auth/login.html', login_failed=True)
+    else:
+        return render_template('auth/login.html', login_failed=False)
 
-        flash(error)
-
-    return render_template('auth/login.html')
 
 @bp.before_app_request
 def get_authentication_status():
