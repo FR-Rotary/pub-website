@@ -13,6 +13,7 @@ strings_en = {
         'index': 'Home',
         'menu': 'Menu',
         'contact': 'Contact',
+        'language' : '🇸🇪',
     },
     'menu': {
         'beer_categories': {
@@ -52,10 +53,11 @@ strings_sv = {
         'index': 'Hem',
         'menu': 'Meny',
         'contact': 'Kontakt',
+        'language' : '🇬🇧'
     },
     'menu': {
         'beer_categories': {
-            'on_keg': 'På fat',
+            'on_keg': 'På Fat',
             'lager': 'Lager',
             'ale': 'Ale',
             'porter_stout': 'Porter & Stout',

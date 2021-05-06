@@ -32,7 +32,7 @@
 
         <div class="navbar-end">
           <div class="navbar-item">
-            <a class="button"  href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">en/se</a>
+              <a class="button"  href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">{{g.strings.nav.language}}</a>
 
           </div>
         </div>
