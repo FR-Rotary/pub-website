@@ -29,7 +29,14 @@ strings_en = {
             'cider': 'Ciders',
             'nonalcoholic': '< 2.25% abv',
         }
-    }
+    },
+    'contact' : {
+        'header' : 'Contact Us',
+        'text' : 'Use form below',
+        'submit' : 'Submit',
+        'email' : 'Email',
+        'message' : 'Message',
+    },
 }
 
 strings_sv = {
@@ -53,7 +60,14 @@ strings_sv = {
             'cider': 'Cider',
             'nonalcoholic': '< 2.25% alkohol',
         }
-    }
+    },
+    'contact' : {
+        'header' : 'Kontakta oss',
+        'text' : 'Använd formuläret nedan',
+        'submit' : 'Skicka',
+        'email' : 'Epost',
+        'message' : 'Meddelande',
+    },
 }
 
 @bp.route('/language')
