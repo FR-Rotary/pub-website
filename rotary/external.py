@@ -27,6 +27,10 @@ def contact():
         # TODO: Handle the form data
         return render_template('contact.html', submitted=True)
 
+@bp.route('/work')
+def work():
+    return render_template('work.html')
+
 @bp.route('/menu')
 def menu():
     db = get_db()

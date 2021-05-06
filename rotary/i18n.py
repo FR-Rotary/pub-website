@@ -13,6 +13,7 @@ strings_en = {
         'index': 'Home',
         'menu': 'Menu',
         'contact': 'Contact',
+        'work' : 'Work',
         'language' : '🇸🇪',
     },
     'index': {
@@ -52,6 +53,11 @@ strings_en = {
         'email': 'Email',
         'message': 'Message',
     },
+    'days' : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    'work' : {
+        'header' : 'Working at Rotary Pub',
+        'text' : 'Do you also like Rotary? Why not <strong>work here</strong>!<br>'
+        },
 }
 
 strings_sv = {
@@ -59,6 +65,7 @@ strings_sv = {
         'index': 'Hem',
         'menu': 'Meny',
         'contact': 'Kontakt',
+        'work' : 'Jobba',
         'language' : '🇬🇧'
     },
     'index': {
@@ -98,6 +105,7 @@ strings_sv = {
         'email': 'Epost',
         'message': 'Meddelande',
     },
+    'days' : ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'],
 }
 
 

@@ -10,18 +10,28 @@
         <h1>Welcome</h1>
         <img>
         <em>{{ g.strings.index.tagline }}</em>
-        <h2>{{ g.strings.index.news.header }}</h2>
-        <h3>{{ news.day }}: {{ news.title }}</h3>
-        <p>{{ news.body }}</p>
 
       </div>
       <div class="content blog">
+        <h2>{{ g.strings.index.news.header }}</h2>
+        <h3>{{ news.day }}: {{ news.title }}</h3>
+        <p>{{ news.body }}</p>
 
       </div>
     </div>
     <div class="column">
       <div class="content hours">
         <h1>Opening Hours</h1>
+        <table class="table is-fullwidth">
+          <tbody>
+            {% for day in range(7) %}
+            <tr>
+              <td>{{ g.strings.days[day] }} {{ opening_hours[day]['date'] }}</td>
+              <td>{{ opening_hours[day]['hours'] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
       <div class="content map">
         <h1>Find Us</h1>
