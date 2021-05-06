@@ -28,7 +28,15 @@ strings_en = {
             'wine': 'Wines',
             'cider': 'Ciders',
             'nonalcoholic': '< 2.25% abv',
-        }
+        },
+        'drinks' : 'Drinks',
+        'food' : 'Food',
+        'snacks' : 'Snacks',
+        'name' : 'Name',
+        'abv' : 'ABV',
+        'country' : 'Country',
+        'volume' : 'Volume',
+        'price' : 'Price',
     },
     'contact' : {
         'header' : 'Contact Us',
@@ -59,7 +67,15 @@ strings_sv = {
             'wine': 'Vin',
             'cider': 'Cider',
             'nonalcoholic': '< 2.25% alkohol',
-        }
+        },
+        'drinks' : 'Dryck',
+        'food' : 'Mat',
+        'snacks' : 'Snacks',
+        'name' : 'Namn',
+        'abv' : 'ABV',
+        'country' : 'Land',
+        'volume' : 'Volym',
+        'price' : 'Pris',
     },
     'contact' : {
         'header' : 'Kontakta oss',

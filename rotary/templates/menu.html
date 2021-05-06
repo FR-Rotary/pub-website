@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %} {{ g.strings.nav.menu }} {% endblock%}
+
+{% block content%}
+
+<div class="container is-max-desktop">
+  <div class="content">
+    <h1></h1>
+    <p></p>
+  </div>
+  <div class="box">
+  <div class="table-container">
+    <h1 class="title">{{ g.strings.menu.drinks }}</h1>
+    <br>
+    {% for category in beer_categories %}
+    {% if category.beers %}
+    <h1 class="subtitle">{{ g.strings.menu.beer_categories[category.name] }}</h1>
+    <table class="table is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th width="50%">{{ g.strings.menu.name }}</th>
+          <th>{{ g.strings.menu.abv }}</th>
+          <th>{{ g.strings.menu.volume }}</th>
+          <th>{{ g.strings.menu.country }}</th>
+          <th>{{ g.strings.menu.price }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for beer in category.beers %}
+        <tr>
+          <td>{{ beer.name }}</td>
+          <td>{{ beer.abv }}%</td>
+          <td>{{ beer.volume_ml }}ml</td>
+          <td>{{ to_letter_code(beer.country_code) }}</td>
+          <td>{{ beer.price_kr }}kr</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+    {% endif %}
+    {% endfor %}
+  </div>
+  <h1 class="title">{{ g.strings.menu.food }}</h1>
+  <table class="table is-striped is-fullwidth">
+    <thead>
+      <tr>
+        <th width="90%">{{ g.strings.menu.name }}</th>
+        <th>{{ g.strings.menu.price }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for food in foods %}
+      <tr>
+        <td>{{ food.name }}</td>
+        <td>{{ food.price_kr }}kr</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+  <h1 class="subtitle">{{ g.strings.menu.snacks }}</h1>
+  <table class="table is-striped is-fullwidth">
+    <thead>
+      <tr>
+        <th width="90%">{{ g.strings.menu.name }}</th>
+        <th>{{ g.strings.menu.price }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for snack in snacks %}
+      <tr>
+        <td>{{ snack.name }}</td>
+        <td>{{ snack.price_kr }}kr</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+{% endblock %}
+
