@@ -1,9 +1,5 @@
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
-)
-from werkzeug.exceptions import abort
+from flask import Blueprint, render_template, request, session
 
-from rotary.auth import login_required
 from rotary.db import get_db
 
 bp = Blueprint('external', __name__)
@@ -12,9 +8,21 @@ bp = Blueprint('external', __name__)
 @bp.route('/')
 def index():
     db = get_db()
-    news = db.execute(
-        'SELECT date(time) as day, title, body FROM news ORDER BY time DESC LIMIT 1'
-    ).fetchone()
+    query = None
+    english = session.get('english')
+
+    if english:
+        query = (
+            'SELECT date(time) as day, title_en as title, body_en as body '
+            'FROM news ORDER BY time DESC LIMIT 1'
+        )
+    else:
+        query = (
+            'SELECT date(time) as day, title_sv as title, body_sv as body '
+            'FROM news ORDER BY time DESC LIMIT 1'
+        )
+
+    news = db.execute(query).fetchone()
 
     return render_template('index.html', news=news)
 
@@ -47,11 +55,11 @@ def menu():
             'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
             'FROM beer INNER JOIN beer_category '
             'ON beer.category_id = beer_category.id '
-            f'WHERE available = 1 AND beer_category.id = \'{index + 1}\''
+            'WHERE available = 1 AND beer_category.id = ?'
         )
         category = {
             'name': category_name["name"],
-            'beers': db.execute(query).fetchall()
+            'beers': db.execute(query, (str(index + 1),)).fetchall()
         }
         categories.append(category)
 
