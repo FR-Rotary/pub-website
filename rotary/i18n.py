@@ -14,6 +14,13 @@ strings_en = {
         'menu': 'Menu',
         'contact': 'Contact',
     },
+    'contact' : {
+        'header' : 'Contact Us',
+        'text' : 'Use form below',
+        'submit' : 'Submit',
+        'email' : 'Email',
+        'message' : 'Message',
+    },
 }
 
 strings_sv = {
@@ -21,6 +28,13 @@ strings_sv = {
         'index': 'Hem',
         'menu': 'Meny',
         'contact': 'Kontakt',
+    },
+    'contact' : {
+        'header' : 'Kontakta oss',
+        'text' : 'Använd formuläret nedan',
+        'submit' : 'Skicka',
+        'email' : 'Epost',
+        'message' : 'Meddelande',
     },
 }
 
