@@ -88,6 +88,8 @@ CREATE TABLE opening_hours (
 CREATE TABLE news (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time TEXT NOT NULL,
-    title TEXT NOT NULL,
-    body TEXT NOT NULL
+    title_en TEXT NOT NULL,
+    body_en TEXT NOT NULL
+    title_sv TEXT NOT NULL,
+    body_sv TEXT NOT NULL
 );
