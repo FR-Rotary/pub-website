@@ -9,10 +9,6 @@ from rotary.db import get_db
 bp = Blueprint('i18n', __name__)
 
 strings_en = {
-
-}
-
-strings_sv = {
     'nav': {
         'index': 'Home',
         'menu': 'Menu',
@@ -20,13 +16,30 @@ strings_sv = {
     },
 }
 
-@bp.route('/toggle_language')
-def toggle():
-    return "Toggle not yet implemented"
+strings_sv = {
+    'nav': {
+        'index': 'Hem',
+        'menu': 'Meny',
+        'contact': 'Kontakt',
+    },
+}
+
+@bp.route('/language')
+def toggle_language():
+    # Return to / if we don't have a location to return to for some reason
+    return_to = request.args.get('r', '/')
+
+    english = session.get('english')
+    if english:
+        session['english'] = False
+    else:
+        session['english'] = True
+
+    return redirect(return_to)
 
 
 @bp.before_app_request
-def get_authentication_status():
+def set_language():
     english = session.get('english')
 
     if english:
