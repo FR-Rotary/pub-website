@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %} {{ g.strings.nav.contact }} {% endblock%}
+
+{% block content%}
+<div class="container is-max-desktop">
+
+  <div class="content">
+    <h1>Login</h1>
+    <p>Sign in to the internal website</p>
+  </div>
+
+
+    <form class="form" action="{{ request.path }}" method="post">
+
+      <div class="field">
+        <label class="label">Username</label>
+        <div class="control">
+          <input class="input {% if login_failed %}is-danger{% endif %}" type="text" name="username" placeholder="name">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input class="input {% if login_failed %}is-danger{% endif %}" type="password" name="password" placeholder="******"></textarea>
+        </div>
+        {% if login_failed %}<p class="help is-danger">Wrong username or password</p>{% endif %}
+      </div>
+
+      <div class="field is-grouped is-grouped-right">
+        <div class="control">
+          <button type="submit" formmethod="post" class="button is-primary">{{ g.strings.contact.submit }}</button>
+        </div>
+      </div>
+
+    </form>
+
+</div>
+{% endblock %}

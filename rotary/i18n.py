@@ -15,6 +15,12 @@ strings_en = {
         'contact': 'Contact',
         'language' : '🇸🇪',
     },
+    'index': {
+        'tagline': '…to the pub run by students with prices suited for students open for everyone in central Gothenburg.',
+        'news': {
+            'header': 'Latest updates',
+        },
+    },
     'menu': {
         'beer_categories': {
             'on_keg': 'On Keg',
@@ -39,12 +45,12 @@ strings_en = {
         'volume' : 'Volume',
         'price' : 'Price',
     },
-    'contact' : {
-        'header' : 'Contact Us',
-        'text' : 'Use form below',
-        'submit' : 'Submit',
-        'email' : 'Email',
-        'message' : 'Message',
+    'contact': {
+        'header': 'Contact Us',
+        'text': 'Use form below',
+        'submit': 'Submit',
+        'email': 'Email',
+        'message': 'Message',
     },
 }
 
@@ -54,6 +60,12 @@ strings_sv = {
         'menu': 'Meny',
         'contact': 'Kontakt',
         'language' : '🇬🇧'
+    },
+    'index': {
+        'tagline': '…till den studentdrivna puben med studentförmånliga priser för alla mitt i Göteborg.',
+        'news': {
+            'header': 'Senaste nytt',
+        }
     },
     'menu': {
         'beer_categories': {
@@ -79,14 +91,15 @@ strings_sv = {
         'volume' : 'Volym',
         'price' : 'Pris',
     },
-    'contact' : {
-        'header' : 'Kontakta oss',
-        'text' : 'Använd formuläret nedan',
-        'submit' : 'Skicka',
-        'email' : 'Epost',
-        'message' : 'Meddelande',
+    'contact': {
+        'header': 'Kontakta oss',
+        'text': 'Använd formuläret nedan',
+        'submit': 'Skicka',
+        'email': 'Epost',
+        'message': 'Meddelande',
     },
 }
+
 
 @bp.route('/language')
 def toggle_language():
