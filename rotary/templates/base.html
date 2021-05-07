@@ -9,7 +9,7 @@
   </head>
   <body>
 
-    <nav class="navbar is-spaced is-primary" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-spaced is-primary mb-6" role="navigation" aria-label="main navigation">
 
       <div class="navbar-brand">
         <a class="navbar-item" href="{{ url_for('index') }}">
@@ -46,18 +46,18 @@
     {% block content %}
     {%  endblock %}
 
-    <footer class="footer">
+    <footer class="footer mt-6">
       <nav class="level">
 
-        <div class="level-item content has-text-centered">
+        <div class="level-item has-text-centered">
           <p class="heading">Currently Serving <strong>x</strong> beers</p>
         </div>
 
-        <div class="level-item content has-text-centered">
+        <div class="level-item has-text-centered">
           <p class="heading">© 2021 Rotary Pub</p>
         </div>
 
-        <div class="level-item content has-text-centered">
+        <div class="level-item has-text-centered">
           <p class="heading">made with 🍺</p>
         </div>
 
