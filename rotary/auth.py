@@ -5,7 +5,7 @@ from flask import (
     render_template, request, session, url_for,
 )
 
-bp = Blueprint('auth', __name__)
+bp = Blueprint('auth', __name__, template_folder='templates/internal')
 
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -13,8 +13,6 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
-        error = None
 
         if (username is not None and
                 password is not None and
@@ -26,9 +24,9 @@ def login():
             return redirect(url_for('internal.index'))
         else:
             # Wrong login
-            return render_template('auth/login.html', login_failed=True)
+            return render_template('login.html', login_failed=True)
     else:
-        return render_template('auth/login.html', login_failed=False)
+        return render_template('login.html', login_failed=False)
 
 
 @bp.before_app_request
