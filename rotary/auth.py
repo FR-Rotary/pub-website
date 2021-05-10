@@ -25,6 +25,8 @@ def login():
         else:
             # Wrong login
             return render_template('internal/login.html', login_failed=True)
+    elif g.authenticated:
+        return redirect(url_for('internal.index'))
     else:
         return render_template('internal/login.html', login_failed=False)
 
