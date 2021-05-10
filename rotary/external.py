@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from rotary.db import get_db
 
-bp = Blueprint('external', __name__, template_folder='templates/external')
+bp = Blueprint('external', __name__)
 
 def dict_from_row(row):
     return dict(zip(row.keys(), row))
@@ -59,20 +59,20 @@ def index():
                 }
             )
 
-    return render_template('index.html', news=news, opening_hours=opening_hours)
+    return render_template('external/index.html', news=news, opening_hours=opening_hours)
 
 
 @bp.route('/contact', methods=('GET', 'POST'))
 def contact():
     if request.method == 'GET':
-        return render_template('contact.html', submitted=False)
+        return render_template('external/contact.html', submitted=False)
     else:
         # TODO: Handle the form data
-        return render_template('contact.html', submitted=True)
+        return render_template('external/contact.html', submitted=True)
 
 @bp.route('/work')
 def work():
-    return render_template('work.html')
+    return render_template('external/work.html')
 
 @bp.route('/menu')
 def menu():
@@ -108,4 +108,4 @@ def menu():
     foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
     snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
 
-    return render_template('menu.html', beer_categories=categories, foods=foods, snacks=snacks)
+    return render_template('external/menu.html', beer_categories=categories, foods=foods, snacks=snacks)
