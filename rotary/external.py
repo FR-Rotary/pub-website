@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from rotary.db import get_db
 
-bp = Blueprint('external', __name__)
+bp = Blueprint('external', __name__, template_folder='templates/external')
 
 
 @bp.route('/')
