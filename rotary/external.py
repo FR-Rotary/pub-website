@@ -5,6 +5,9 @@ from rotary.db import get_db
 
 bp = Blueprint('external', __name__)
 
+def dict_from_row(row):
+    return dict(zip(row.keys(), row))
+
 
 @bp.route('/')
 def index():
@@ -94,6 +97,13 @@ def menu():
             'beers': db.execute(query, (str(index + 1),)).fetchall()
         }
         categories.append(category)
+
+    # add alcohol per krona for logged in users
+    for i, category in enumerate(categories):
+        for j, beer in enumerate(category['beers']):
+            beer = dict_from_row (beer)
+            beer['apk'] =  format(beer['volume_ml'] * (beer['abv'] / 100) / beer['price_kr'], '.3f')
+            categories[i]['beers'][j] = beer
 
     foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
     snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
