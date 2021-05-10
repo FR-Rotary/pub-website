@@ -5,7 +5,7 @@ from flask import (
     render_template, request, session, url_for,
 )
 
-bp = Blueprint('auth', __name__, template_folder='templates/internal')
+bp = Blueprint('auth', __name__)
 
 
 @bp.route('/login', methods=('GET', 'POST'))
@@ -24,9 +24,9 @@ def login():
             return redirect(url_for('internal.index'))
         else:
             # Wrong login
-            return render_template('login.html', login_failed=True)
+            return render_template('internal/login.html', login_failed=True)
     else:
-        return render_template('login.html', login_failed=False)
+        return render_template('internal/login.html', login_failed=False)
 
 
 @bp.before_app_request
@@ -42,7 +42,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if not g.authenticated:
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
 
         return view(**kwargs)
 
