@@ -1,0 +1,5 @@
+include rotary/db/schema.sql
+include rotary/db/seed.sql
+graft rotary/static
+graft rotary/templates
+global-exclude *.pyc
