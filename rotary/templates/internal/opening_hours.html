@@ -5,20 +5,36 @@
 {% block content%}
 
 <div class="container content mt-6 mb-6">
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Open</th>
+        <th>Close</th>
+        <th></th>
+      <tr>
+    </thead>
+    <tr>
+      <form action="{{ request.path }}" method="post" class="level container is-max-desktop">
+        <td><input name="date" type="date" value="{{ today }}" required></td>
+        <td><input name="start" type="time" value="19:00" required></td>
+        <td><input name="end" type="time" value="00:00" required></td>
+        <td><button type="submit" formmethod="post" class="button is-link">Add</button></td>
+      </form>
+    </tr>
   {% for hour in opening_hours %}
-  <form class="level container is-max-desktop"action="{{ request.path }}/delete/{{ hour.id }}" method="post">
-    <p>{{ hour.date }}</p>
-    <p>{{ hour.start }}</p>
-    <p>{{ hour.end }}</p>
-    <button class="button is-danger" type="submit">Delete</button>
-  </form>
+    <tr>
+      <td><p>{{ hour.date }}</p></td>
+      <td><p>{{ hour.start }}</p></td>
+      <td><p>{{ hour.end }}</p></td>
+      <td>
+        <form class="level container is-max-desktop" action="{{ request.path }}/delete/{{ hour.id }}" method="post">
+          <button class="button is-danger" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
   {% endfor %}
-  <form class="level container is-max-desktop">
-    <input type="date" >
-    <input type="time" value="18:00:00">
-    <input type="time" value="00:00:00">
-    <button class="button is-link" type="submit">Post</button>
-  </form>
+  </table>
 
 </div>
 

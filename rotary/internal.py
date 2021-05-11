@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, request, url_for
 from pycountry import countries
+import datetime
 
 from rotary.db import get_db
 from rotary.auth import login_required
@@ -137,17 +138,29 @@ def opening_hours():
         start = request.form['start']
         end = request.form['end']
 
-        # TODO: Mangle date
-        print('DEBUG: Got date in opening_hours():', date)
+        # Check if we already have an entry for the given date
+        existing_entry = db.execute(
+            'SELECT id FROM opening_hours WHERE date = date(?)', (date,)
+        ).fetchone()
 
-        db.execute(
-            'INSERT INTO opening_hours (date, start, end) VALUES (?, ?, ?)',
-            (date, start, end)
-        )
+        if existing_entry:
+            db.execute(
+                'UPDATE opening_hours SET start = time(?), end = time(?) WHERE id = ?',
+                (start, end, existing_entry['id'])
+            )
+        else:  # TODO: Mangle date
+            db.execute(
+                'INSERT INTO opening_hours (date, start, end) VALUES (date(?), time(?), time(?))',
+                (date, start, end)
+            )
 
-    all_hours = db.execute('SELECT * FROM opening_hours ORDER BY date DESC')
+        db.commit()
 
-    return render_template('internal/opening_hours.html', opening_hours=all_hours)
+    all_hours = db.execute(
+        'SELECT * FROM opening_hours WHERE date >= date(\'now\') ORDER BY date ASC')
+    today = datetime.date.today()
+
+    return render_template('internal/opening_hours.html', opening_hours=all_hours, today=today)
 
 
 @bp.route('/opening_hours/delete/<int:n>', methods=('POST',))
@@ -156,8 +169,10 @@ def delete_opening_hours(n):
     if n is not None:
         db = get_db()
         db.execute('DELETE FROM opening_hours WHERE id = ?', (n,))
+        db.commit()
 
     return redirect(url_for('internal.opening_hours'))
+
 
 @bp.route('/shifts')
 @login_required
