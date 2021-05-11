@@ -87,8 +87,6 @@ def delete_news_post(n):
 
     return redirect(url_for('internal.news'))
 
-def hours():
-    return render_template('internal/hours.html')
 
 @bp.route('/workers', methods=('GET', 'POST'))
 @login_required
