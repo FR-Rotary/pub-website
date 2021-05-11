@@ -112,7 +112,7 @@ def workers():
              telephone, email, address, note, status_id)
         )
 
-    all_workers = db.execute('SELECT * FROM worker ORDER BY time DESC')
+    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
 
     return render_template('internal/workers.html', workers=all_workers)
 
