@@ -1,0 +1,66 @@
+{% extends "internal/dash.html" %}
+{% block title %} {{ g.strings.nav.index }} {% endblock%}
+
+{% block content%}
+
+<div class="container content mt-6 mb-6 ml-0 is-max-desktop">
+
+
+  <form class="form" action="{{ request.path }}" method="post">
+
+    <div class="field is-horizontal">
+      <div class="field-label is-normal">
+        <p class="label">Title</p>
+      </div>
+
+      <div class="field-body">
+
+        <div class="field">
+          <div class="control">
+            <input class="input" type="text" placeholder="English">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <input class="input" type="text" placeholder="Swedish">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="field is-horizontal">
+      <div class="field-label is-normal">
+        <p class="label">Content</p>
+      </div>
+
+      <div class="field-body">
+
+        <div class="field">
+          <div class="control">
+            <textarea class="textarea" name="body" placeholder="Textarea"></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <textarea class="textarea" name="body" placeholder="Textarea"></textarea>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="field is-grouped is-grouped-right">
+      <div class="control">
+        <button type="submit" formmethod="post" class="button is-link">Post</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+{% endblock %}

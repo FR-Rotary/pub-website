@@ -1,0 +1,25 @@
+
+{% extends "internal/dash.html" %}
+{% block title %} {{ g.strings.nav.index }} {% endblock%}
+
+{% block content%}
+
+<div class="container content mt-6 mb-6">
+  {% for hour in opening_hours %}
+  <form class="level container is-max-desktop"action="{{ request.path }}/delete/{{ hour.id }}" method="post">
+    <p>{{ hour.date }}</p>
+    <p>{{ hour.start }}</p>
+    <p>{{ hour.end }}</p>
+    <button class="button is-danger" type="submit">Delete</button>
+  </form>
+  {% endfor %}
+  <form class="level container is-max-desktop">
+    <input type="date" >
+    <input type="time" value="18:00:00">
+    <input type="time" value="00:00:00">
+    <button class="button is-link">Post</button>
+  </form>
+
+</div>
+
+{% endblock %}
