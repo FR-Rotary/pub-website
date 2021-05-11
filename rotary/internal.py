@@ -41,7 +41,7 @@ def menu():
 
     beers = db.execute('SELECT * FROM beer ORDER BY name ASC')
 
-    return render_template('internal/beers.html',
+    return render_template('internal/menu.html',
                            beers=beers, countries=countries)
 
 

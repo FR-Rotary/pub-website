@@ -1,0 +1,84 @@
+{% extends "internal/dash.html" %}
+{% block title %} {{ g.strings.nav.index }} {% endblock%}
+
+{% block content%}
+
+<div class="container mt-6 mb-6">
+  <div class="table-container">
+    <table class="table is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>AVAIL</th>
+          <th width="50%">NAME</th>
+          <th>STYLE</th>
+          <th>ABV</th>
+          <th>VOL</th>
+          <th>CNTRY</th>
+          <th>PRICE</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for beer in beers %}
+        <tr>
+          <td>
+            <form>
+              <input type="checkbox" checked="{{ beer.available }}">
+            </form>
+          </td>
+          <td>{{ beer.name }}</td>
+          <td>{{ beer.style }}</td>
+          <td>{{ beer.abv }}%</td>
+          <td>{{ beer.volume_ml }}ml</td>
+          <td>{{ to_letter_code(beer.country_iso_3166_id) }}</td>
+          <td>{{ beer.price_kr }}kr</td>
+          <td>
+            <form>
+              <button class="button is-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <form>
+            <td>
+              <form>
+                <input type="checkbox">
+              </form>
+            </td>
+            <td>
+              <input class="input" type="text">
+            </td>
+            <td>
+              <input class="input" type="text">
+            </td>
+            <td>
+              <input class="input" type="text">
+            </td>
+            <td>
+              <input class="input" type="text">
+            </td>
+            <td>
+              <div class="select">
+                <select>
+                  {% for country in coutries %}
+                  <option value="{{country}}">{{country}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </td>
+            <td>
+              <input class="input" type="text">
+            </td>
+            <td>
+              <button class="button is-link">Add</button>
+            </td>
+          </form>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
