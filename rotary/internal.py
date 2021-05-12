@@ -39,6 +39,7 @@ def menu():
             (name, style, country_code, abv,
              volume, price, category_id, available)
         )
+        db.commit()
 
     beers = db.execute('SELECT * FROM beer ORDER BY name ASC')
 
@@ -52,6 +53,7 @@ def delete_beer(n):
     if n is not None:
         db = get_db()
         db.execute('DELETE FROM beer WHERE id = ?', (n,))
+        db.commit()
 
     return redirect(url_for('internal.beers'))
 
@@ -73,6 +75,7 @@ def news():
             'VALUES (datetime(\'now\'), ?, ?, ?, ?)',
             (title_en, title_sv, body_en, body_sv)
         )
+        db.commit()
 
     posts = db.execute('SELECT * FROM news ORDER BY time DESC')
 
@@ -85,6 +88,7 @@ def delete_news_post(n):
     if n is not None:
         db = get_db()
         db.execute('DELETE FROM news WHERE id = ?', (n,))
+        db.commit()
 
     return redirect(url_for('internal.news'))
 
@@ -112,6 +116,7 @@ def workers():
             (display_name, first_name, last_name,
              telephone, email, address, note, status_id)
         )
+        db.commit()
 
     all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
 
@@ -124,6 +129,7 @@ def delete_worker(n):
     if n is not None:
         db = get_db()
         db.execute('DELETE FROM worker WHERE id = ?', (n,))
+        db.commit()
 
     return redirect(url_for('internal.workers'))
 
