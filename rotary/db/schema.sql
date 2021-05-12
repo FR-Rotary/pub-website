@@ -61,8 +61,9 @@ CREATE TABLE worker_status (
 CREATE TABLE shift (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     worker_id INTEGER NOT NULL,
-    start_time TEXT NOT NULL,
-    end_time TEXT NOT NULL,
+    date TEXT NOT NULL,
+    start TEXT NOT NULL,
+    end TEXT NOT NULL,
     FOREIGN KEY (worker_id) REFERENCES worker (id)
 );
 

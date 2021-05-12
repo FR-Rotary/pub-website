@@ -1,12 +1,10 @@
-from flask import Blueprint, g, render_template, request, session
+from flask import Blueprint, g, render_template, request, session, current_app
 from datetime import date, timedelta
 
+from rotary.util import dict_from_row
 from rotary.db import get_db
 
 bp = Blueprint('external', __name__)
-
-def dict_from_row(row):
-    return dict(zip(row.keys(), row))
 
 
 @bp.route('/')
@@ -101,8 +99,9 @@ def menu():
     # add alcohol per krona for logged in users
     for i, category in enumerate(categories):
         for j, beer in enumerate(category['beers']):
-            beer = dict_from_row (beer)
-            beer['apk'] =  format(beer['volume_ml'] * (beer['abv'] / 100) / beer['price_kr'], '.3f')
+            beer = dict_from_row(beer)
+            beer['apk'] = format(beer['volume_ml'] *
+                                 (beer['abv'] / 100) / beer['price_kr'], '.3f')
             categories[i]['beers'][j] = beer
 
     foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
