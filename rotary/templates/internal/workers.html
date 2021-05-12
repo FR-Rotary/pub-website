@@ -16,7 +16,7 @@
           <th>Adress</th>
           <th>Note</th>
           <th>Status</th>
-          <thj</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +27,7 @@
           <td>{{ worker.last_name }}</td>
           <td>{{ worker.telephone }}</td>
           <td>{{ worker.email }}</td>
-          <td>{{ worker.adress }}</td>
+            <td>{{ worker.address }}</td>
           <td>{{ worker.note }}</td>
           <td>{{ worker.status_id }}</td>
           <td>
@@ -35,36 +35,43 @@
               <button class="button is-danger">Delete</button>
             </form>
           </td>
+          <td>
+          </td>
         </tr>
         {% endfor %}
         <tr>
-          <form>
+          <form action="{{ request.path }}" method="post">
             <td>
-              <input class="input" type="text">
+              <input name="display_name" class="input" type="text">
             </td>
             <td>
-              <input class="input" type="text">
+              <input name="first_name" class="input" type="text">
             </td>
             <td>
-              <input class="input" type="text">
+              <input name="last_name" class="input" type="text">
             </td>
             <td>
-              <input class="input" type="email">
+              <input name="telephone" class="input" type="number">
             </td>
             <td>
-              <input class="input" type="text">
+              <input name="email" class="input" type="email">
             </td>
             <td>
-              <input class="input" type="text">
+              <input name="address" class="input" type="text">
             </td>
             <td>
-              <input class="input" type="text">
+              <input name="note" class="input" type="text">
             </td>
             <td>
-              <input class="input" type="text">
+              <div class="select">
+                <select name="status_id">
+                  <option value="1">test1</option>
+                  <option value="2">test2</option>
+                </select>
+              </div>
             </td>
             <td>
-              <button class="button is-link">Add</button>
+              <button type="submit" formmethod="post" class="button is-link">Add</button>
             </td>
           </form>
         </tr>
