@@ -183,4 +183,6 @@ def delete_opening_hours(n):
 @bp.route('/shifts')
 @login_required
 def shifts():
-    return render_template('internal/index.html')
+    db = get_db()
+    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
+    return render_template('internal/shifts.html', workers=all_workers)
