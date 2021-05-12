@@ -31,7 +31,7 @@
           <td>{{ worker.note }}</td>
           <td>{{ worker.status_id }}</td>
           <td>
-            <form>
+            <form action="{{ request.path }}/delete/{{ worker.id }}" method="post">
               <button class="button is-danger is-small">Delete</button>
             </form>
           </td>
