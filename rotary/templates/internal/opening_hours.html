@@ -22,7 +22,7 @@
         <td><button type="submit" formmethod="post" class="button is-link">Add</button></td>
       </form>
     </tr>
-  {% for hour in opening_hours %}
+  {% for shift in shifts %}
     <tr>
       <td><p>{{ hour.date }}</p></td>
       <td><p>{{ hour.start }}</p></td>

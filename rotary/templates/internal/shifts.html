@@ -8,8 +8,8 @@
     <thead>
       <tr>
         <th>Date</th>
-        <th>Open</th>
-        <th>Close</th>
+        <th>Start</th>
+        <th>End</th>
         <th>Worker</th>
       <tr>
     </thead>
@@ -22,7 +22,7 @@
           <div class="field has-addons">
             <p class="control">
               <span class="select">
-                <select>
+                <select name="worker">
                   {% for worker in workers %}
                   <option value="{{worker.id}}">{{worker.display_name}}</option>
                   {% endfor %}
@@ -30,17 +30,18 @@
               </span>
             </p>
             <p class="control">
-              <button class="button is-link">+</button>
+              <button type="submit" formmethod="post" class="button is-link">Add</button>
             </p>
           </div>
         </td>
       </form>
     </tr>
-  {% for hour in opening_hours %}
+  {% for shift in shifts %}
     <tr>
-      <td><p>{{ hour.date }}</p></td>
-      <td><p>{{ hour.start }}</p></td>
-      <td><p>{{ hour.end }}</p></td>
+      <td><p>{{ shift.date }}</p></td>
+      <td><p>{{ shift.start }}</p></td>
+      <td><p>{{ shift.end }}</p></td>
+      <td><p>{{ shift.worker }}</p></td>
       <td>
         <form class="level container is-max-desktop" action="{{ request.path }}/delete/{{ hour.id }}" method="post">
           <button class="button is-danger" type="submit">Delete</button>
