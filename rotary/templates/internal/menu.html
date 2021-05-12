@@ -34,7 +34,7 @@
           <td>{{ beer.price_kr }}kr</td>
           <td>
             <form>
-              <button class="button is-danger">Delete</button>
+              <button class="button is-danger is-small">Delete</button>
             </form>
           </td>
         </tr>
@@ -59,10 +59,10 @@
               <input class="input" type="text">
             </td>
             <td>
-              <div class="select">
+              <div width="10%" class="select">
                 <select>
-                  {% for country in coutries %}
-                  <option value="{{country}}">{{country}}</option>
+                  {% for country in countries%}
+                  <option value="{{country.numeric}}">{{country.alpha_3}}</option>
                   {% endfor %}
                 </select>
               </div>
