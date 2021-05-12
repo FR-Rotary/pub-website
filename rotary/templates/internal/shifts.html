@@ -11,6 +11,7 @@
         <th>Start</th>
         <th>End</th>
         <th>Worker</th>
+        <th></th>
       <tr>
     </thead>
     <tr>
@@ -19,20 +20,16 @@
         <td><input name="start" type="time" value="{{ default_start }}" required></td>
         <td><input name="end" type="time" value="{{ default_end }}" required></td>
         <td>
-          <div class="field has-addons">
-            <p class="control">
-              <span class="select">
-                <select name="worker">
-                  {% for worker in workers %}
-                  <option value="{{worker.id}}">{{worker.display_name}}</option>
-                  {% endfor %}
-                </select>
-              </span>
-            </p>
-            <p class="control">
-              <button type="submit" formmethod="post" class="button is-link">Add</button>
-            </p>
-          </div>
+          <span class="select">
+            <select name="worker">
+              {% for worker in workers %}
+              <option value="{{worker.id}}">{{worker.display_name}}</option>
+              {% endfor %}
+            </select>
+          </span>
+        </td>
+        <td>
+          <button type="submit" formmethod="post" class="button is-link">Add</button>
         </td>
       </form>
     </tr>
