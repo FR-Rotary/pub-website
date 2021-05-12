@@ -69,7 +69,7 @@
         <tr>
           <td>
             <form>
-              <input type="checkbox" checked="{{ beer.available }}">
+              <input type="checkbox" {% if beer.available %}checked{% endif %}>
             </form>
           </td>
           <td>{{ beer.name }}</td>
