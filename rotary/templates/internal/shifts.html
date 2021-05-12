@@ -16,8 +16,8 @@
     <tr>
       <form action="{{ request.path }}" method="post" class="level container is-max-desktop">
         <td><input name="date" type="date" value="{{ today }}" required></td>
-        <td><input name="start" type="time" value="19:00" required></td>
-        <td><input name="end" type="time" value="00:00" required></td>
+        <td><input name="start" type="time" value="{{ default_start }}" required></td>
+        <td><input name="end" type="time" value="{{ default_end }}" required></td>
         <td>
           <div class="field has-addons">
             <p class="control">
@@ -43,8 +43,8 @@
       <td><p>{{ shift.end }}</p></td>
       <td><p>{{ shift.worker }}</p></td>
       <td>
-        <form class="level container is-max-desktop" action="{{ request.path }}/delete/{{ hour.id }}" method="post">
-          <button class="button is-danger" type="submit">Delete</button>
+        <form action="{{ request.path }}/delete/{{ shift.id }}" method="post">
+          <button class="button is-danger is-small" type="submit">Delete</button>
         </form>
       </td>
     </tr>

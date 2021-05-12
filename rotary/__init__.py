@@ -45,4 +45,6 @@ def create_app(test_config=None):
     from . import countries
     app.jinja_env.globals.update(to_letter_code=countries.to_letter_code, to_pretty_name=countries.to_pretty_name)
 
+    from . import util
+
     return app

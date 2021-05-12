@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, redirect, request, url_for
 from pycountry import countries
 import datetime
 
-from rotary.db import get_db
 from rotary.auth import login_required
+from rotary.db import get_db
+from rotary.util import dict_from_row
 
 bp = Blueprint('internal', __name__, url_prefix='/internal')
 
@@ -180,9 +181,59 @@ def delete_opening_hours(n):
     return redirect(url_for('internal.opening_hours'))
 
 
-@bp.route('/shifts')
+@bp.route('/shifts', methods=('GET', 'POST'))
 @login_required
 def shifts():
     db = get_db()
-    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
-    return render_template('internal/shifts.html', workers=all_workers)
+
+    if request.method == 'POST':
+        worker = request.form['worker']
+        date = request.form['date']
+        start = request.form['start']
+        end = request.form['end']
+
+        db.execute(
+            'INSERT INTO shift '
+            '(worker_id, date, start, end)'
+            'VALUES (?, date(?), time(?), time(?))',
+            (worker, date, start, end)
+        )
+        db.commit()
+
+    all_workers = db.execute(
+        'SELECT * FROM worker ORDER BY first_name ASC'
+    ).fetchall()
+
+    default_start = "19:00"
+    default_end = "00:00"
+    opening_hours_today = db.execute(
+        'SELECT * FROM opening_hours WHERE date = date(\'now\')'
+    ).fetchone()
+    if opening_hours_today is not None:
+        default_start = opening_hours_today['start']
+        default_end = opening_hours_today['end']
+
+    shifts = db.execute('SELECT * FROM shift ORDER BY date DESC').fetchall()
+
+    shifts = map(dict_from_row, shifts)
+
+    today = datetime.date.today().isoformat()
+
+    return render_template(
+        'internal/shifts.html',
+        workers=all_workers,
+        default_start=default_start,
+        default_end=default_end,
+        today=today,
+        shifts=shifts
+    )
+
+@bp.route('/shifts/delete/<int:n>', methods=('POST',))
+@login_required
+def delete_shifts(n):
+    if n is not None:
+        db = get_db()
+        db.execute('DELETE FROM shift WHERE id = ?', (n,))
+        db.commit()
+
+    return redirect(url_for('internal.shifts'))
