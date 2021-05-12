@@ -108,7 +108,7 @@ def workers():
             'INSERT INTO worker '
             '(display_name, first_name, last_name, '
             'telephone, email, address, note, status_id) '
-            'VALUES (?¸ ?, ?¸ ?¸ ?, ?, ?, ?)',
+            'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             (display_name, first_name, last_name,
              telephone, email, address, note, status_id)
         )
