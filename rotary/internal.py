@@ -117,7 +117,7 @@ def workers():
         )
         db.commit()
 
-    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
+    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name ASC')
 
     return render_template('internal/workers.html', workers=all_workers)
 
