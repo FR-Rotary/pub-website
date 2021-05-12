@@ -30,8 +30,6 @@ def menu():
         category_id = request.form['category_id']
         available = 1 if request.form['available'] else 0
 
-        print('DEBUG: available =', available)
-
         db.execute(
             'INSERT INTO beer '
             '(name, style, country_iso_3166_id, abv, '
@@ -231,8 +229,6 @@ def shifts():
     if opening_hours_today is not None:
         default_start = opening_hours_today['start']
         default_end = opening_hours_today['end']
-
-    print(opening_hours_today['date'])
 
     shifts = db.execute(
         'SELECT date, start, end, display_name as worker, shift.id as id '
