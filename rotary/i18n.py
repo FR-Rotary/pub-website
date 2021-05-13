@@ -17,7 +17,15 @@ strings_en = {
         'language' : '🇸🇪',
     },
     'index': {
-        'tagline': '…to the pub run by students with prices suited for students open for everyone in central Gothenburg.',
+        'welcome' : "Welcome",
+        'tagline': 'to the pub run by students open for everyone in central Gothenburg.',
+        'description' : "Come in, take a seat and pick from our selection of food and drink! We have an amazing selection of craft beer at student friendly prices, rivaling most pubs in town! Our famous pizza is large enough to feed two hungry students, but so tasty you'll want it all for yourself. On fridays we usually offer a buffet as well!",
+        'rent' : 'Renting the Pub',
+        'rent_text' : 'Did you know you can rent Rotary Pub? Perfect for birthdays, graduations, or just that party you are looking to throw! Want to know more?',
+        'contact_us' : 'Contact Us!',
+        'work' : 'Working at Rotary Pub',
+        'work_text' : 'Do you also love Rotary Pub? Why not',
+        'work_link' : 'work here!',
         'news': {
             'header': 'Latest updates',
         },
@@ -72,7 +80,15 @@ strings_sv = {
         'language' : '🇬🇧'
     },
     'index': {
-        'tagline': '…till den studentdrivna puben med studentförmånliga priser för alla mitt i Göteborg.',
+        'welcome' : "Välkommen",
+        'tagline': 'till den studentdrivna puben för alla mitt i Göteborg!',
+        'description' : "Kom in, slå dig ner och välj i vårat sortiment av mat och dryck! Vårat otroliga utbud av öl till studentvänliga priser kan mäta sig med de flesta av stans krogar! Våran berömda pizza är stor nog att mätta två hungriga studenter men så god att du kommer vilja ha den helt för dig själv. På fredagar brukar vi även servera en buffe!",
+        'rent' : 'Hyra Puben',
+        'rent_text' : 'Visste du att du kan hyra Rotary Pub? Perfekt för födelsedagar, examen eller den där festen du tänkte ha! Vill du veta mer?',
+        'contact_us' : 'Kontakta Oss!',
+        'work' : 'Jobba på Rotary Pub',
+        'work_text' : 'Älskar du också Rotary Pub? Varför inte',
+        'work_link' : 'jobba här!',
         'news': {
             'header': 'Senaste nytt',
         },

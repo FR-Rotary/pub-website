@@ -4,22 +4,56 @@
 {% block content%}
 
 <div class="container">
-  <div class="columns is-desktop">
+  <div class="columns is-8 ml-1 mr-1 is-variable">
     <div class="column is-two-thirds-desktop">
-      <div class="content welcome">
-        <h1>Welcome</h1>
-        <img>
-        <em>{{ g.strings.index.tagline }}</em>
+
+      <div class="mb-5">
+        <h1 class="title">{{ g.strings.index.welcome }}</h1>
+        <h2 class="subtitle is-italic mb-5">{{ g.strings.index.tagline }}</h2>
+
+        <figure class="image is-2by1 mb-5">
+          <img src="https://images.unsplash.com/photo-1564590548506-20339c0057b1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8">
+        </figure>
+
+        <p>{{ g.strings.index.description }}</p>
 
       </div>
-      <div class="content blog">
-        <h2>{{ g.strings.index.news.header }}</h2>
-        <h3>{{ news.day }}: {{ news.title }}</h3>
-        <p>{{ news.body }}</p>
 
+      <div class="mb-4">
+        <h1 class="title is-5">{{ g.strings.index.rent }}</h1>
+        <p>
+          {{ g.strings.index.rent_text }} <a href="{{url_for('external.contact')}}">
+            {{ g.strings.index.contact_us }}
+          </a>
+        </p>
       </div>
+
+      <div class="mb-5">
+        <h1 class="title is-5">{{ g.strings.index.work }}</h1>
+        <p>
+          {{ g.strings.index.work_text }} <a href="{{url_for('external.work')}}">
+            {{g.strings.index.work_link}}
+          </a>
+        </p>
+      </div>
+
+      <div class=" blog">
+        <h1 class="title">{{ g.strings.index.news.header }}</h2>
+        <article class="message">
+          <div class="message-header">
+            <p>{{ news.title }}</p>
+          </div>
+          <div class="message-body">
+            <h3 class="heading">{{ news.day }}</h3>
+            <p>{{ news.body }}</p>
+          </div>
+        </article>
+      </div>
+
     </div>
+
     <div class="column">
+
       <div class="content hours">
         <h1>{{ g.strings.index.opening_hours }}</h1>
         <table class="table is-fullwidth">
