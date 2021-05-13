@@ -2,9 +2,8 @@ from flask import Blueprint, render_template, redirect, request, url_for
 from pycountry import countries
 import datetime
 
-from rotary.auth import login_required
 from rotary.db import get_db
-from rotary.util import dict_from_row
+from rotary.auth import login_required
 
 bp = Blueprint('internal', __name__, url_prefix='/internal')
 
@@ -29,6 +28,8 @@ def menu():
         price = request.form['price']
         category_id = request.form['category_id']
         available = 1 if request.form['available'] else 0
+
+        print('DEBUG: available =', available)
 
         db.execute(
             'INSERT INTO beer '
@@ -95,6 +96,15 @@ def delete_news_post(n):
 @bp.route('/workers', methods=('GET', 'POST'))
 @login_required
 def workers():
+
+    db = get_db()
+    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
+
+    return render_template('internal/workers.html', workers=all_workers)
+
+@bp.route('/workers/add', methods=('POST','GET'))
+@login_required
+def add_workers():
     db = get_db()
 
     if request.method == 'POST':
@@ -116,10 +126,7 @@ def workers():
              telephone, email, address, note, status_id)
         )
         db.commit()
-
-    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name ASC')
-
-    return render_template('internal/workers.html', workers=all_workers)
+    return render_template('internal/add_workers.html')
 
 
 @bp.route('/workers/delete/<int:n>', methods=('POST',))
@@ -150,30 +157,22 @@ def opening_hours():
 
         if existing_entry:
             db.execute(
-                'UPDATE opening_hours '
-                'SET start = time(?), end = time(?) WHERE id = ?',
+                'UPDATE opening_hours SET start = time(?), end = time(?) WHERE id = ?',
                 (start, end, existing_entry['id'])
             )
         else:  # TODO: Mangle date
             db.execute(
-                'INSERT INTO opening_hours (date, start, end) '
-                'VALUES (date(?), time(?), time(?))',
+                'INSERT INTO opening_hours (date, start, end) VALUES (date(?), time(?), time(?))',
                 (date, start, end)
             )
 
         db.commit()
 
     all_hours = db.execute(
-        'SELECT * FROM opening_hours WHERE date >= date(\'now\')'
-        'ORDER BY date ASC'
-    )
+        'SELECT * FROM opening_hours WHERE date >= date(\'now\') ORDER BY date ASC')
     today = datetime.date.today()
 
-    return render_template(
-        'internal/opening_hours.html',
-        opening_hours=all_hours,
-        today=today
-    )
+    return render_template('internal/opening_hours.html', opening_hours=all_hours, today=today)
 
 
 @bp.route('/opening_hours/delete/<int:n>', methods=('POST',))
@@ -187,73 +186,9 @@ def delete_opening_hours(n):
     return redirect(url_for('internal.opening_hours'))
 
 
-@bp.route('/shifts', methods=('GET', 'POST'))
+@bp.route('/shifts')
 @login_required
 def shifts():
     db = get_db()
-
-    if request.method == 'POST':
-        worker = request.form['worker']
-        date = request.form['date']
-        start = request.form['start']
-        end = request.form['end']
-
-        existing_shift = db.execute(
-            'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
-            (date, worker)
-        ).fetchone()
-        if existing_shift is None:
-            db.execute(
-                'INSERT INTO shift '
-                '(worker_id, date, start, end)'
-                'VALUES (?, date(?), time(?), time(?))',
-                (worker, date, start, end)
-            )
-        else:
-            db.execute(
-                'UPDATE shift SET start = time(?), end = time(?) WHERE id = ?',
-                (start, end, existing_shift['id'])
-            )
-
-        db.commit()
-
-    all_workers = db.execute(
-        'SELECT * FROM worker ORDER BY first_name ASC'
-    ).fetchall()
-
-    default_start = "19:00"
-    default_end = "00:00"
-    opening_hours_today = db.execute(
-        'SELECT * FROM opening_hours WHERE date = date(\'now\')'
-    ).fetchone()
-    if opening_hours_today is not None:
-        default_start = opening_hours_today['start']
-        default_end = opening_hours_today['end']
-
-    shifts = db.execute(
-        'SELECT date, start, end, display_name as worker, shift.id as id '
-        'FROM worker, shift WHERE worker.id = shift.worker_id '
-        'ORDER BY date DESC'
-    ).fetchall()
-
-    today = datetime.date.today().isoformat()
-
-    return render_template(
-        'internal/shifts.html',
-        workers=all_workers,
-        default_start=default_start,
-        default_end=default_end,
-        today=today,
-        shifts=shifts
-    )
-
-
-@bp.route('/shifts/delete/<int:n>', methods=('POST',))
-@login_required
-def delete_shifts(n):
-    if n is not None:
-        db = get_db()
-        db.execute('DELETE FROM shift WHERE id = ?', (n,))
-        db.commit()
-
-    return redirect(url_for('internal.shifts'))
+    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
+    return render_template('internal/shifts.html', workers=all_workers)
