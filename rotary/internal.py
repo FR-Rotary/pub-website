@@ -127,7 +127,10 @@ def add_workers():
              telephone, email, address, note, status_id)
         )
         db.commit()
-    return render_template('internal/add_workers.html', worker=None)
+
+        return redirect(url_for('internal.workers'))
+
+    return render_template('internal/add_workers.html')
 
 
 @bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
@@ -168,7 +171,7 @@ def edit_worker(n):
     return redirect(url_for('internal.workers'))
 
 
-@bp.route('/workers/delete/<int:n>', methods=('POST',))
+@bp.route('/workers/delete/<int:n>', methods=('POST','GET'))
 @login_required
 def delete_worker(n):
     if n is not None:
