@@ -3,7 +3,112 @@
 
 {% block content%}
 
-<div class="container mt-6 mb-6">
+<div class="container mt-6 mb-6 ">
+
+  <form class="form container is-max-desktop mb-6" action="{{ request.path }}" method="post">
+
+    <div class="field is-horizontal">
+
+      <div class="field-label is-normal">
+        <p class="label">Name</p>
+      </div>
+
+      <div class="field-body">
+
+        <div class="field">
+          <div class="control">
+            <input class="input is-info" name="display_name" type="text" placeholder="Nickname">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <input class="input is-info" name="first_name" type="text" placeholder="First Name">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <input class="input is-info" name="last_name" type="text" placeholder="Last Name">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="field is-horizontal">
+
+      <div class="field-label is-normal">
+        <p class="label">Contact</p>
+      </div>
+
+      <div class="field-body">
+
+        <div class="field">
+          <div class="control">
+            <input class="input" name="telephone" pattern="[0-9- ]+" type="tel" placeholder="07xxxxxxxx">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <input class="input is-info" name="email" type="email" placeholder="name@example.com">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="field is-horizontal">
+
+      <div class="field-label is-normal">
+        <p class="label">Address</p>
+      </div>
+
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input class="input" name="address" type="text" placeholder="Streetname 99 42232 Gothenburg">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="field is-horizontal">
+
+      <div class="field-label is-normal">
+        <p class="label">Note</p>
+      </div>
+
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <textarea class="textarea" name="note" placeholder="Likes Beer"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="field has-addons ">
+      <div class="field-label is-normal">
+        <p class="label"></p>
+      </div>
+      <div class="control">
+        <div class="select">
+          <select name="status_id">
+            <option value="1">Test1</option>
+          </select>
+        </div>
+      </div>
+      <div class="control">
+        <button type="submit" formmethod="post" class="button is-link">Add</button>
+      </div>
+    </div>
+
+  </form>
+
   <div class="table-container">
     <table class="table is-striped is-fullwidth">
       <thead>
@@ -39,42 +144,6 @@
           </td>
         </tr>
         {% endfor %}
-        <tr>
-          <form action="{{ request.path }}" method="post">
-            <td>
-              <input name="display_name" class="input" type="text">
-            </td>
-            <td>
-              <input name="first_name" class="input" type="text">
-            </td>
-            <td>
-              <input name="last_name" class="input" type="text">
-            </td>
-            <td>
-              <input name="telephone" class="input" type="tel">
-            </td>
-            <td>
-              <input name="email" class="input" type="email">
-            </td>
-            <td>
-              <input name="address" class="input" type="text">
-            </td>
-            <td>
-              <input name="note" class="input" type="text">
-            </td>
-            <td>
-              <div class="select">
-                <select name="status_id">
-                  <option value="1">test1</option>
-                  <option value="2">test2</option>
-                </select>
-              </div>
-            </td>
-            <td>
-              <button type="submit" formmethod="post" class="button is-link">Add</button>
-            </td>
-          </form>
-        </tr>
 
       </tbody>
     </table>
