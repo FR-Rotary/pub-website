@@ -102,7 +102,8 @@ def workers():
 
     return render_template('internal/workers.html', workers=all_workers)
 
-@bp.route('/workers/add', methods=('POST','GET'))
+
+@bp.route('/workers/add', methods=('POST', 'GET'))
 @login_required
 def add_workers():
     db = get_db()
@@ -127,6 +128,44 @@ def add_workers():
         )
         db.commit()
     return render_template('internal/add_workers.html')
+
+
+@bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
+@login_required
+def edit_worker(n):
+    db = get_db()
+
+    if request.method == 'GET' and n is not None:
+        worker = db.execute(
+            'SELECT * FROM worker WHERE id = ?',
+            (n,)
+        ).fetchone()
+
+        if worker is None:
+            return redirect(url_for('internal.add_workers'))
+
+        return render_template('internal/add_workers.html', worker=worker)
+    elif request.method == 'POST' and n is not None:
+        display_name = request.form['display_name']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        telephone = request.form['telephone']
+        email = request.form['email']
+        address = request.form['address']
+        note = request.form['note']
+        status_id = request.form['status_id']
+
+        db.execute(
+            'UPDATE worker SET '
+            'display_name = ?, first_name = ?, last_name = ?, telephone = ?, '
+            'email = ?, address = ?, note = ?, status_id = ? '
+            'WHERE id = ?',
+            (display_name, first_name, last_name, telephone, email, address,
+             note, status_id, n)
+        )
+        db.commit()
+    else:
+        return redirect(url_for('internal.add_workers'))
 
 
 @bp.route('/workers/delete/<int:n>', methods=('POST',))
