@@ -14,15 +14,23 @@
     <div class="field">
       <label class="label">{{ g.strings.contact.email }}</label>
       <div class="control">
-        <input class="input" type="email" name="email" placeholder="name@example.com">
+        <input class="input" type="email" name="email" value="{{ email }}" placeholder="name@example.com">
       </div>
     </div>
 
     <div class="field">
       <label class="label">{{ g.strings.contact.message }}</label>
       <div class="control">
-        <textarea class="textarea" name="body" placeholder="Textarea"></textarea>
+        <textarea class="textarea" name="body" placeholder="{{ g.strings.contact.body_placeholder }}">{{ body }}</textarea>
       </div>
+    </div>
+
+    <div class="field">
+      <label class="label">{{ g.strings.contact.captcha }}</label>
+      <div class="control">
+        <input class="input {% if captcha_failed %}is-danger{% endif %}" type="text" name="captcha" value="{{ captcha }}" placeholder="{{ g.strings.contact.captcha_placeholder }}">
+      </div>
+      {% if captcha_failed %}<p class="help is-danger">{{ g.strings.contact.captcha_failed }}</p>{% endif %}
     </div>
 
     <div class="field is-grouped is-grouped-right">

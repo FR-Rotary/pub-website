@@ -11,6 +11,9 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'rotary.sqlite'),
         USERNAME='dev',
         PASSWORD='password',
+        SMTP_HOST=None,
+        SMTP_USERNAME=None,
+        SMTP_PASSWORD=None,
     )
 
     if test_config is None:

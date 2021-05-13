@@ -51,16 +51,21 @@ strings_en = {
     },
     'contact': {
         'header': 'Contact Us',
-        'text': 'Use form below',
+        'text': 'Use the form below to send us an email',
         'submit': 'Submit',
-        'email': 'Email',
+        'email': 'Your email address',
         'message': 'Message',
+        'body_placeholder': 'Write your message here',
+        'captcha': 'CAPTCHA: In which city is Rotary Pub located?',
+        'captcha_placeholder': 'Somethingtown',
+        'captcha_failed': 'That\'s the wrong answer!',
+        'thanks': 'Thanks for contacting us! We\'ll get back to you as soon as possible.',
     },
     'days' : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     'work' : {
         'header' : 'Working at Rotary Pub',
         'text' : 'Do you also like Rotary? Why not <strong>work here</strong>!<br>'
-        },
+    },
 }
 
 strings_sv = {
@@ -106,10 +111,15 @@ strings_sv = {
     },
     'contact': {
         'header': 'Kontakta oss',
-        'text': 'Använd formuläret nedan',
+        'text': 'Använd formuläret nedan för att skicka ett mail till oss',
         'submit': 'Skicka',
-        'email': 'Epost',
+        'email': 'Din mailadress',
         'message': 'Meddelande',
+        'body_placeholder': 'Skriv ditt meddelande här',
+        'captcha': 'CAPTCHA: I vilken stad ligger Rotary Pub?',
+        'captcha_placeholder': 'Nåntingstad',
+        'captcha_failed': 'Fel svar!',
+        'thanks': 'Tack för att du kontaktade oss! Vi återkommer så snart som möjligt.',
     },
     'work' : {
         'header' : 'Working at Rotary Pub',
