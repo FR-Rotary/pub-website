@@ -126,7 +126,7 @@ def add_workers():
              telephone, email, address, note, status_id)
         )
         db.commit()
-    return render_template('internal/add_workers.html')
+    return render_template('internal/add_workers.html', worker=None)
 
 
 @bp.route('/workers/delete/<int:n>', methods=('POST',))
