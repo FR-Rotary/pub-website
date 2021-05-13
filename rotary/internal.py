@@ -102,7 +102,8 @@ def workers():
 
     return render_template('internal/workers.html', workers=all_workers)
 
-@bp.route('/workers/add', methods=('POST','GET'))
+
+@bp.route('/workers/add', methods=('POST', 'GET'))
 @login_required
 def add_workers():
     db = get_db()
@@ -127,6 +128,44 @@ def add_workers():
         )
         db.commit()
     return render_template('internal/add_workers.html', worker=None)
+
+
+@bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
+@login_required
+def edit_worker(n):
+    db = get_db()
+
+    if request.method == 'GET' and n is not None:
+        worker = db.execute(
+            'SELECT * FROM worker WHERE id = ?',
+            (n,)
+        ).fetchone()
+
+        if worker is None:
+            return redirect(url_for('internal.add_workers'))
+
+        return render_template('internal/add_workers.html', worker=worker)
+    elif request.method == 'POST' and n is not None:
+        display_name = request.form['display_name']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        telephone = request.form['telephone']
+        email = request.form['email']
+        address = request.form['address']
+        note = request.form['note']
+        status_id = request.form['status_id']
+
+        db.execute(
+            'UPDATE worker SET '
+            'display_name = ?, first_name = ?, last_name = ?, telephone = ?, '
+            'email = ?, address = ?, note = ?, status_id = ? '
+            'WHERE id = ?',
+            (display_name, first_name, last_name, telephone, email, address,
+             note, status_id, n)
+        )
+        db.commit()
+    else:
+        return redirect(url_for('internal.add_workers'))
 
 
 @bp.route('/workers/delete/<int:n>', methods=('POST',))
@@ -190,5 +229,70 @@ def delete_opening_hours(n):
 @login_required
 def shifts():
     db = get_db()
-    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
-    return render_template('internal/shifts.html', workers=all_workers)
+
+    if request.method == 'POST':
+        worker = request.form['worker']
+        date = request.form['date']
+        start = request.form['start']
+        end = request.form['end']
+
+        existing_shift = db.execute(
+            'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
+            (date, worker)
+        ).fetchone()
+        if existing_shift is None:
+            db.execute(
+                'INSERT INTO shift '
+                '(worker_id, date, start, end)'
+                'VALUES (?, date(?), time(?), time(?))',
+                (worker, date, start, end)
+            )
+        else:
+            db.execute(
+                'UPDATE shift SET start = time(?), end = time(?) WHERE id = ?',
+                (start, end, existing_shift['id'])
+            )
+
+        db.commit()
+
+    all_workers = db.execute(
+        'SELECT * FROM worker ORDER BY first_name ASC'
+    ).fetchall()
+
+    default_start = "19:00"
+    default_end = "00:00"
+    opening_hours_today = db.execute(
+        'SELECT * FROM opening_hours WHERE date = date(\'now\')'
+    ).fetchone()
+    if opening_hours_today is not None:
+        default_start = opening_hours_today['start']
+        default_end = opening_hours_today['end']
+
+    shifts = db.execute(
+        'SELECT date, start, end, '
+        'IFNULL(display_name, \'<deleted worker>\') as worker, shift.id as id '
+        'FROM shift LEFT OUTER JOIN worker ON worker.id = shift.worker_id '
+        'ORDER BY date DESC'
+    ).fetchall()
+
+    today = datetime.date.today().isoformat()
+
+    return render_template(
+        'internal/shifts.html',
+        workers=all_workers,
+        default_start=default_start,
+        default_end=default_end,
+        today=today,
+        shifts=shifts
+    )
+
+
+@bp.route('/shifts/delete/<int:n>', methods=('POST',))
+@login_required
+def delete_shifts(n):
+    if n is not None:
+        db = get_db()
+        db.execute('DELETE FROM shift WHERE id = ?', (n,))
+        db.commit()
+
+    return redirect(url_for('internal.shifts'))
