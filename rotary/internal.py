@@ -164,8 +164,8 @@ def edit_worker(n):
              note, status_id, n)
         )
         db.commit()
-    else:
-        return redirect(url_for('internal.add_workers'))
+
+    return redirect(url_for('internal.workers'))
 
 
 @bp.route('/workers/delete/<int:n>', methods=('POST',))
