@@ -127,6 +127,9 @@ def add_workers():
              telephone, email, address, note, status_id)
         )
         db.commit()
+
+        return redirect(url_for('internal.workers'))
+
     return render_template('internal/add_workers.html')
 
 
