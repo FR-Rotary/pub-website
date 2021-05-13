@@ -63,8 +63,24 @@ def index():
 @bp.route('/contact', methods=('GET', 'POST'))
 def contact():
     if request.method == 'GET':
-        return render_template('external/contact.html', submitted=False)
+        return render_template('external/contact.html')
     else:
+        email = request.form['email']
+        body = request.form['body']
+        captcha = request.form['captcha']
+
+        if captcha.strip().lower() not in ['gothenburg', 'göteborg', 'goteborg']:
+            return render_template(
+                'external/contact.html',
+                email=email, body=body, captcha=captcha, captcha_failed=True
+            )
+
+        host = current_app.config['SMTP_HOST']
+        user = current_app.config['SMTP_USERNAME']
+        password = current_app.config['SMTP_PASSWORD']
+
+        if host is None or user is None or password is None:
+            return "Error: SMTP is not configured"
         # TODO: Handle the form data
         return render_template('external/contact.html', submitted=True)
 

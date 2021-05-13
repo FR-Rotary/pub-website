@@ -106,6 +106,7 @@ def workers():
 @bp.route('/workers/add', methods=('POST', 'GET'))
 @login_required
 def add_workers():
+    # TODO: Mailing list stuff
     db = get_db()
 
     if request.method == 'POST':
@@ -136,6 +137,7 @@ def add_workers():
 @bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
 @login_required
 def edit_worker(n):
+    # TODO: Mailing list stuff
     db = get_db()
 
     if request.method == 'GET' and n is not None:
@@ -174,6 +176,7 @@ def edit_worker(n):
 @bp.route('/workers/delete/<int:n>', methods=('POST','GET'))
 @login_required
 def delete_worker(n):
+    # TODO: Mailing list stuff
     if n is not None:
         db = get_db()
         db.execute('DELETE FROM worker WHERE id = ?', (n,))
