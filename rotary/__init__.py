@@ -49,5 +49,6 @@ def create_app(test_config=None):
     app.jinja_env.globals.update(to_letter_code=countries.to_letter_code, to_pretty_name=countries.to_pretty_name)
 
     from . import util
+    from . import mail
 
     return app

@@ -4,6 +4,9 @@ from datetime import date, timedelta
 from rotary.util import dict_from_row
 from rotary.db import get_db
 
+from rotary.mail import Mail
+from rotary.mail import Server
+
 bp = Blueprint('external', __name__)
 
 
@@ -75,13 +78,32 @@ def contact():
                 email=email, body=body, captcha=captcha, captcha_failed=True
             )
 
+        # Get config for server
         host = current_app.config['SMTP_HOST']
         user = current_app.config['SMTP_USERNAME']
         password = current_app.config['SMTP_PASSWORD']
 
         if host is None or user is None or password is None:
             return "Error: SMTP is not configured"
-        # TODO: Handle the form data
+
+        # config server
+        s = Server(
+                user,
+                password,
+                host
+                )
+
+        # compose message
+        m = Mail(
+                'robot@rotarypub.se',
+                'pubare@rotarypub.se',
+                'Nytt mail från hemsidan!',
+                email + body
+                )
+
+        # send message
+        s.send(m)
+
         return render_template('external/contact.html', submitted=True)
 
 
