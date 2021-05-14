@@ -32,10 +32,8 @@
         </div>
 
         <div class="navbar-end">
-          <div class="navbar-item">
-              <a class="button"  href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">{{g.strings.nav.language}}</a>
+              <a class="navbar-item"  href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">{{g.strings.nav.language}}</a>
 
-          </div>
         </div>
 
         </div>
@@ -50,7 +48,7 @@
       <nav class="level">
 
         <div class="level-item has-text-centered">
-          <p class="heading">Currently Serving <strong>x</strong> beers</p>
+          <p class="heading">Currently Serving <strong>{{ g.beer_count }}</strong> beers</p>
         </div>
 
         <div class="level-item has-text-centered">

@@ -4,5 +4,15 @@
 <div class="content container is-max-desktop">
   <h1>{{g.strings.work.header}}</h1>
   <p>{{ g.strings.work.text }}</p>
+  <ul>
+    {% for reason in g.strings.work.reasons %}
+    <li>{{ reason }}</li>
+    {% endfor %}
+  </ul>
+  <p class="has-text-weight-bold">{{ g.strings.work.interested }}</p>
+  <a href="{{ url_for('external.contact') }}">
+    {{ g.strings.work.contact }}
+  </a>
+  <p>{{ g.strings.work.mondays }}</p>
 </div>
 {% endblock %}

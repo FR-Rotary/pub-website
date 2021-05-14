@@ -72,7 +72,21 @@ strings_en = {
     'days' : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     'work' : {
         'header' : 'Working at Rotary Pub',
-        'text' : 'Do you also like Rotary? Why not <strong>work here</strong>!<br>'
+        'text' : 'Do you also like Rotary? Why not work here!',
+        'reasons' : [
+            'Staff Discounts!',
+            'Friendly People!',
+            'Food while you work!',
+            'Meet new people!',
+            'Volunteering looks good on your resume!',
+            'Close to your home (if you live here)!',
+            'Get working experience!',
+            "You dont need to know anything!",
+            "It's completely free!!!"
+        ],
+        'interested' : 'Sound interesting?',
+        'contact' : 'Send us an email',
+        'mondays' : 'or show up at one of our monday meetings at 18k Just enter through the kitchen!'
     },
 }
 
@@ -138,9 +152,23 @@ strings_sv = {
         'thanks': 'Tack för att du kontaktade oss! Vi återkommer så snart som möjligt.',
     },
     'work' : {
-        'header' : 'Working at Rotary Pub',
-        'text' : 'Do you also like Rotary? Why not <strong>work here</strong>!<br>'
-        },
+        'header' : 'Jobba på Rotary Pub',
+        'text' : 'Gillar du också Rotary Pub? Varför inte jobba här?',
+        'reasons' : [
+            'Personalpriser!',
+            'Gött umgänge!',
+            'Mat när du jobbar!',
+            'Träffa nytt folk!',
+            'Ideelt arbete ser bra ut på CV:t',
+            'Nära hem (ifall du bor här)!',
+            'Samla arberslivserfarenhet!',
+            'Du behöver inte kunna ett skit!',
+            "Helt Gratis!!!!"
+        ],
+        'interested' : 'Låter det interessant?',
+        'contact' : 'Skicka ett mail',
+        'mondays' : 'eller kom på ett måndagsmöte 18:00. Gå bara in igenom köket!'
+    },
     'days' : ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'],
 }
 
