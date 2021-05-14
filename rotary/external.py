@@ -10,6 +10,7 @@ from rotary.mail import Server
 bp = Blueprint('external', __name__)
 
 
+
 @bp.route('/')
 def index():
     db = get_db()
@@ -28,6 +29,7 @@ def index():
         )
 
     news = db.execute(query).fetchone()
+    print(beer_count())
 
     today = date.today()
     days_after_monday = today.weekday()
@@ -95,10 +97,11 @@ def contact():
 
         # compose message
         m = Mail(
-                'robot@rotarypub.se',
-                'pubare@rotarypub.se',
+                'website@rotarypub.se',
+                'juliusschumacher@gmail.com',
                 'Nytt mail från hemsidan!',
-                email + body
+                body,
+                email
                 )
 
         # send message
@@ -148,3 +151,11 @@ def menu():
     snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
 
     return render_template('external/menu.html', beer_categories=categories, foods=foods, snacks=snacks)
+
+# very important feature
+def beer_count():
+    db = get_db()
+    query = 'SELECT COUNT(*) FROM beer WHERE available = 1'
+    reply = db.execute(query).fetchall()
+    return dict_from_row(reply[0])['COUNT(*)']
+

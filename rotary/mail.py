@@ -8,18 +8,15 @@ import sys
 
 class Mail:
 
-    def __init__(self, sender, reciever, subject, body):
+    def __init__(self, sender, reciever, subject, body, reply_to):
         self.sender = sender
         self.reciever = reciever
         self.subject = subject
         self.body = body
+        self.reply_to = reply_to
 
     def to_string(self):
         text = '\r\n'.join([
-            'From: %s' % self.sender,
-            'To: %s' % self.reciever,
-            'Subject: %s' % self.subject,
-            '',
             self.body
             ])
         print(text)
@@ -28,6 +25,7 @@ class Mail:
         msg['subject'] = self.subject
         msg['from'] = self.sender
         msg['to'] = self.reciever
+        msg['reply-to'] = self.reply_to
 
         return msg.as_string()
 
