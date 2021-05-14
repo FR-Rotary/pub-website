@@ -26,7 +26,6 @@ def index():
         )
 
     news = db.execute(query).fetchone()
-    print(beer_count())
 
     today = date.today()
     days_after_monday = today.weekday()
@@ -59,7 +58,11 @@ def index():
                 }
             )
 
-    return render_template('external/index.html', news=news, opening_hours=opening_hours)
+    return render_template(
+        'external/index.html',
+        news=news,
+        opening_hours=opening_hours
+    )
 
 
 @bp.route('/contact', methods=('GET', 'POST'))
@@ -72,7 +75,9 @@ def contact():
         body = request.form['body']
         captcha = request.form['captcha']
 
-        if captcha.strip().lower() not in ['gothenburg', 'göteborg', 'goteborg']:
+        if captcha.strip().lower() not in [
+                'gothenburg', 'göteborg', 'goteborg'
+        ]:
             return render_template(
                 'external/contact.html',
                 email=email, body=body,subject=subject, captcha=captcha, captcha_failed=True
@@ -148,13 +153,25 @@ def menu():
     foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
     snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
 
-    return render_template('external/menu.html', beer_categories=categories, foods=foods, snacks=snacks)
+    return render_template(
+        'external/menu.html',
+        beer_categories=categories,
+        foods=foods,
+        snacks=snacks
+    )
 
-# very important feature
 
+@bp.before_app_request
+def update_beer_count():
+    beer_count = session.get('beer_count')
+    if beer_count is None:
+        current_app.logger.info('Updating beer count')
+        db = get_db()
+        count = db.execute(
+            'SELECT COUNT(*) FROM beer INNER JOIN beer_category '
+            'WHERE available = 1 AND '
+            'beer_category.name NOT IN (\'wine\', \'cider\', \'nonalcoholic\')'
+        ).fetchone()
+        session['beer_count'] = int(dict_from_row(count)['COUNT(*)'])
 
-def beer_count():
-    db = get_db()
-    query = 'SELECT COUNT(*) FROM beer WHERE available = 1'
-    reply = db.execute(query).fetchall()
-    return dict_from_row(reply[0])['COUNT(*)']
+    g.beer_count = session.get('beer_count', 'some unknown amount of')

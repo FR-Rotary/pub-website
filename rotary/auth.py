@@ -14,10 +14,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        if (username is not None and
-                password is not None and
-                username == current_app.config["USERNAME"] and
-                password == current_app.config["PASSWORD"]):
+        if (
+            username is not None and
+            password is not None and
+            username == current_app.config["USERNAME"] and
+            password == current_app.config["PASSWORD"]
+        ):
             # Correct login
             session.clear()
             session['authenticated'] = True
@@ -39,6 +41,7 @@ def get_authentication_status():
         g.authenticated = False
     else:
         g.authenticated = authenticated
+
 
 def login_required(view):
     @functools.wraps(view)

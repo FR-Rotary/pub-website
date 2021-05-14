@@ -1,10 +1,12 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, g
+from flask.globals import current_app
 from pycountry import countries
 import datetime
 
 from rotary.db import get_db
 from rotary.auth import login_required
 from rotary.i18n import strings_en
+from rotary.util import dict_from_row
 
 bp = Blueprint('internal', __name__, url_prefix='/internal')
 
@@ -14,10 +16,12 @@ bp = Blueprint('internal', __name__, url_prefix='/internal')
 def index():
     return render_template('internal/index.html')
 
+
 @bp.route('/')
 @login_required
 def index_slash_redirect():
     return redirect(url_for('internal.index'))
+
 
 @bp.route('/menu', methods=('GET', 'POST'))
 @login_required
@@ -47,7 +51,12 @@ def menu():
         db.commit()
 
     beers = db.execute(
-        'SELECT available, beer.name, IFNULL(beer_category.name, \'<unknown category>\') as category, style, abv, country_iso_3166_id, volume_ml, price_kr FROM beer LEFT OUTER JOIN beer_category ON beer.category_id = beer_category.id ORDER BY beer.name ASC'
+        'SELECT available, beer.name, '
+        'IFNULL(beer_category.name, \'<unknown category>\') as category, '
+        'style, abv, country_iso_3166_id, volume_ml, price_kr '
+        'FROM beer LEFT OUTER JOIN beer_category '
+        'ON beer.category_id = beer_category.id '
+        'ORDER BY beer.name ASC'
     )
     categories = db.execute(
         'SELECT * FROM beer_category ORDER BY id ASC').fetchall()
@@ -216,22 +225,30 @@ def opening_hours():
 
         if existing_entry:
             db.execute(
-                'UPDATE opening_hours SET start = time(?), end = time(?) WHERE id = ?',
+                'UPDATE opening_hours SET start = time(?), end = time(?) '
+                'WHERE id = ?',
                 (start, end, existing_entry['id'])
             )
         else:  # TODO: Mangle date
             db.execute(
-                'INSERT INTO opening_hours (date, start, end) VALUES (date(?), time(?), time(?))',
+                'INSERT INTO opening_hours (date, start, end) '
+                'VALUES (date(?), time(?), time(?))',
                 (date, start, end)
             )
 
         db.commit()
 
     all_hours = db.execute(
-        'SELECT * FROM opening_hours WHERE date >= date(\'now\') ORDER BY date ASC')
+        'SELECT * FROM opening_hours WHERE date >= date(\'now\') '
+        'ORDER BY date ASC'
+    )
     today = datetime.date.today()
 
-    return render_template('internal/opening_hours.html', opening_hours=all_hours, today=today)
+    return render_template(
+        'internal/opening_hours.html',
+        opening_hours=all_hours,
+        today=today
+    )
 
 
 @bp.post('/opening_hours/delete/<int:n>')
