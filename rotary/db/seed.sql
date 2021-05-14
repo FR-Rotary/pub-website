@@ -17,6 +17,6 @@ VALUES
 
 INSERT INTO worker_status (name)
 VALUES
-    ('Pubare'),
-    ('Pubare publik'),
-    ('Ex-pubare');
+    ('worker'),
+    ('worker_public'),
+    ('ex_worker');

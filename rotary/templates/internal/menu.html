@@ -33,8 +33,8 @@
             <td>
               <div class="select">
                 <select>
-                  {% for country in countries%}
-                  <option style="max-width: 5vw; overflow: hidden" value="{{country.numeric}}">{{country.name}}</option>
+                  {% for category in categories %}
+                  <option style="max-width: 5vw; overflow: hidden" value="{{category.id}}">{{ category_names[category.name] }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -54,14 +54,14 @@
             <td>
               <div class="select">
                 <select>
-                  {% for country in countries%}
+                  {% for country in countries %}
                   <option style="max-width: 5vw; overflow: hidden" value="{{country.numeric}}">{{country.name}}</option>
                   {% endfor %}
                 </select>
               </div>
             </td>
             <td>
-              <button class="button is-link">Add</button>
+              <button type="submit" class="button is-link">Add</button>
             </td>
           </form>
         </tr>
@@ -73,7 +73,7 @@
             </form>
           </td>
           <td>{{ beer.name }}</td>
-          <td>{{ beer.category_id }}</td>
+          <td>{{ category_names[beer.category] }}</td>
           <td>{{ beer.style }}</td>
           <td>{{ beer.abv }}%</td>
           <td>{{ beer.volume_ml }}ml</td>

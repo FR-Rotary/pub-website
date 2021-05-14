@@ -3,12 +3,9 @@ from datetime import date, timedelta
 
 from rotary.util import dict_from_row
 from rotary.db import get_db
-
-from rotary.mail import Mail
-from rotary.mail import Server
+from rotary.mail import Mail, Server
 
 bp = Blueprint('external', __name__)
-
 
 
 @bp.route('/')
@@ -70,14 +67,14 @@ def contact():
     if request.method == 'GET':
         return render_template('external/contact.html')
     else:
-        email = request.form['email']
+        address = request.form['email']
         body = request.form['body']
         captcha = request.form['captcha']
 
         if captcha.strip().lower() not in ['gothenburg', 'göteborg', 'goteborg']:
             return render_template(
                 'external/contact.html',
-                email=email, body=body, captcha=captcha, captcha_failed=True
+                email=address, body=body, captcha=captcha, captcha_failed=True
             )
 
         # Get config for server
@@ -90,19 +87,19 @@ def contact():
 
         # config server
         s = Server(
-                user,
-                password,
-                host
-                )
+            user,
+            password,
+            host
+        )
 
         # compose message
         m = Mail(
-                'website@rotarypub.se',
-                'juliusschumacher@gmail.com',
-                'Nytt mail från hemsidan!',
-                body,
-                email
-                )
+            'website@rotarypub.se',
+            'juliusschumacher@gmail.com',
+            'Nytt mail från hemsidan!',
+            body,
+            email
+        )
 
         # send message
         s.send(m)
@@ -153,9 +150,10 @@ def menu():
     return render_template('external/menu.html', beer_categories=categories, foods=foods, snacks=snacks)
 
 # very important feature
+
+
 def beer_count():
     db = get_db()
     query = 'SELECT COUNT(*) FROM beer WHERE available = 1'
     reply = db.execute(query).fetchall()
     return dict_from_row(reply[0])['COUNT(*)']
-
