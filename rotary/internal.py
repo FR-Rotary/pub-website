@@ -4,6 +4,7 @@ import datetime
 
 from rotary.db import get_db
 from rotary.auth import login_required
+from rotary.i18n import strings_en
 
 bp = Blueprint('internal', __name__, url_prefix='/internal')
 
@@ -13,6 +14,10 @@ bp = Blueprint('internal', __name__, url_prefix='/internal')
 def index():
     return render_template('internal/index.html')
 
+@bp.route('/')
+@login_required
+def index_slash_redirect():
+    return redirect(url_for('internal.index'))
 
 @bp.route('/menu', methods=('GET', 'POST'))
 @login_required
@@ -41,13 +46,22 @@ def menu():
         )
         db.commit()
 
-    beers = db.execute('SELECT * FROM beer ORDER BY name ASC')
+    beers = db.execute(
+        'SELECT available, beer.name, IFNULL(beer_category.name, \'<unknown category>\') as category, style, abv, country_iso_3166_id, volume_ml, price_kr FROM beer LEFT OUTER JOIN beer_category ON beer.category_id = beer_category.id ORDER BY beer.name ASC'
+    )
+    categories = db.execute(
+        'SELECT * FROM beer_category ORDER BY id ASC').fetchall()
 
-    return render_template('internal/menu.html',
-                           beers=beers, countries=countries)
+    return render_template(
+        'internal/menu.html',
+        beers=beers,
+        countries=countries,
+        categories=categories,
+        category_names=strings_en['menu']['beer_categories']
+    )
 
 
-@bp.route('/beers/delete/<int:n>', methods=('POST',))
+@bp.post('/beers/delete/<int:n>')
 @login_required
 def delete_beer(n):
     if n is not None:
@@ -82,7 +96,7 @@ def news():
     return render_template('internal/news.html', posts=posts)
 
 
-@bp.route('/news/delete/<int:n>', methods=('POST',))
+@bp.post('/news/delete/<int:n>')
 @login_required
 def delete_news_post(n):
     if n is not None:
@@ -173,7 +187,7 @@ def edit_worker(n):
     return redirect(url_for('internal.workers'))
 
 
-@bp.route('/workers/delete/<int:n>', methods=('POST','GET'))
+@bp.route('/workers/delete/<int:n>', methods=('POST', 'GET'))
 @login_required
 def delete_worker(n):
     # TODO: Mailing list stuff
@@ -220,7 +234,7 @@ def opening_hours():
     return render_template('internal/opening_hours.html', opening_hours=all_hours, today=today)
 
 
-@bp.route('/opening_hours/delete/<int:n>', methods=('POST',))
+@bp.post('/opening_hours/delete/<int:n>')
 @login_required
 def delete_opening_hours(n):
     if n is not None:
@@ -262,7 +276,7 @@ def shifts():
         db.commit()
 
     all_workers = db.execute(
-        'SELECT * FROM worker ORDER BY first_name ASC'
+        'SELECT * FROM worker ORDER BY display_name ASC'
     ).fetchall()
 
     default_start = "19:00"
@@ -293,7 +307,7 @@ def shifts():
     )
 
 
-@bp.route('/shifts/delete/<int:n>', methods=('POST',))
+@bp.post('/shifts/delete/<int:n>')
 @login_required
 def delete_shifts(n):
     if n is not None:

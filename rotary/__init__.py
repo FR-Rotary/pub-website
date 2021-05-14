@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, redirect, url_for
 
 
 def create_app(test_config=None):
@@ -12,8 +12,10 @@ def create_app(test_config=None):
         USERNAME='dev',
         PASSWORD='password',
         SMTP_HOST=None,
+        SMTP_PORT=587,
         SMTP_USERNAME=None,
         SMTP_PASSWORD=None,
+        CONTACT_FORM_ADDRESS=None,
     )
 
     if test_config is None:
@@ -45,10 +47,19 @@ def create_app(test_config=None):
     from . import internal
     app.register_blueprint(internal.bp)
 
+    @app.route('/internt/')
+    def internt_slash_redirect():
+        return redirect(url_for('internal.index'))
+
+    @app.route('/internt')
+    def internt_redirect():
+        return redirect(url_for('internal.index'))
+
     from . import countries
     app.jinja_env.globals.update(to_letter_code=countries.to_letter_code, to_pretty_name=countries.to_pretty_name)
 
     from . import util
+
     from . import mail
 
     return app
