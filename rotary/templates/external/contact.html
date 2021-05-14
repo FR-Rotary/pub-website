@@ -12,6 +12,13 @@
   <form class="form" action="{{ request.path }}" method="post">
 
     <div class="field">
+      <label class="label">{{ g.strings.contact.subject }}</label>
+      <div class="control">
+        <input class="input" type="text" name="subject" value="{{ subject }}" placeholder="Rotary Pub">
+      </div>
+    </div>
+
+    <div class="field">
       <label class="label">{{ g.strings.contact.email }}</label>
       <div class="control">
         <input class="input" type="email" name="email" value="{{ email }}" placeholder="name@example.com">
@@ -22,20 +29,27 @@
       <label class="label">{{ g.strings.contact.message }}</label>
       <div class="control">
         <textarea class="textarea" name="body" placeholder="{{ g.strings.contact.body_placeholder }}">{{ body }}</textarea>
+        {% if submitted %}
+        <p class="help is-success">{{ g.strings.contact.thanks }}</p>
+        {% endif %}
       </div>
     </div>
 
     <div class="field">
-      <label class="label">{{ g.strings.contact.captcha }}</label>
-      <div class="control">
-        <input class="input {% if captcha_failed %}is-danger{% endif %}" type="text" name="captcha" value="{{ captcha }}" placeholder="{{ g.strings.contact.captcha_placeholder }}">
-      </div>
-      {% if captcha_failed %}<p class="help is-danger">{{ g.strings.contact.captcha_failed }}</p>{% endif %}
     </div>
 
-    <div class="field is-grouped is-grouped-right">
+    <label class="label">{{ g.strings.contact.captcha }}</label>
+    <div class="field has-addons">
       <div class="control">
-        <button type="submit" formmethod="post" class="button is-link">{{ g.strings.contact.submit }}</button>
+        <input class="input {% if captcha_failed %}is-danger{% endif %}" type="text" name="captcha" value="{{ captcha }}" placeholder="{{ g.strings.contact.captcha_placeholder }}">
+        {% if captcha_failed %}
+        <p class="help is-danger">{{ g.strings.contact.captcha_failed }}</p>
+        {% endif %}
+      </div>
+      <div class="control">
+        <button type="submit" formmethod="post" class="button is-link" id="submitter" onclick="document.getElementById('submitter').classList.add('is-loading')" >
+          {{ g.strings.contact.submit }}
+        </button>
       </div>
     </div>
 

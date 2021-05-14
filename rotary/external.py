@@ -71,13 +71,14 @@ def contact():
         return render_template('external/contact.html')
     else:
         email = request.form['email']
+        subject = request.form['subject']
         body = request.form['body']
         captcha = request.form['captcha']
 
         if captcha.strip().lower() not in ['gothenburg', 'göteborg', 'goteborg']:
             return render_template(
                 'external/contact.html',
-                email=email, body=body, captcha=captcha, captcha_failed=True
+                email=email, body=body,subject=subject, captcha=captcha, captcha_failed=True
             )
 
         # Get config for server
@@ -99,9 +100,9 @@ def contact():
         m = Mail(
                 'website@rotarypub.se',
                 'juliusschumacher@gmail.com',
-                'Nytt mail från hemsidan!',
+                subject,
                 body,
-                email
+                reply_to=email
                 )
 
         # send message
