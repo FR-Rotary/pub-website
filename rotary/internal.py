@@ -98,7 +98,7 @@ def delete_news_post(n):
 def workers():
 
     db = get_db()
-    all_workers = db.execute('SELECT * FROM worker ORDER BY first_name DESC')
+    all_workers = db.execute('SELECT * FROM worker ORDER BY display_name ASC')
 
     return render_template('internal/workers.html', workers=all_workers)
 
@@ -131,7 +131,7 @@ def add_workers():
 
         return redirect(url_for('internal.workers'))
 
-    return render_template('internal/add_workers.html')
+    return render_template('internal/add_workers.html', worker=None)
 
 
 @bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
