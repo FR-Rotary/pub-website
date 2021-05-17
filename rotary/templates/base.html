@@ -36,35 +36,52 @@
   </head>
   <body>
 
-    <nav class="navbar is-spaced is-primary mb-6" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-primary mb-6" role="navigation" aria-label="main navigation">
+      <div class="container">
 
-      <div class="navbar-brand">
-        <a class="navbar-item" href="{{ url_for('index') }}">
-          <img src="/static/images/logo-wide.png">
-        </a>
-        <a role="button" id="burger" class="navbar-burger" aria-label="menu" data-target="navmenu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div id="navmenu" class="navbar-menu">
-
-        <div class="navbar-start">
-          <a class='navbar-item' href="{{ url_for('external.index') }}">{{ g.strings.nav.index }}</a>
-          <a class='navbar-item' href="{{ url_for('external.menu') }}">{{ g.strings.nav.menu }}</a>
-          <a class='navbar-item' href="{{ url_for('external.contact') }}">{{ g.strings.nav.contact }}</a>
-          <a class='navbar-item' href="{{ url_for('external.work') }}">{{ g.strings.nav.work }}</a>
+        <div class="navbar-brand">
+          <a class="navbar-item" href="{{ url_for('index') }}">
+            <img src="/static/images/logo-wide.png">
+          </a>
+          <a role="button" id="burger" class="navbar-burger" aria-label="menu" data-target="navmenu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
         </div>
 
-        <div class="navbar-end">
-              <a class="navbar-item"  href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">{{g.strings.nav.language}}</a>
+        <div id="navmenu" class="navbar-menu">
+
+          <div class="navbar-start">
+            <a class='navbar-item' href="{{ url_for('external.index') }}">{{ g.strings.nav.index }}</a>
+            <a class='navbar-item' href="{{ url_for('external.menu') }}">{{ g.strings.nav.menu }}</a>
+            <a class='navbar-item' href="{{ url_for('external.contact') }}">{{ g.strings.nav.contact }}</a>
+            <a class='navbar-item' href="{{ url_for('external.work') }}">{{ g.strings.nav.work }}</a>
+            {% if g.authenticated %}
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">Internal</a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href="{{ url_for('internal.news') }}">News</a>
+                <a class="navbar-item" href="{{ url_for('internal.menu') }}">Menu</a>
+                <a class="navbar-item" href="{{ url_for('internal.opening_hours') }}">Hours</a>
+                <a class="navbar-item" href="{{ url_for('internal.shifts') }}">Shifts</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="{{ url_for('internal.workers') }}">Manage Workers</a>
+                <a class="navbar-item" href="{{ url_for('internal.add_workers') }}">Add Worker</a>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="navbar-end">
+            <a class="navbar-item" href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">
+              {{g.strings.nav.language}}
+            </a>
+          </div>
+
+          </div>
 
         </div>
-
-        </div>
-
       </div>
 
     </nav>
