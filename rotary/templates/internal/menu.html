@@ -23,9 +23,7 @@
         <tr>
           <form>
             <td>
-              <form>
-                <input type="checkbox">
-              </form>
+              <input type="checkbox">
             </td>
             <td>
               <input class="input" type="text">
@@ -34,7 +32,9 @@
               <div class="select">
                 <select>
                   {% for category in categories %}
-                  <option style="max-width: 5vw; overflow: hidden" value="{{category.id}}">{{ category_names[category.name] }}</option>
+                  <option style="max-width: 5vw; overflow: hidden" value="{{category.id}}">
+                    {{ category_names[category.name] }}
+                  </option>
                   {% endfor %}
                 </select>
               </div>
@@ -55,13 +55,15 @@
               <div class="select">
                 <select>
                   {% for country in countries %}
-                  <option style="max-width: 5vw; overflow: hidden" value="{{country.numeric}}">{{country.name}}</option>
+                  <option style="max-width: 5vw; overflow: hidden" value="{{country.numeric}}">
+                    {{country.name}}
+                  </option>
                   {% endfor %}
                 </select>
               </div>
             </td>
             <td>
-              <button type="submit" class="button is-link">Add</button>
+              <a type="submit" class="button is-link">Add</a>
             </td>
           </form>
         </tr>
@@ -80,9 +82,8 @@
           <td>{{ beer.price_kr }}kr</td>
           <td>{{ to_letter_code(beer.country_iso_3166_id) }}</td>
           <td>
-            <form>
-              <button class="button is-danger is-small">Delete</button>
-            </form>
+            <a class="button is-danger is-small">Delete</a>
+            <a class="button is-link is-small">Edit</a>
           </td>
         </tr>
         {% endfor %}

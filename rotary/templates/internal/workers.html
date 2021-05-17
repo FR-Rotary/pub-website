@@ -28,14 +28,12 @@
           <td>{{ worker.last_name }}</td>
           <td>{{ worker.telephone }}</td>
           <td>{{ worker.email }}</td>
-            <td>{{ worker.address }}</td>
+          <td>{{ worker.address }}</td>
           <td>{{ worker.note }}</td>
           <td>{{ worker.status_id }}</td>
           <td>
             <a href="{{ url_for('internal.edit_worker',n=worker.id) }}" class="button is-link is-small">Edit</a>
             <a href="{{ url_for('internal.delete_worker',n=worker.id) }}" class="button is-danger is-small">Delete</a>
-          </td>
-          <td>
           </td>
         </tr>
         {% endfor %}
