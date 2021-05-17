@@ -169,6 +169,7 @@ def update_beer_count():
         db = get_db()
         count = db.execute(
             'SELECT COUNT(*) FROM beer INNER JOIN beer_category '
+            'ON beer.category_id = beer_category.id '
             'WHERE available = 1 AND '
             'beer_category.name NOT IN (\'wine\', \'cider\', \'nonalcoholic\')'
         ).fetchone()
