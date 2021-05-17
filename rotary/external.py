@@ -80,7 +80,11 @@ def contact():
         ]:
             return render_template(
                 'external/contact.html',
-                email=email, body=body,subject=subject, captcha=captcha, captcha_failed=True
+                email=email,
+                body=body,
+                subject=subject,
+                captcha=captcha,
+                captcha_failed=True
             )
 
         # Get config for server
@@ -100,12 +104,12 @@ def contact():
 
         # compose message
         m = Mail(
-                'website@rotarypub.se',
-                'juliusschumacher@gmail.com',
-                subject,
-                body,
-                reply_to=email
-                )
+            'website@rotarypub.se',
+            'juliusschumacher@gmail.com',
+            subject,
+            body,
+            reply_to=email
+        )
 
         # send message
         s.send(m)
