@@ -58,8 +58,8 @@
             <a class='navbar-item' href="{{ url_for('external.contact') }}">{{ g.strings.nav.contact }}</a>
             <a class='navbar-item' href="{{ url_for('external.work') }}">{{ g.strings.nav.work }}</a>
             {% if g.authenticated %}
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">Internal</a>
+            <div class="navbar-item has-dropdown is-hoverable" id="internal-dropdown">
+              <a class="navbar-link" onclick="document.getElementById('internal-dropdown').classList.toggle('is-active')">Internal</a>
               <div class="navbar-dropdown">
                 <a class="navbar-item" href="{{ url_for('internal.news') }}">News</a>
                 <a class="navbar-item" href="{{ url_for('internal.menu') }}">Menu</a>

@@ -53,7 +53,7 @@ def menu():
     beers = db.execute(
         'SELECT available, beer.name, '
         'IFNULL(beer_category.name, \'<unknown category>\') as category, '
-        'style, abv, country_iso_3166_id, volume_ml, price_kr '
+        'beer.id, style, abv, country_iso_3166_id, volume_ml, price_kr '
         'FROM beer LEFT OUTER JOIN beer_category '
         'ON beer.category_id = beer_category.id '
         'ORDER BY beer.name ASC'
@@ -78,7 +78,17 @@ def delete_beer(n):
         db.execute('DELETE FROM beer WHERE id = ?', (n,))
         db.commit()
 
-    return redirect(url_for('internal.beers'))
+    return redirect(url_for('internal.menu'))
+
+@bp.post('/beers/toggle/<int:n>')
+@login_required
+def toggle_beer(n):
+    if n is not None:
+        db = get_db()
+        db.execute('UPDATE beer SET available = NOT available WHERE id = ?', (n,))
+        db.commit()
+
+    return redirect(url_for('internal.menu'))
 
 
 @bp.route('/news', methods=('GET', 'POST'))
