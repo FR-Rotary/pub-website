@@ -21,16 +21,16 @@
       </thead>
       <tbody>
         <tr>
-          <form>
+          <form action="{{ request.path }}" method="POST">
             <td>
-              <input type="checkbox">
+              <input type="checkbox" name="available">
             </td>
             <td>
-              <input class="input" type="text">
+              <input class="input" type="text" name="name">
             </td>
             <td>
               <div class="select">
-                <select>
+                <select name="category_id">
                   {% for category in categories %}
                   <option style="max-width: 5vw; overflow: hidden" value="{{category.id}}">
                     {{ category_names[category.name] }}
@@ -40,20 +40,20 @@
               </div>
             </td>
             <td>
-              <input class="input" type="text">
+              <input class="input" type="text" name="style">
             </td>
             <td>
-              <input class="input" type="text">
+              <input class="input" type="text" name="abv">
             </td>
             <td>
-              <input class="input" type="text">
+              <input class="input" type="text" name="volume">
             </td>
             <td>
-              <input class="input" type="text">
+              <input class="input" type="text" name="price">
             </td>
             <td>
               <div class="select">
-                <select>
+                <select name="country_code">
                   {% for country in countries %}
                   <option style="max-width: 5vw; overflow: hidden" value="{{country.numeric}}">
                     {{country.name}}
@@ -63,7 +63,7 @@
               </div>
             </td>
             <td>
-              <a type="submit" class="button is-link">Add</a>
+              <button type="submit" formmethod="post" class="button is-link">Add</a>
             </td>
           </form>
         </tr>
