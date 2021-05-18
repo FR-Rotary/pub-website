@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content%}
+<div class="container mt-6 mb-6">
+  <div class="table-container">
+    <h1 class="title">Food</h1>
+    <table class="table is-striped is-fullwidth is-narrow">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>PRICE</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <form action="{{ url_for('internal.add_food') }}" method="POST">
+            <td>
+              <input class="input" type="text" name="name" placeholder="Macka">
+            </td>
+            <td>
+              <input class="input" type="text" name="price" placeholder="10">
+            </td>
+            <td>
+              <button type="submit" formmethod="post" class="button is-link">Add</a>
+            </td>
+          </form>
+        </tr>
+        {% for food in foods %}
+        <tr>
+          <td>{{ food.name }}</td>
+          <td>{{ food.price_kr }}kr</td>
+          <td>
+            <form action="{{ url_for('internal.delete_food', n=food.id) }}" method="POST">
+              <button class="button is-danger is-small">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-container">
+    <h1 class="title">Snack</h1>
+    <table class="table is-striped is-fullwidth is-narrow">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>PRICE</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <form action="{{ url_for('internal.add_snacks') }}" method="POST">
+            <td>
+              <input class="input" type="text" name="name" placeholder="Macka">
+            </td>
+            <td>
+              <input class="input" type="text" name="price" placeholder="10">
+            </td>
+            <td>
+              <button type="submit" formmethod="post" class="button is-link">Add</a>
+            </td>
+          </form>
+        </tr>
+        {% for snack in snacks %}
+        <tr>
+          <td>{{ snack.name }}</td>
+          <td>{{ snack.price_kr }}kr</td>
+          <td>
+            <form action="{{ url_for('internal.delete_snacks', n=snack.id) }}" method="POST">
+              <button class="button is-danger is-small">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% endblock %}
