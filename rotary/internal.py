@@ -23,9 +23,9 @@ def index_slash_redirect():
     return redirect(url_for('internal.index'))
 
 
-@bp.route('/menu', methods=('GET', 'POST'))
+@bp.route('/beers', methods=('GET', 'POST'))
 @login_required
-def menu():
+def beers():
     db = get_db()
 
     if request.method == 'POST':
@@ -62,7 +62,7 @@ def menu():
         'SELECT * FROM beer_category ORDER BY id ASC').fetchall()
 
     return render_template(
-        'internal/menu.html',
+        'internal/beers.html',
         beers=beers,
         countries=countries,
         categories=categories,
@@ -78,7 +78,7 @@ def delete_beer(n):
         db.execute('DELETE FROM beer WHERE id = ?', (n,))
         db.commit()
 
-    return redirect(url_for('internal.menu'))
+    return redirect(url_for('internal.beers'))
 
 @bp.post('/beers/toggle/<int:n>')
 @login_required
@@ -88,7 +88,60 @@ def toggle_beer(n):
         db.execute('UPDATE beer SET available = NOT available WHERE id = ?', (n,))
         db.commit()
 
-    return redirect(url_for('internal.menu'))
+    return redirect(url_for('internal.beers'))
+
+@bp.get('/food')
+@login_required
+def food():
+    db = get_db()
+    foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
+    snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
+
+    return render_template('internal/food.html', foods=foods, snacks=snacks)
+
+@bp.post('/food/add')
+@login_required
+def add_food():
+    db = get_db()
+    name = request.form['name']
+    price = request.form['price']
+    db.execute( 'INSERT INTO food (name, price_kr) VALUES (?,?)', (name, price))
+    db.commit()
+
+    return redirect(url_for('internal.food'))
+
+
+@bp.post('/food/delete/<int:n>')
+@login_required
+def delete_food(n):
+    if n is not None:
+        db = get_db()
+        db.execute('DELETE FROM food WHERE id = ?', (n,))
+        db.commit()
+
+    return redirect(url_for('internal.food'))
+
+@bp.post('/snacks/add')
+@login_required
+def add_snacks():
+    db = get_db()
+    name = request.form['name']
+    price = request.form['price']
+    db.execute( 'INSERT INTO snack (name, price_kr) VALUES (?,?)', (name, price))
+    db.commit()
+
+    return redirect(url_for('internal.food'))
+
+
+@bp.post('/snacks/delete/<int:n>')
+@login_required
+def delete_snacks(n):
+    if n is not None:
+        db = get_db()
+        db.execute('DELETE FROM snack WHERE id = ?', (n,))
+        db.commit()
+
+    return redirect(url_for('internal.food'))
 
 
 @bp.route('/news', methods=('GET', 'POST'))

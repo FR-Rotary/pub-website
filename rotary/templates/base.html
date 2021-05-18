@@ -62,9 +62,11 @@
               <a class="navbar-link" onclick="document.getElementById('internal-dropdown').classList.toggle('is-active')">Internal</a>
               <div class="navbar-dropdown">
                 <a class="navbar-item" href="{{ url_for('internal.news') }}">News</a>
-                <a class="navbar-item" href="{{ url_for('internal.menu') }}">Menu</a>
                 <a class="navbar-item" href="{{ url_for('internal.opening_hours') }}">Hours</a>
                 <a class="navbar-item" href="{{ url_for('internal.shifts') }}">Shifts</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="{{ url_for('internal.beers') }}">Beers</a>
+                <a class="navbar-item" href="{{ url_for('internal.food') }}">Food & Snacks</a></a>
                 <hr class="navbar-divider">
                 <a class="navbar-item" href="{{ url_for('internal.workers') }}">Manage Workers</a>
                 <a class="navbar-item" href="{{ url_for('internal.add_workers') }}">Add Worker</a>
