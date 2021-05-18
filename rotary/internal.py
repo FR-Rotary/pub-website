@@ -69,6 +69,50 @@ def beers():
         category_names=strings_en['menu']['beer_categories']
     )
 
+@bp.route('/beers/edit/<int:n>', methods=('GET', 'POST'))
+@login_required
+def edit_beer(n):
+    if request.method == 'POST' and n is not None:
+        db = get_db()
+
+        name = request.form['name']
+        style = request.form['style']
+        country_code = int(request.form['country_code'])
+        abv = float(request.form['abv'].replace(',', '.'))
+        volume = int(request.form['volume'])
+        price = int(request.form['price'])
+        category_id = int(request.form['category_id'])
+        available = 1 if request.form.get('available') else 0
+
+        db.execute(
+            'UPDATE beer  SET '
+            'name = ?, style = ?, country_iso_3166_id = ?, abv = ?, '
+            'volume_ml = ?, price_kr = ?, category_id = ?, available = ? '
+            'WHERE id = ?'
+            ,
+            (name, style, country_code, abv,
+             volume, price, category_id, available, n)
+        )
+
+        db.commit()
+        return redirect(url_for('internal.beers'))
+
+    if n is not None:
+        db = get_db()
+        beer = db.execute('SELECT * FROM beer WHERE beer.id = ? ', (n,)).fetchone()
+        categories = db.execute(
+            'SELECT * FROM beer_category ORDER BY id ASC').fetchall()
+
+        return render_template(
+                'internal/edit_beer.html',
+                beer = beer,
+                countries=countries,
+                categories=categories,
+                category_names=strings_en['menu']['beer_categories']
+                )
+
+    return redirect(url_for('internal.beers'))
+
 
 @bp.post('/beers/delete/<int:n>')
 @login_required
@@ -164,6 +208,7 @@ def news():
         db.commit()
 
     posts = db.execute('SELECT * FROM news ORDER BY time DESC')
+    #posts = list(posts)
 
     return render_template('internal/news.html', posts=posts)
 

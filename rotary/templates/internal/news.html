@@ -61,6 +61,39 @@
     </div>
 
   </form>
+
+  <div>
+
+    {% for post in posts %}
+
+    <div class="columns">
+
+      <div class="column">
+        <article class="message">
+          <div class="message-header">
+            <p>{{ post.title_en }}</p>
+          </div>
+          <div class="message-body">
+            <h3 class="heading">{{ post.day }}</h3>
+            <p>{{ post.body_en }}</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="column">
+        <article class="message">
+          <div class="message-header">
+            <p>{{ post.title_sv }}</p>
+          </div>
+          <div class="message-body">
+            <h3 class="heading">{{ post.day }}</h3>
+            <p>{{ post.body_sv }}</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
