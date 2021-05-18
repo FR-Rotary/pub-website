@@ -31,11 +31,11 @@ def menu():
     if request.method == 'POST':
         name = request.form['name']
         style = request.form['style']
-        country_code = request.form['country_code']
-        abv = request.form['abv']
-        volume = request.form['volume']
-        price = request.form['price']
-        category_id = request.form['category_id']
+        country_code = int(request.form['country_code'])
+        abv = float(request.form['abv'].replace(',', '.'))
+        volume = int(request.form['volume'])
+        price = int(request.form['price'])
+        category_id = int(request.form['category_id'])
         available = 1 if request.form.get('available') else 0
 
         print('DEBUG: available =', available)
