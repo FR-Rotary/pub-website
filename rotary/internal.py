@@ -36,7 +36,7 @@ def menu():
         volume = request.form['volume']
         price = request.form['price']
         category_id = request.form['category_id']
-        available = 1 if request.form['available'] else 0
+        available = 1 if request.form.get('available') else 0
 
         print('DEBUG: available =', available)
 
