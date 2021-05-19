@@ -24,7 +24,7 @@ COPY . /app
 
 RUN unzip /bulma.zip -d /app/static/
 
-RUN sass --sourcemap=none sass/style.scss:css/style.css
+RUN sass --sourcemap=none static/sass/style.scss:static/css/style.css
 
 ENV FLASK_APP rotary
 
