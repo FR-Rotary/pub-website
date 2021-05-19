@@ -38,7 +38,6 @@ def index():
     monday = today - timedelta(days=days_after_monday)
 
     opening_hours = []
-    closed_string = ''
 
     for i in range(7):
         day = monday + timedelta(days=i)
@@ -101,24 +100,19 @@ def contact():
         if host is None or user is None or password is None:
             return "Error: SMTP is not configured"
 
-        # config server
-        s = Server(
+        server = Server(
             user,
             password,
             host
         )
-
-        # compose message
-        m = Mail(
+        message = Mail(
             'website@rotarypub.se',
             'juliusschumacher@gmail.com',
             subject,
             body,
             reply_to=email
         )
-
-        # send message
-        s.send(m)
+        server.send(message)
 
         return render_template('external/contact.html', submitted=True)
 
