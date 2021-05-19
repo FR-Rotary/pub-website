@@ -1,5 +1,12 @@
-from flask import Blueprint, g, render_template, request, session, current_app
+from tempfile import TemporaryDirectory, NamedTemporaryFile
 from datetime import date, timedelta
+import subprocess
+import re
+import os
+
+from flask import (
+    Blueprint, g, render_template, request, session, current_app, Response
+)
 
 from rotary.util import dict_from_row
 from rotary.db import get_db
@@ -162,6 +169,87 @@ def menu():
         beer_categories=categories,
         foods=foods,
         snacks=snacks
+    )
+
+
+@bp.route('/print_menu')
+def print_menu():
+    db = get_db()
+
+    category_names = db.execute(
+        'SELECT name FROM beer_category ORDER BY id ASC'
+    ).fetchall()
+
+    categories = []
+
+    for index, category_name in enumerate(category_names):
+        query = (
+            'SELECT beer.name as name, style, beer_category.name as category, '
+            'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
+            'FROM beer INNER JOIN beer_category '
+            'ON beer.category_id = beer_category.id '
+            'WHERE available = 1 AND beer_category.id = ?'
+        )
+        category = {
+            'name': category_name["name"],
+            'beers': db.execute(query, (str(index + 1),)).fetchall()
+        }
+        categories.append(category)
+
+    foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
+    snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
+
+    tex = render_template(
+        'external/menu.tex',
+        beer_categories=categories,
+        foods=foods,
+        snacks=snacks,
+    )
+
+    with TemporaryDirectory() as tmpdir, NamedTemporaryFile(suffix='.tex') as texfile:
+        texfile.write(bytes(tex, encoding='utf8'))
+        try:
+            proc = subprocess.run(
+                [
+                    'pdflatex',
+                    '-halt-on-error',
+                    '-output-directory',
+                    tmpdir,
+                    texfile.name
+                ],
+                capture_output=True,
+                check=True,
+            )
+        except subprocess.CalledProcessError as e:
+            return Response(
+                (
+                    'PDFLaTeX shit itself :\'(\n\nstdout:\n'
+                    + (e.stdout.decode('utf8') or '[no output on stdout]')
+                    + '\nstderr:\n'
+                    + (e.stderr.decode('utf8') or '[no output on stderr]')
+                ),
+                mimetype='text/plain'
+            )
+
+        basename = os.path.basename(texfile.name)
+        pdf_path = os.path.join(tmpdir, re.match(
+            r'^.*\.', basename)[0] + 'pdf')
+        with open(pdf_path, 'rb') as pdf:
+            data = pdf.read()
+            return Response(data, mimetype='application/pdf')
+
+
+@ bp.app_template_filter(name='escape_tex')
+def escape_tex(s):
+    return (
+        s.replace('&', '\\&')
+        .replace('$', '\\$')
+        .replace('%', '\\%')
+        .replace('#', '\\#')
+        .replace('_', '\\_')
+        .replace('{', '\\{')
+        .replace('}', '\\}')
+        .replace('<', '\\textless{}')
     )
 
 

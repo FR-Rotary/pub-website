@@ -1,0 +1,85 @@
+{% autoescape false %}
+\documentclass[9pt,a4paper]{extarticle}
+\usepackage[margin=1.7cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[swedish]{babel}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{caption}
+\captionsetup{
+    labelformat=empty,
+    aboveskip=0.2cm,
+    singlelinecheck=false
+}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\renewcommand{\arraystretch}{1.3}
+
+\begin{document}
+
+\begin{center}
+    \Huge
+    \textbf{Drickbart}
+\end{center}
+
+{% for category in beer_categories %}
+    {% if category.beers %}
+        \rowcolors{2}{gray!10}{white}
+        \begin{table}[H]
+            \caption{\large \textbf{ {{ g.strings.menu.beer_categories[category.name] | escape_tex }} } }
+            \begin{tabularx}{\textwidth{}}{
+                X
+                r
+                >{\raggedleft{}}p{3em}
+                >{\centering{}}p{2.7em}
+                p{3.5em} % TODO: Right-align
+                p{3em} % TODO: Right-align
+            }
+                {% for beer in category.beers %}
+                    {{ beer.name | escape_tex }} &
+                    {{ beer.style | escape_tex }} &
+                    {{ beer.abv }} \% &
+                    {{ to_letter_code(beer.country_code) }} &
+                    {% if beer.volume_ml == -1 %}
+                        Glas
+                    {% else %}
+                        {{ beer.volume_ml }} ml
+                    {% endif %} &
+                    {{ beer.price_kr }} kr \\
+                {% endfor %}
+            \end{tabularx}
+        \end{table}
+    {% endif %}
+{% endfor %}
+
+\begin{center}
+    \Huge
+    \textbf{Ätbart}
+\end{center}
+
+\rowcolors{2}{gray!10}{white}
+\begin{table}[H]
+    \caption{\large \textbf{ {{ g.strings.menu.food | escape_tex }} } }
+    \begin{tabularx}{\textwidth}{X r}
+        {% for food in foods %}
+            {{ food.name | escape_tex }} &
+            {{ food.price_kr }} kr \\
+        {% endfor %}
+    \end{tabularx}
+\end{table}
+
+\rowcolors{2}{gray!10}{white}
+\begin{table}[H]
+    \caption{\large \textbf{ {{ g.strings.menu.snacks | escape_tex }} } }
+    \begin{tabularx}{\textwidth}{X r}
+        {% for snack in snacks %}
+            {{ snack.name | escape_tex }} &
+            {{ snack.price_kr }} kr \\
+        {% endfor %}
+    \end{tabularx}
+\end{table}
+
+\end{document}
+{% endautoescape %}
