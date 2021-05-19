@@ -446,6 +446,7 @@ def delete_shifts(n):
     return redirect(url_for('internal.shifts'))
 
 @bp.route('/print_menu')
+@login_required
 def print_menu():
     db = get_db()
 
