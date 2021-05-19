@@ -1,7 +1,4 @@
-from tempfile import TemporaryDirectory
 from datetime import date, timedelta
-import subprocess
-import os
 
 from flask import (
     Blueprint, g, render_template, request, session, current_app, Response
