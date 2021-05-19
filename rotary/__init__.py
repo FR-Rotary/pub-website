@@ -7,15 +7,18 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'rotary.sqlite'),
-        USERNAME='dev',
-        PASSWORD='password',
-        SMTP_HOST=None,
-        SMTP_PORT=587,
-        SMTP_USERNAME=None,
-        SMTP_PASSWORD=None,
-        CONTACT_FORM_ADDRESS=None,
+        SECRET_KEY=os.environ.get('ROTARY_SECRET_KEY', 'dev'),
+        DATABASE=os.environ.get(
+            'ROTARY_DATABASE',
+            os.path.join(app.instance_path, 'rotary.sqlite')
+        ),
+        USERNAME=os.environ.get('ROTARY_USERNAME', 'dev'),
+        PASSWORD=os.environ.get('ROTARY_PASSWORD', 'password'),
+        SMTP_HOST=os.environ.get('ROTARY_SMTP_HOST'),
+        SMTP_PORT=os.environ.get('ROTARY_SMTP_PORT', 587),
+        SMTP_USERNAME=os.environ.get('ROTARY_SMTP_USERNAME'),
+        SMTP_PASSWORD=os.environ.get('ROTARY_SMTP_PASSWORD'),
+        CONTACT_FORM_ADDRESS=os.environ.get('ROTARY_CONTACT_FORM_ADDRESS'),
     )
 
     if test_config is None:
