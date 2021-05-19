@@ -1,7 +1,6 @@
-from tempfile import TemporaryDirectory, NamedTemporaryFile
+from tempfile import TemporaryDirectory
 from datetime import date, timedelta
 import subprocess
-import re
 import os
 
 from flask import (
@@ -206,24 +205,30 @@ def print_menu():
         snacks=snacks,
     )
 
-    with TemporaryDirectory() as tmpdir, NamedTemporaryFile(suffix='.tex') as texfile:
-        texfile.write(bytes(tex, encoding='utf8'))
+    with TemporaryDirectory() as tmpdir:
         try:
-            proc = subprocess.run(
-                [
-                    'pdflatex',
-                    '-halt-on-error',
-                    '-output-directory',
-                    tmpdir,
-                    texfile.name
-                ],
+            subprocess.run(
+                ['pdflatex', '-halt-on-error'],
+                cwd=tmpdir,
                 capture_output=True,
                 check=True,
+                input=tex.encode('utf8'),
+                timeout=10,
+            )
+        except subprocess.TimeoutExpired as e:
+            return Response(
+                (
+                    'PDFLaTeX timed out\n\nstdout:\n'
+                    + (e.stdout.decode('utf8') or '[no output on stdout]')
+                    + '\nstderr:\n'
+                    + (e.stderr.decode('utf8') or '[no output on stderr]')
+                ),
+                mimetype='text/plain'
             )
         except subprocess.CalledProcessError as e:
             return Response(
                 (
-                    'PDFLaTeX shit itself :\'(\n\nstdout:\n'
+                    'PDFLaTeX shit itself\n\nstdout:\n'
                     + (e.stdout.decode('utf8') or '[no output on stdout]')
                     + '\nstderr:\n'
                     + (e.stderr.decode('utf8') or '[no output on stderr]')
@@ -231,12 +236,9 @@ def print_menu():
                 mimetype='text/plain'
             )
 
-        basename = os.path.basename(texfile.name)
-        pdf_path = os.path.join(tmpdir, re.match(
-            r'^.*\.', basename)[0] + 'pdf')
+        pdf_path = os.path.join(tmpdir, 'texput.pdf')
         with open(pdf_path, 'rb') as pdf:
-            data = pdf.read()
-            return Response(data, mimetype='application/pdf')
+            return Response(pdf.read(), mimetype='application/pdf')
 
 
 @ bp.app_template_filter(name='escape_tex')
