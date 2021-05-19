@@ -93,8 +93,12 @@ def contact():
         host = current_app.config['SMTP_HOST']
         user = current_app.config['SMTP_USERNAME']
         password = current_app.config['SMTP_PASSWORD']
+        list_address = current_app.config['CONTACT_FORM_ADDRESS']
 
-        if host is None or user is None or password is None:
+        if (host is None or
+            user is None or
+            password is None or
+            list_address is None):
             return "Error: SMTP is not configured"
 
         server = Server(
@@ -103,8 +107,8 @@ def contact():
             host
         )
         message = Mail(
-            'website@rotarypub.se',
-            'juliusschumacher@gmail.com',
+            user,
+            list_address,
             subject,
             body,
             reply_to=email
@@ -160,6 +164,7 @@ def menu():
         foods=foods,
         snacks=snacks
     )
+
 
 @bp.before_app_request
 def update_beer_count():
