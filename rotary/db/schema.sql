@@ -12,9 +12,9 @@ DROP TABLE IF EXISTS news;
 
 CREATE TABLE beer (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
     style TEXT NOT NULL,
-    country_iso_3166_id INTEGER NOT NULL,
+    country_iso_3166_id TEXT NOT NULL,
     abv DECIMAL(2,1) NOT NULL,
     volume_ml INTEGER NOT NULL,
     price_kr INTEGER NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE worker (
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     telephone TEXT,
-    email TEXT UNIQUE NOT NULL,
+    email TEXT NOT NULL,
     address TEXT,
     note TEXT,
     status_id INTEGER NOT NULL,
