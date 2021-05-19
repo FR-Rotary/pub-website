@@ -65,8 +65,9 @@
                 <a class="navbar-item" href="{{ url_for('internal.opening_hours') }}">Hours</a>
                 <a class="navbar-item" href="{{ url_for('internal.shifts') }}">Shifts</a>
                 <hr class="navbar-divider">
-                <a class="navbar-item" href="{{ url_for('internal.beers') }}">Beers</a>
+                <a class="navbar-item" href="{{ url_for('internal.beers') }}">Beer</a>
                 <a class="navbar-item" href="{{ url_for('internal.food') }}">Food & Snacks</a></a>
+                <a class="navbar-item" href="{{ url_for('internal.print_menu') }}">Print Menu</a>
                 <hr class="navbar-divider">
                 <a class="navbar-item" href="{{ url_for('internal.workers') }}">Manage Workers</a>
                 <a class="navbar-item" href="{{ url_for('internal.add_workers') }}">Add Worker</a>
@@ -78,12 +79,14 @@
           <div class="navbar-end">
             {% if g.authenticated %}
             <div class="navbar-item">
-              <a href="" class="button is-danger">Logout</a>
+              <a href="{{ url_for('auth.logout') }}" class="button is-danger">Logout</a>
             </div>
             {% endif %}
-            <a class="navbar-item" href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">
-              {{g.strings.nav.language}}
-            </a>
+            <div class="navbar-item">
+              <a class="button" href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">
+                {{g.strings.nav.language}}
+              </a>
+            </div>
           </div>
 
           </div>

@@ -23,7 +23,7 @@ def login():
             # Correct login
             session.clear()
             session['authenticated'] = True
-            return redirect(url_for('internal.index'))
+            return redirect(url_for('external.index'))
         else:
             # Wrong login
             return render_template('internal/login.html', login_failed=True)
@@ -31,6 +31,11 @@ def login():
         return redirect(url_for('internal.index'))
     else:
         return render_template('internal/login.html', login_failed=False)
+
+@bp.route('/logout', methods=('GET', 'POST'))
+def logout():
+    session.clear()
+    return redirect(url_for('external.index'))
 
 
 @bp.before_app_request

@@ -82,7 +82,9 @@
 
     </tbody>
   </table>
-  </div>
+  {% if g.authenticated  %}
+  <a href="{{ url_for('internal.print_menu') }}"class="button is-link">Print</a>
+  {% endif %}
 
 </div>
 
