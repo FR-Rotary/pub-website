@@ -373,7 +373,7 @@ def delete_opening_hours(n):
     return redirect(url_for('internal.opening_hours'))
 
 
-@bp.route('/shifts')
+@bp.route('/shifts', methods=('GET', 'POST'))
 @login_required
 def shifts():
     db = get_db()
