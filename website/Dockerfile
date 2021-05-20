@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:21.04
 
 RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     echo "Europe/Stockholm" > /etc/timezone && \
@@ -7,6 +7,7 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     python3 \
     python3-pip \
     uwsgi \
+    uwsgi-plugin-python3 \
     ruby-sass \
     unzip \
     curl \
@@ -22,12 +23,8 @@ RUN python3 setup.py install
 
 COPY . /app
 
-RUN unzip /bulma.zip -d /app/static/
+RUN unzip /bulma.zip -d /app/rotary/static/ && \
+    sass --sourcemap=none rotary/static/sass/style.scss:rotary/static/css/style.css
 
-RUN sass --sourcemap=none static/sass/style.scss:static/css/style.css
-
-ENV FLASK_APP rotary
-
-EXPOSE 5000
 
 CMD ["uwsgi", "--ini=uwsgi.ini"]

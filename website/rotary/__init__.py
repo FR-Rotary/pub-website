@@ -69,3 +69,5 @@ def create_app(test_config=None):
     from . import mail
 
     return app
+
+app = create_app()
