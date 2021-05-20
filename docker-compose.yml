@@ -1,0 +1,39 @@
+version: "2.1"
+services:
+  website:
+    container_name: pub-website
+    build: rotary
+    environment:
+      - ROTARY_USERNAME=dev
+      - ROTARY_PASSWORD=password
+      - ROTARY_SMTP_PORT=587
+      - ROTARY_SMTP_HOST=smtp-relay.gmail.com
+      - ROTARY_SMTP_USERNAME=user@host.com
+      - ROTARY_SMTP_PASSWORD=password
+      - ROTARY_SMTP_CONTACT_FORM_ADDRESS=user@host.com
+    volumes:
+      - ./instance:/app/instance
+    restart: "no"
+
+  # check linuxserver.io for proper config here
+  swag:
+    image: ghcr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Stockholm
+      - URL=host.com
+      - SUBDOMAINS=wildcard,
+      - VALIDATION=dns
+      - EMAIL=user@host.com
+      - DNSPLUGIN=digitalocean
+    volumes:
+      - ./config:/config
+    ports:
+      - 443:443
+      - 80:80
+
+    restart: unless-stopped
