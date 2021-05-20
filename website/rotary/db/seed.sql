@@ -20,3 +20,9 @@ VALUES
     ('worker'),
     ('worker_public'),
     ('ex_worker');
+
+INSERT INTO shift_type (name)
+VALUES
+    ('bar'),
+    ('kitchen'),
+    ('legacy shift type')

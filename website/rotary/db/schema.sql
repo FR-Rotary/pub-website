@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS snack;
 DROP TABLE IF EXISTS worker;
 DROP TABLE IF EXISTS worker_status;
 DROP TABLE IF EXISTS shift;
+DROP TABLE IF EXISTS shift_type;
 DROP TABLE IF EXISTS opening_hours;
 DROP TABLE IF EXISTS news;
 
@@ -61,10 +62,17 @@ CREATE TABLE worker_status (
 CREATE TABLE shift (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     worker_id INTEGER NOT NULL,
+    shift_type_id INTEGER NOT NULL,
     date TEXT NOT NULL,
     start TEXT NOT NULL,
     end TEXT NOT NULL,
     FOREIGN KEY (worker_id) REFERENCES worker (id)
+    FOREIGN KEY (shift_type_id) REFERENCES shift_type (id)
+);
+
+CREATE TABLE shift_type (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
 );
 
 CREATE TABLE opening_hours (

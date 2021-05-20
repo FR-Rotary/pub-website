@@ -1,12 +1,12 @@
 #!/bin/env python3
 
 import sys
-import re
+import datetime
+import sqlite3
 
 from IPython import embed
 import mysql.connector
 from pycountry import countries
-import sqlite3
 
 if len(sys.argv) != 4:
     print(f'Usage: {sys.argv[0]} MYSQL_USER MYSQL_PASSWORD SQLITE_DB')
@@ -147,6 +147,7 @@ status_lookup = {
 
 for id, name, first_name, last_name, phone, mobile, ip, email, status, personal_number, address, note in old_cursor:
     worker = {
+        'id': id,
         'display_name': name.strip(),
         'first_name': first_name.strip() if first_name else 'UNKNOWN',
         'last_name': last_name.strip() if last_name else 'UNKNOWN',
@@ -162,14 +163,73 @@ print('Inserting workers')
 
 for worker in workers:
     new_conn.execute(
-        'INSERT INTO worker (display_name, first_name, last_name, telephone, '
-        'email, address, note, status_id) '
+        'INSERT INTO worker (id, display_name, first_name, last_name, '
+        'telephone, email, address, note, status_id) '
         'VALUES '
-        '(?, ?, ?, ?, ?, ?, ?,(SELECT id FROM worker_status WHERE name = ?))',
-        (worker['display_name'], worker['first_name'], worker['last_name'],
-         worker['telephone'], worker['email'], worker['address'],
-         worker['note'], worker['status'])
+        '(?, ?, ?, ?, ?, ?, ?, ?,(SELECT id FROM worker_status WHERE name = ?))',
+        (worker['id'], worker['display_name'], worker['first_name'],
+         worker['last_name'], worker['telephone'], worker['email'],
+         worker['address'], worker['note'], worker['status'])
     )
 
 new_conn.commit()
 print(f'Inserted {len(workers)} workers!')
+
+# SHIFTS
+START_DATE = '2006-01-01'
+print(f'Getting shifts (starting from {START_DATE})')
+
+
+old_cursor.execute(f'SELECT * FROM transactions WHERE date >= {START_DATE}')
+shifts = []
+
+type_lookup = {
+    0: 'legacy shift type',
+    1: 'bar',
+    2: 'kitchen',
+    3: 'legacy shift type',
+    4: 'legacy shift type',
+    5: 'legacy shift type',
+    6: 'legacy shift type',
+    7: 'legacy shift type',
+    8: 'legacy shift type',
+    9: 'legacy shift type',
+    10: 'legacy shift type',
+    12: 'legacy shift type',
+}
+
+for id, date_time, worker_id, shift_type, duration in old_cursor:
+    start_time = date_time.time()
+
+    delta = datetime.timedelta(hours=duration)
+    dummy_datetime = datetime.datetime(
+            1, 1, 1,
+            hour=start_time.hour,
+            minute=start_time.minute,
+            second=start_time.second,
+    )
+    end_datetime = dummy_datetime + delta
+    end_time = end_datetime.time()
+
+    shift = {
+        'id': id,
+        'worker_id': int(worker_id),
+        'shift_type': type_lookup[int(shift_type)],
+        'date': date_time.date().isoformat(),
+        'start': start_time.isoformat(),
+        'end': end_time.isoformat(),
+    }
+    shifts.append(shift)
+
+print('Inserting shifts')
+
+for shift in shifts:
+    new_conn.execute(
+        'INSERT INTO shift (id, worker_id, date, start, end, shift_type_id) '
+        'VALUES (?, ?, ?, ?, ?, (SELECT id FROM shift_type WHERE name = ?))',
+        (shift['id'], shift['worker_id'], shift['date'], shift['start'],
+         shift['end'], shift['shift_type'])
+    )
+
+new_conn.commit()
+print(f'Inserted {len(shifts)} shifts!')
