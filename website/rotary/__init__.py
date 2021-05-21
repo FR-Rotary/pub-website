@@ -65,6 +65,9 @@ def create_app(test_config=None):
     )
 
     from . import util
+    app.jinja_env.globals.update(
+        format_time=util.format_time
+    )
 
     from . import mail
 

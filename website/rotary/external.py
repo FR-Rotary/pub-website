@@ -4,7 +4,7 @@ from flask import (
     Blueprint, g, render_template, request, session, current_app, Response
 )
 
-from rotary.util import dict_from_row
+from rotary.util import dict_from_row, format_time
 from rotary.db import get_db
 from rotary.mail import Mail, Server
 
@@ -53,6 +53,8 @@ def index():
             )
         else:
             start, end = result
+            start = format_time(start)
+            end = format_time(end)
             opening_hours.append(
                 {
                     'date': day,
