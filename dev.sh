@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/sh
 
 export FLASK_ENV=development
 export FLASK_APP=rotary
