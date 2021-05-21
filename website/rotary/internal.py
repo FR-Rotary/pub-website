@@ -233,8 +233,9 @@ def workers():
 
     db = get_db()
     all_workers = db.execute('SELECT * FROM worker ORDER BY display_name ASC')
+    worker_status = db.execute('SELECT * FROM worker_status').fetchall()
 
-    return render_template('internal/workers.html', workers=all_workers)
+    return render_template('internal/workers.html', workers=all_workers, worker_status=worker_status)
 
 
 @bp.route('/workers/add', methods=('POST', 'GET'))
@@ -242,6 +243,7 @@ def workers():
 def add_workers():
     # TODO: Mailing list stuff
     db = get_db()
+    worker_status = db.execute('SELECT * FROM worker_status').fetchall()
 
     if request.method == 'POST':
         display_name = request.form['display_name']
@@ -265,7 +267,7 @@ def add_workers():
 
         return redirect(url_for('internal.workers'))
 
-    return render_template('internal/add_workers.html', worker=None)
+    return render_template('internal/add_workers.html', worker=None, worker_status=worker_status)
 
 
 @bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
@@ -273,6 +275,7 @@ def add_workers():
 def edit_worker(n):
     # TODO: Mailing list stuff
     db = get_db()
+    worker_status = db.execute('SELECT * FROM worker_status').fetchall()
 
     if request.method == 'GET' and n is not None:
         worker = db.execute(
@@ -283,7 +286,7 @@ def edit_worker(n):
         if worker is None:
             return redirect(url_for('internal.add_workers'))
 
-        return render_template('internal/add_workers.html', worker=worker)
+        return render_template('internal/add_workers.html', worker=worker, worker_status=worker_status)
     elif request.method == 'POST' and n is not None:
         display_name = request.form['display_name']
         first_name = request.form['first_name']

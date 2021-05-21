@@ -3,8 +3,9 @@
 
 {% block content%}
 
-<div class="container mt-6 mb-6 ">
+<div class=" mt-6 mb-6 ">
 
+  <a href="{{ url_for('internal.add_workers') }}" class="button is-link mb-5">Add new Worker</a>
   <div class="table-container">
     <table class="table is-striped is-fullwidth">
       <thead>
@@ -30,7 +31,7 @@
           <td>{{ worker.email }}</td>
           <td>{{ worker.address }}</td>
           <td>{{ worker.note }}</td>
-          <td>{{ worker.status_id }}</td>
+          <td>{{ worker_status[worker.status_id -1].name }}</td>
           <td>
             <a href="{{ url_for('internal.edit_worker',n=worker.id) }}" class="button is-link is-small">Edit</a>
             <a href="{{ url_for('internal.delete_worker',n=worker.id) }}" class="button is-danger is-small">Delete</a>
@@ -41,7 +42,6 @@
       </tbody>
     </table>
   </div>
-  <a href="{{ url_for('internal.add_workers') }}" class="button is-link">Add new Worker</a>
 
 </div>
 

@@ -97,7 +97,13 @@
       <div class="control">
         <div class="select">
           <select name="status_id">
-            <option value="1">Test1</option>
+            {% for status in worker_status %}
+            <option value="{{ status.id }}"
+            {% if worker.status_id == status.id %}
+            selected
+            {% endif %}
+            >{{ status.name }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
