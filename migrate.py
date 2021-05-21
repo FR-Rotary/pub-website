@@ -4,7 +4,6 @@ import sys
 import datetime
 import sqlite3
 
-from IPython import embed
 import mysql.connector
 from pycountry import countries
 
