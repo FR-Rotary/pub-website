@@ -26,7 +26,7 @@
 
 {% for category in beer_categories %}
     {% if category.beers %}
-        \rowcolors{2}{gray!10}{white}
+        \rowcolors{2}{gray!25}{white}
         \begin{table}[H]
             \caption{\large \textbf{ {{ g.strings.menu.beer_categories[category.name] | escape_tex }} } }
             \begin{tabularx}{\textwidth{}}{
@@ -59,7 +59,7 @@
     \textbf{Ätbart}
 \end{center}
 
-\rowcolors{2}{gray!10}{white}
+\rowcolors{2}{gray!25}{white}
 \begin{table}[H]
     \caption{\large \textbf{ {{ g.strings.menu.food | escape_tex }} } }
     \begin{tabularx}{\textwidth}{X r}
@@ -70,7 +70,7 @@
     \end{tabularx}
 \end{table}
 
-\rowcolors{2}{gray!10}{white}
+\rowcolors{2}{gray!25}{white}
 \begin{table}[H]
     \caption{\large \textbf{ {{ g.strings.menu.snacks | escape_tex }} } }
     \begin{tabularx}{\textwidth}{X r}

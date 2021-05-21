@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for, g, Response
-from flask.globals import current_app
+from flask import Blueprint, render_template, redirect, request, url_for, Response
 from pycountry import countries
 from tempfile import TemporaryDirectory
 import subprocess
@@ -387,7 +386,7 @@ def shifts():
         start = request.form['start']
         end = request.form['end']
         #TODO make this do stuff
-        job = request.form['job']
+        shift_type = request.form['shift_type']
 
         existing_shift = db.execute(
             'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
@@ -422,13 +421,20 @@ def shifts():
         default_end = opening_hours_today['end']
 
     shifts = db.execute(
-        'SELECT date, start, end, '
-        'IFNULL(display_name, \'<deleted worker>\') as worker, shift.id as id '
+        'SELECT' 
+        '(SELECT name FROM shift_type WHERE shift_type.id = shift_type_id)'
+        'as type, '
+        'IFNULL(display_name, \'<deleted worker>\') as worker, date, start,'
+        'end, shift.id as id '
         'FROM shift LEFT OUTER JOIN worker ON worker.id = shift.worker_id '
         'ORDER BY date DESC'
     ).fetchall()
 
     today = datetime.date.today().isoformat()
+
+    shift_types = db.execute(
+        'SELECT id, name FROM shift_type WHERE name != \'legacy shift type\''
+    ).fetchall()
 
     return render_template(
         'internal/shifts.html',
@@ -436,9 +442,8 @@ def shifts():
         default_start=default_start,
         default_end=default_end,
         today=today,
-        shifts=shifts
-        # TODO
-        #jobs=jobs
+        shifts=shifts,
+        shift_types=shift_types
     )
 
 
