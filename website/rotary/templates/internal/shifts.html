@@ -30,9 +30,9 @@
           </span>
         <td>
           <span class="select">
-            <select name="job">
-              {% for job in jobs %}
-              <option value="{{job.id}}">{{job.name}}</option>
+            <select name="shift_type">
+              {% for shift_type in shift_types %}
+              <option value="{{shift_type.id}}">{{shift_type.name}}</option>
               {% endfor %}
             </select>
           </span>
