@@ -26,5 +26,4 @@ COPY . /app
 RUN unzip /bulma.zip -d /app/rotary/static/ && \
     sass --sourcemap=none rotary/static/sass/style.scss:rotary/static/css/style.css
 
-
 CMD ["uwsgi", "--ini=uwsgi.ini"]
