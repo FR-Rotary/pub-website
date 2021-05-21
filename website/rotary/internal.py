@@ -383,6 +383,8 @@ def shifts():
         date = request.form['date']
         start = request.form['start']
         end = request.form['end']
+        #TODO make this do stuff
+        job = request.form['job']
 
         existing_shift = db.execute(
             'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
@@ -432,6 +434,8 @@ def shifts():
         default_end=default_end,
         today=today,
         shifts=shifts
+        # TODO
+        #jobs=jobs
     )
 
 

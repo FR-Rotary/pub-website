@@ -11,6 +11,7 @@
         <th>Start</th>
         <th>End</th>
         <th>Worker</th>
+        <th>Job</th>
         <th></th>
       <tr>
     </thead>
@@ -27,6 +28,14 @@
               {% endfor %}
             </select>
           </span>
+        <td>
+          <span class="select">
+            <select name="job">
+              {% for job in jobs %}
+              <option value="{{job.id}}">{{job.name}}</option>
+              {% endfor %}
+            </select>
+          </span>
         </td>
         <td>
           <button type="submit" formmethod="post" class="button is-link">Add</button>
@@ -39,6 +48,7 @@
       <td><p>{{ shift.start }}</p></td>
       <td><p>{{ shift.end }}</p></td>
       <td><p>{{ shift.worker }}</p></td>
+      <td><p>{{ shift.type }}</p></td>
       <td>
         <form action="{{ request.path }}/delete/{{ shift.id }}" method="post">
           <button class="button is-danger is-small" type="submit">Delete</button>
