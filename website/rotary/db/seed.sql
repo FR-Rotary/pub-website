@@ -25,4 +25,6 @@ INSERT INTO shift_type (name)
 VALUES
     ('bar'),
     ('kitchen'),
+    ('bar (SA)'),
+    ('kitchen (SA)'),
     ('legacy shift type')
