@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} {{ g.strings.nav.index }} {% endblock %}
+{% block content %}
+<div class="container mt-6 mb-6">
+  <h1 class="title">Editing Food</h1>
+  <div class="table-container">
+    <table class="table is-striped is-fullwidth is-narrow">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>PRICE</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <form action="{{ request.path }}" method="POST">
+            <td>
+              <input class="input" type="text" name="name" value="{{ food.name }}">
+            </td>
+            <td>
+              <input class="input" type="text" name="price" value="{{ food.price_kr }}">
+            </td>
+            <td>
+              <button type="submit" formmethod="post" class="button is-warning">Edit</button>
+            </td>
+          </form>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -156,6 +156,31 @@ def add_food():
 
     return redirect(url_for('internal.food'))
 
+@bp.route('/food/edit/<int:n>', methods=['GET', 'POST'])
+def edit_food(n):
+    if request.method == 'POST' and n is not None:
+        db = get_db()
+        name = request.form['name']
+        price = int(request.form['price'])
+
+        db.execute(
+            'UPDATE food SET'
+            'name = ?, price = ?'
+            'WHERE id = ?',
+            (name, price, n)
+        )
+        db.commit()
+        return redirect(url_for('internal.foods')) 
+
+    if n is not None:
+        db = get_db()
+        food = db.execute('SELECT * FROM food WHERE id = ?', (n,)).fetchone()
+        
+        return render_template(
+                'internal/edit_food.html', 
+                food=food)
+
+    return redirect(url_for('internal.foods'))
 
 @bp.post('/food/delete/<int:n>')
 @login_required
