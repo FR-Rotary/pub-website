@@ -68,15 +68,29 @@ def index():
         opening_hours=opening_hours
     )
 
+def handle_form_submission(email, body, subject):
+    # Get config for server
+    host = current_app.config['SMTP_HOST']
+    user = current_app.config['SMTP_USERNAME']
+    password = current_app.config['SMTP_PASSWORD']
+    list_address = current_app.config['CONTACT_FORM_ADDRESS']
+
+    if (host is None or user is None or password is None or list_address is None):
+        return False
+
+    server = Server(user, password, host)
+    message = Mail(user, list_address, subject, body, reply_to=email)
+    server.send(message)
+
+    return True
 
 @bp.route('/contact', methods=('GET', 'POST'))
 def contact():
-    if request.method == 'GET':
-        return render_template('external/contact.html')
-    else:
+    if request.method == 'POST':
+        # Extract form data
         email = request.form['email']
-        subject = request.form['subject']
         body = request.form['body']
+        subject = request.form['subject']
         captcha = request.form['captcha']
 
         if captcha.strip().lower() not in [
@@ -91,33 +105,41 @@ def contact():
                 captcha_failed=True
             )
 
-        # Get config for server
-        host = current_app.config['SMTP_HOST']
-        user = current_app.config['SMTP_USERNAME']
-        password = current_app.config['SMTP_PASSWORD']
-        list_address = current_app.config['CONTACT_FORM_ADDRESS']
-
-        if (host is None or
-            user is None or
-            password is None or
-            list_address is None):
+        if handle_form_submission(email, body, subject):
+            return render_template('external/contact.html', submitted=True)
+        else:
             return "Error: SMTP is not configured"
 
-        server = Server(
-            user,
-            password,
-            host
-        )
-        message = Mail(
-            user,
-            list_address,
-            subject,
-            body,
-            reply_to=email
-        )
-        server.send(message)
+    return render_template('external/contact.html')
 
-        return render_template('external/contact.html', submitted=True)
+@bp.route('/rentals', methods=('GET', 'POST'))
+def rentals():
+    if request.method == 'POST':
+        # Extract form data specific to rentals
+        email = request.form['email']
+        body = request.form['body']
+        subject = request.form['subject']
+        captcha = request.form['captcha']
+
+        if captcha.strip().lower() not in [
+                'gothenburg', 'göteborg', 'goteborg'
+        ]:
+            return render_template(
+                'external/contact.html',
+                email=email,
+                body=body,
+                subject=subject,
+                captcha=captcha,
+                captcha_failed=True
+            )
+
+        # Handle form submission for rentals
+        if handle_form_submission(email, body, subject):
+            return render_template('external/rentals.html', submitted=True)
+        else:
+            return "Error: SMTP is not configured"
+
+    return render_template('external/rentals.html')
 
 
 @bp.route('/work')

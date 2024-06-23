@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %} {{ g.strings.nav.rentals }} {% endblock%}
+
+{% block content%}
+<div class="container is-max-desktop">
+
+  <div class="content">
+    <h1>{{ g.strings.rentals.header }}</h1>
+    <p>{{ g.strings.rentals.text }}</p>
+  </div>
+
+  <form class="form" action="{{ request.path }}" method="post">
+
+    <div class="field">
+      <label class="label">{{ g.strings.rentals.subject }}</label>
+      <div class="control">
+        <input class="input" type="text" name="subject" value="{{ subject }}" placeholder="Rotary Pub">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">{{ g.strings.rentals.email }}</label>
+      <div class="control">
+        <input class="input" type="email" name="email" value="{{ email }}" placeholder="name@example.com">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">{{ g.strings.rentals.message }}</label>
+      <div class="control">
+        <textarea class="textarea" name="body" placeholder="{{ g.strings.rentals.body_placeholder }}">{{ body }}</textarea>
+        {% if submitted %}
+        <p class="help is-success">{{ g.strings.rentals.thanks }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="field">
+    </div>
+
+    <label class="label">{{ g.strings.rentals.captcha }}</label>
+    <div class="field has-addons">
+      <div class="control">
+        <input class="input {% if captcha_failed %}is-danger{% endif %}" type="text" name="captcha" value="{{ captcha }}" placeholder="{{ g.strings.rentals.captcha_placeholder }}">
+        {% if captcha_failed %}
+        <p class="help is-danger">{{ g.strings.rentals.captcha_failed }}</p>
+        {% endif %}
+      </div>
+      <div class="control">
+        <button type="submit" formmethod="post" class="button is-link" id="submitter" onclick="document.getElementById('submitter').classList.add('is-loading')" >
+          {{ g.strings.rentals.submit }}
+        </button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+{% endblock %}
