@@ -1,4 +1,4 @@
-FROM ubuntu:21.04
+FROM ubuntu:23.04
 
 RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     echo "Europe/Stockholm" > /etc/timezone && \

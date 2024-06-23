@@ -7,38 +7,50 @@ import sqlite3
 import mysql.connector
 from pycountry import countries
 
-if len(sys.argv) != 4:
-    print(f'Usage: {sys.argv[0]} MYSQL_USER MYSQL_PASSWORD SQLITE_DB')
+if len(sys.argv) != 5:
+    print(f'Usage: {sys.argv[0]} MYSQL_USER MYSQL_PASSWORD MYSQL_HOST SQLITE_DB')
     sys.exit(1)
 
 db_credentials = {
     'user': sys.argv[1],
     'password': sys.argv[2],
+    'host': sys.argv[3],
 }
 
 old_conn = mysql.connector.connect(**db_credentials, database='puben_http')
 old_cursor = old_conn.cursor()
-new_conn = sqlite3.connect(sys.argv[3], detect_types=sqlite3.PARSE_DECLTYPES)
+new_conn = sqlite3.connect(sys.argv[4], detect_types=sqlite3.PARSE_DECLTYPES)
 
 print('Connected to menu DB')
-print('Getting beers')
 
+# BEERS CATEGORIES
+print('Getting beer categories')
+old_cursor.execute('SELECT * FROM puben_prislista_kategorier')
+categories = []
+category_lookup = {}
+
+for id, name, eng_name, order in old_cursor:
+    category = {
+        'name': name,
+        'priority': int(order)
+    }
+    category_lookup[id] = name
+    categories.append(category)
+
+print('Inserting beer categories')
+for category in categories:
+    print(category)
+    new_conn.execute(
+        'INSERT INTO beer_category (name, priority) VALUES'
+        '(?, ?)',
+        (category['name'],category['priority'])
+    )
+new_conn.commit()
+
+print(f'Inserted {len(categories)} categories!')
 
 # BEERS
-category_lookup = {
-    1: 'on_keg',
-    2: 'lager',
-    3: 'ale',
-    4: 'belgian',
-    5: 'porter_stout',
-    6: 'weiss',
-    7: 'lambic',
-    8: 'other',
-    9: 'wine',
-    10: 'cider',
-    11: 'nonalcoholic',
-    12: 'barleywine',
-}
+print('Getting beers')
 
 old_cursor.execute('SELECT * FROM puben_prislista_drycker')
 beers = []
@@ -70,10 +82,11 @@ for beer in beers:
 new_conn.commit()
 
 print(f'Inserted {len(beers)} beers!')
+
+# FOODS
 print('Getting foods')
 
 
-# FOODS
 old_cursor.execute('SELECT * FROM puben_prislista_mat')
 foods = []
 
@@ -81,17 +94,17 @@ for id, available_wed_thu, available_fri, name, price in old_cursor:
     food = {
         'name': name.strip(),
         'price': int(price),
+        'available': int(available_wed_thu + available_fri)
     }
-    if available_wed_thu == 1 and available_fri == 1:
-        foods.append(food)
+    foods.append(food)
 
 print('Inserting foods')
 
 for food in foods:
     new_conn.execute(
-        'INSERT INTO food (name, price_kr)'
-        'VALUES (?, ?)',
-        (food['name'], food['price'])
+        'INSERT INTO food (name, price_kr, available)'
+        'VALUES (?, ?, ?)',
+        (food['name'], food['price'], food['available'])
     )
 
 new_conn.commit()
@@ -107,17 +120,17 @@ for id, available, name, price in old_cursor:
     snack = {
         'name': name.strip(),
         'price': int(price),
+        'available': int(available)
     }
-    if available == 1:
-        snacks.append(snack)
+    snacks.append(snack)
 
 print('Inserting snacks')
 
 for snack in snacks:
     new_conn.execute(
-        'INSERT INTO snack (name, price_kr)'
-        'VALUES (?, ?)',
-        (snack['name'], snack['price'])
+        'INSERT INTO snack (name, price_kr, available)'
+        'VALUES (?, ?, ?)',
+        (snack['name'], snack['price'], snack['available'])
     )
 
 new_conn.commit()
