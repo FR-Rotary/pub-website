@@ -7,6 +7,7 @@
     <table class="table is-striped is-fullwidth is-narrow">
       <thead>
         <tr>
+          <th>AVAIL</th>
           <th>NAME</th>
           <th>PRICE</th>
           <th></th>
@@ -15,6 +16,8 @@
       <tbody>
         <tr>
           <form action="{{ request.path }}" method="POST">
+            <td>
+              <input name="available" type="checkbox" {% if food.available %}checked{% endif %}>
             <td>
               <input class="input" type="text" name="name" value="{{ food.name }}">
             </td>
