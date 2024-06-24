@@ -168,13 +168,13 @@ def edit_food(n):
         price = int(request.form['price'])
 
         db.execute(
-            'UPDATE food SET'
-            'name = ?, price = ?'
+            'UPDATE food SET '
+            'name = ?, price_kr = ? '
             'WHERE id = ?',
             (name, price, n)
         )
         db.commit()
-        return redirect(url_for('internal.foods')) 
+        return redirect(url_for('internal.food')) 
 
     if n is not None:
         db = get_db()
