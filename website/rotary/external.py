@@ -125,7 +125,7 @@ def rentals():
                 'gothenburg', 'göteborg', 'goteborg'
         ]:
             return render_template(
-                'external/contact.html',
+                'external/rentals.html',
                 email=email,
                 body=body,
                 subject=subject,

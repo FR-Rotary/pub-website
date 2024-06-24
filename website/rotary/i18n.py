@@ -14,6 +14,7 @@ strings_en = {
         'menu': 'Menu',
         'contact': 'Contact',
         'work' : 'Work',
+        'rentals' : 'Rentals',
         'language' : '🇸🇪',
     },
     'index': {
@@ -70,6 +71,40 @@ strings_en = {
         'captcha_failed': 'That\'s the wrong answer!',
         'thanks': 'Thanks for contacting us! We\'ll get back to you as soon as possible.',
     },
+    'rentals': {
+        'header': 'Renting Rotary Pub',
+        'intro': {
+                'text': 'Rotary Pub is available for rental arrangements for private parties. We have long experience of throwing e.g. 25th/30th anniversaries and graduation parties. Rentals normally takes place on Saturdays between September-June. The two most common types of rentals that we offer are described below. For more extensive information contact us via the form below. We can incorporate many variations on your request; examples that we have offered before include live bands, DJs, karaoke, etc.',
+            },
+        'sections': {
+            'sittning': {
+                'header': 'Three Course Dinner',
+                'content': 'The most common alternative. Three courses including wine are served. The premises are available from agreed upon time until 03 at latest. Our personnel suggest a menu that is discussed with the renting party. Alternatives for different price levels are available. The food is prepared by us on location and our staff handles all the work. Underage people are allowed to be in the premises, of course as long as they are not served any alcohol.',
+            },
+            'bar': {
+                'header': 'Bar rental',
+                'content': 'The pub with bar staff is rented without a formal dinner taking place. A regular pub menu can be offered, either with pizza and hamburgers or a buffet. Perfect for a more relaxed party similar to a night out at the pub where only the coolest people are invited, your friends! Since the pub is rented without food, the renter only pays the rent for the premises.',
+            },
+            'pricing': {
+                'header': 'Pricing',
+                'content': 'The rental fee is always 5500 kr for a night. That includes staff for the entire evening and cleaning after. For the three course dinner it usually costs around 200 kr/person for both food and drinks, but we offer menus in a wide variety of price ranges.',
+            },
+            'rules': {
+                'header': 'Rules',
+                'content': 'There are no rules /s',
+            },
+        },
+        
+        'submit': 'Send',
+        'email': 'Your email address',
+        'subject': 'Subject',
+        'message': 'Message',
+        'body_placeholder': 'Write your message here',
+        'captcha': 'CAPTCHA: In which city is Rotary Pub locates?',
+        'captcha_placeholder': 'Somethingtown',
+        'captcha_failed': 'That\'s the wrong answer!',
+        'thanks': 'Thanks for contacting us! We\'ll get back to you as soon as possible.',
+    },
     'days' : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     'work' : {
         'header' : 'Working at Rotary Pub',
@@ -97,6 +132,7 @@ strings_sv = {
         'menu': 'Meny',
         'contact': 'Kontakt',
         'work' : 'Jobba',
+        'rentals' : 'Hyra puben',
         'language' : '🇬🇧'
     },
     'index': {
@@ -155,7 +191,28 @@ strings_sv = {
     },
     'rentals': {
         'header': 'Hyra Rotary Pub',
-        'text': 'Vill du hyra Rotary Pub? Perfekt för födelsedagar, examen eller bara den festen du vill ha! Vill du veta mer?',
+        'intro': {
+                'text': 'Rotary Pub är tillgänglig för uthyrning till privata sällskap. Vi har lång erfarenhet av att anordna exempelvis 25/30-års-, examens- och disputationskalas. Uthyrningar sker vanligen på lördagar mellan September-Maj men specifikt datum koms överens mellan den som hyr och uthyrningsansvarig som man når genom kontaktforumläret. Vi kan tillmötesgå många variationer och har som exempel haft liveband, DJs, karaokeafton m.m. Notera dock att oftast behöver den som hyr arrangera detta själv då vi inte har utrustning för DJ eller kareoke (vi kan dock hjälpa att hitta vettiga ställen för att hyra detta).',
+            },
+            'sections': {
+                'sittning': {
+                    'header': 'Trerätters middag',
+                    'content': 'Trerätters middag med eventuell dryck serveras. Lokalen är tillgänglig från överenskommen tid till senast 03. Vår personal föreslår en matmeny som sedan diskuteras med det hyrande sällskapet. Alternativ för olika prisbilder finns. Maten tillagas av oss på plats och vår personal står för alla arbetsuppgifter. Vi dukar upp för sittning i lokalen och rekommenderat maxantal är 50 sittande gäster, annars blir det väldigt trångt. Minderåriga får befinna sig i lokalen, givetvis så länge de inte serveras alkohol.',
+                },
+                'bar': {
+                    'header': 'Baruthyrning',
+                    'content': 'Lokal med barpersonal hyrs utan att en anordnad middag sker. Vanlig pubmeny kan erbjudas antingen med pizza och hamburgare eller buffé. Perfekt för en lite mer avslappnad fest liknande en kväll på krogen där bara de mest sköna får komma, dina kompisar! Då puben hyrs utan mat betalar uthyraren endast lokalhyran.',
+                },
+                'pricing': {
+                    'header': 'Prissättning',
+                    'content': 'Oberoede av upplägg är hyran 5500 kr för en kväll. Då ingår alltid personal för hela kvällen samt städ efteråt. Beroende på upplägg tillkommer kostnader för mat och dryck, vid en normal trerättersmiddag kan man räkna med att det kostar 200 kr/person för både mat och dryck.',
+                },
+                'rules': {
+                    'header': 'Regler',
+                    'content': 'Det finns inga regler, vi lever i anarki /s',
+                },
+            },
+        
         'submit': 'Skicka',
         'email': 'Din mailadress',
         'subject': 'Titel',
