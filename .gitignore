@@ -137,4 +137,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 .sass-cache/
-rotary/static/bulma/
+website/rotary/static/bulma
+website/rotary/static/css/style.css
