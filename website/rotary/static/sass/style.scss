@@ -8,3 +8,9 @@ $navbar-height: 4.5rem;
 $brown: #745E38; // Rotary Brown
 $primary: $brown;
 @import "../bulma/bulma.sass";
+
+.navbar-item img {
+    height: $navbar-height; // Use the navbar height variable
+    object-fit: contain; // Adjust this as needed to 'cover', 'fill', or 'contain' based on desired appearance
+    object-position: center; // Adjust if necessary to align the image as desired
+}
