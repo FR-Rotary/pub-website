@@ -184,7 +184,17 @@ def edit_food(n):
                 'internal/edit_food.html', 
                 food=food)
 
-    return redirect(url_for('internal.foods'))
+    return redirect(url_for('internal.food'))
+
+@bp.post('/food/toggle/<int:n>')
+@login_required
+def toggle_food(n):
+    if n is not None:
+        db = get_db()
+        db.execute('UPDATE food SET available = NOT available WHERE id = ?', (n,))
+        db.commit()
+
+    return redirect(url_for('internal.food'))
 
 @bp.post('/food/delete/<int:n>')
 @login_required

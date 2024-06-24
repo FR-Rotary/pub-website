@@ -199,10 +199,10 @@ def update_beer_count():
         current_app.logger.info('Updating beer count')
         db = get_db()
         count = db.execute(
-            'SELECT COUNT(*) FROM beer INNER JOIN beer_category '
-            'ON beer.category_id = beer_category.id '
+            'SELECT COUNT(*) FROM beer '
+            'INNER JOIN beer_category ON beer.category_id = beer_category.id '
             'WHERE available = 1 AND '
-            'beer_category.name NOT IN (\'wine\', \'cider\', \'nonalcoholic\')'
+            'beer_category.name_sv NOT IN (?, ?, ?)', ('wine', 'cider', 'nonalcoholic')
         ).fetchone()
         session['beer_count'] = int(dict_from_row(count)['COUNT(*)'])
 
