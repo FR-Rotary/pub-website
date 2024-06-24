@@ -31,7 +31,8 @@ category_lookup = {}
 
 for id, name, eng_name, order in old_cursor:
     category = {
-        'name': name,
+        'name_sv' : name,
+        'name_en' : eng_name,
         'priority': int(order)
     }
     category_lookup[id] = name
@@ -41,9 +42,9 @@ print('Inserting beer categories')
 for category in categories:
     print(category)
     new_conn.execute(
-        'INSERT INTO beer_category (name, priority) VALUES'
-        '(?, ?)',
-        (category['name'],category['priority'])
+        'INSERT INTO beer_category (name_sv, name_en, priority) VALUES'
+        '(?, ?, ?)',
+        (category['name_sv'],category['name_en'],category['priority'])
     )
 new_conn.commit()
 

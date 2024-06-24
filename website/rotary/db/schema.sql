@@ -26,7 +26,8 @@ CREATE TABLE beer (
 
 CREATE TABLE beer_category (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT UNIQUE NOT NULL,
+    name_sv TEXT UNIQUE NOT NULL,
+    name_en TEXT UNIQUE NOT NULL,
     priority INTEGER NOT NULL
 );
 
