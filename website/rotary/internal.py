@@ -54,21 +54,23 @@ def beers():
 
     beers = db.execute(
         'SELECT available, beer.name, '
-        'IFNULL(beer_category.name, \'<unknown category>\') as category, '
+        'IFNULL(beer_category.name_sv, \'<unknown category>\') as category, '
         'beer.id, style, abv, country_iso_3166_id, volume_ml, price_kr '
         'FROM beer LEFT OUTER JOIN beer_category '
         'ON beer.category_id = beer_category.id '
         'ORDER BY beer.name ASC'
     )
     categories = db.execute(
-        'SELECT * FROM beer_category ORDER BY id ASC').fetchall()
+        f'SELECT id, name_sv AS name FROM beer_category ORDER BY id ASC').fetchall()
+    
+    category_names = {category['id']: category['name'] for category in categories}
 
     return render_template(
         'internal/beers.html',
         beers=beers,
         countries=countries,
         categories=categories,
-        category_names=strings_en['menu']['beer_categories']
+        category_names=category_names
     )
 
 @bp.route('/beers/edit/<int:n>', methods=('GET', 'POST'))
@@ -103,14 +105,16 @@ def edit_beer(n):
         db = get_db()
         beer = db.execute('SELECT * FROM beer WHERE beer.id = ? ', (n,)).fetchone()
         categories = db.execute(
-            'SELECT * FROM beer_category ORDER BY id ASC').fetchall()
+            f'SELECT id, name_sv AS name FROM beer_category ORDER BY id ASC').fetchall()
+    
+        category_names = {category['id']: category['name'] for category in categories}
 
         return render_template(
                 'internal/edit_beer.html',
                 beer = beer,
                 countries=countries,
                 categories=categories,
-                category_names=strings_en['menu']['beer_categories']
+                category_names=category_names
                 )
 
     return redirect(url_for('internal.beers'))
@@ -488,7 +492,7 @@ def print_menu():
     db = get_db()
 
     category_names = db.execute(
-        'SELECT name FROM beer_category ORDER BY id ASC'
+        'SELECT name_sv AS name FROM beer_category ORDER BY id ASC'
     ).fetchall()
 
 
@@ -496,7 +500,7 @@ def print_menu():
 
     for index, category_name in enumerate(category_names):
         query = (
-            'SELECT beer.name as name, style, beer_category.name as category, '
+            'SELECT beer.name as name, style, beer_category.name_sv as category, '
             'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
             'FROM beer INNER JOIN beer_category '
             'ON beer.category_id = beer_category.id '

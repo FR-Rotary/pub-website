@@ -13,7 +13,7 @@
     <br>
     {% for category in beer_categories %}
     {% if category.beers %}
-    <h1 class="subtitle">{{ g.strings.menu.beer_categories[category.name] }}</h1>
+    <h1 class="subtitle">{{ category.name }}</h1>
     <table class="table is-striped is-fullwidth">
       <thead>
         <tr>

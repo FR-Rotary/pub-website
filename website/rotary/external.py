@@ -151,15 +151,17 @@ def work():
 def menu():
     db = get_db()
 
+    name_column = 'name_en' if session.get('english') else 'name_sv'
+
     category_names = db.execute(
-        'SELECT name FROM beer_category ORDER BY id ASC'
+        f'SELECT {name_column} as name FROM beer_category ORDER BY id ASC'
     ).fetchall()
 
     categories = []
 
     for index, category_name in enumerate(category_names):
         query = (
-            'SELECT beer.name as name, style, beer_category.name as category, '
+            f'SELECT beer.name as name, style, beer_category.{name_column} as category, '
             'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
             'FROM beer INNER JOIN beer_category '
             'ON beer.category_id = beer_category.id '
