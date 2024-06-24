@@ -8,6 +8,7 @@
     <table class="table is-striped is-fullwidth is-narrow">
       <thead>
         <tr>
+          <th>AVAIL</th>
           <th>NAME</th>
           <th>PRICE</th>
           <th></th>
@@ -15,7 +16,10 @@
       </thead>
       <tbody>
         <tr>
-          <form action="{{ url_for('internal.add_food') }}" method="POST">
+          <form action="{{ request.path }}" method="POST">
+            <td>
+              <input type="checkbox" name="available">
+            </td>
             <td>
               <input class="input" type="text" name="name" placeholder="Macka">
             </td>
@@ -29,11 +33,18 @@
         </tr>
         {% for food in foods %}
         <tr>
+          <td>
+            <form action="{{ url_for('internal.toggle_food', n=food.id) }}" method="POST">
+              <input onclick="this.form.submit()" type="checkbox" {% if food.available %}checked{% endif %}>
+            </form>
           <td>{{ food.name }}</td>
           <td>{{ food.price_kr }}kr</td>
           <td>
             <form action="{{ url_for('internal.delete_food', n=food.id) }}" method="POST">
               <button class="button is-danger is-small">Delete</button>
+            </form>
+            <form action="{{ url_for('internal.edit_food', n=food.id) }}" method="POST">
+              <a href="{{ url_for('internal.edit_food', n=food.id) }}" class="button is-link is-small">Edit</a>
             </form>
           </td>
         </tr>
