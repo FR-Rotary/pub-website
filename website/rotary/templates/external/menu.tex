@@ -9,6 +9,7 @@
 \usepackage[table]{xcolor}
 \usepackage{booktabs}
 \usepackage{caption}
+\DeclareUnicodeCharacter{202F}{\,}
 \captionsetup{
     labelformat=empty,
     aboveskip=0.2cm,
@@ -28,7 +29,7 @@
     {% if category.beers %}
         \rowcolors{2}{gray!25}{white}
         \begin{table}[H]
-            \caption{\large \textbf{ {{ g.strings.menu.beer_categories[category.name] | escape_tex }} } }
+            \caption{\large \textbf{ {{ category.name | escape_tex }} } }
             \begin{tabularx}{\textwidth{}}{
                 X
                 r
