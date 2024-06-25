@@ -10,8 +10,10 @@ $primary: $brown;
 @import "../bulma/bulma.sass";
 
 .navbar-item img {
-    height: $navbar-height; // Use the navbar height variable
-    object-fit: contain; // Adjust this as needed to 'cover', 'fill', or 'contain' based on desired appearance
+    height: 3rem; // Adjusted height
+    max-height: none; // Ensure the image scales proportionally
+    width: auto; // Ensure the image scales proportionally
+    //object-fit: cover; // Adjust this as needed to 'cover', 'fill', or 'contain' based on desired appearance
     object-position: center; // Adjust if necessary to align the image as desired
 }
 .internal-dropdown-color {
