@@ -1,0 +1,22 @@
+version: "3.1"
+services:
+  website:
+    container_name: pub-website
+    build: 
+      context: website
+      dockerfile: Dockerfile.dev
+    environment:
+      - ROTARY_USERNAME=dev
+      - ROTARY_PASSWORD=password
+      - ROTARY_SMTP_PORT=587
+      - ROTARY_SMTP_HOST=smtp-relay.gmail.com
+      - ROTARY_SMTP_USERNAME=user@host.com
+      - ROTARY_SMTP_PASSWORD=password
+      - ROTARY_SMTP_CONTACT_FORM_ADDRESS=user@host.com
+      - FLASK_APP=rotary
+      - FLASK_ENV=development
+    volumes:
+      - ./instance:/app/instance
+      - ./website/rotary:/app/rotary
+      - /app/rotary/static/
+    network_mode: "host"
