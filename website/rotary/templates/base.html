@@ -55,12 +55,16 @@
           <div class="navbar-start">
             <a class='navbar-item' href="{{ url_for('external.index') }}">{{ g.strings.nav.index }}</a>
             <a class='navbar-item' href="{{ url_for('external.menu') }}">{{ g.strings.nav.menu }}</a>
-            <a class='navbar-item' href="{{ url_for('external.contact') }}">{{ g.strings.nav.contact }}</a>
             <a class='navbar-item' href="{{ url_for('external.work') }}">{{ g.strings.nav.work }}</a>
             <a class='navbar-item' href="{{ url_for('external.rentals') }}">{{ g.strings.nav.rentals }}</a>
+            <a class='navbar-item' href="{{ url_for('external.contact') }}">{{ g.strings.nav.contact }}</a>
+
+          </div>
+
+          <div class="navbar-end">
             {% if g.authenticated %}
             <div class="navbar-item has-dropdown is-hoverable" id="internal-dropdown">
-              <a class="navbar-link" onclick="document.getElementById('internal-dropdown').classList.toggle('is-active')">Internal</a>
+              <a class="navbar-link internal-dropdown-color" onclick="document.getElementById('internal-dropdown').classList.toggle('is-active')">Internal</a>
               <div class="navbar-dropdown">
                 <a class="navbar-item" href="{{ url_for('internal.news') }}">News</a>
                 <a class="navbar-item" href="{{ url_for('internal.opening_hours') }}">Hours</a>
@@ -72,17 +76,12 @@
                 <hr class="navbar-divider">
                 <a class="navbar-item" href="{{ url_for('internal.workers') }}">Manage Workers</a>
                 <a class="navbar-item" href="{{ url_for('internal.add_workers') }}">Add Worker</a>
+                <hr class="navbar-divider">
+                <a class="navbar-item" href="{{ url_for('auth.logout') }}" class="button is-danger">Logout</a>
               </div>
             </div>
             {% endif %}
-          </div>
-
-          <div class="navbar-end">
-            {% if g.authenticated %}
-            <div class="navbar-item">
-              <a href="{{ url_for('auth.logout') }}" class="button is-danger">Logout</a>
-            </div>
-            {% endif %}
+            
             <div class="navbar-item">
               <a class="button" href="{{ url_for('i18n.toggle_language') + '?r=' + request.path}}">
                 {{g.strings.nav.language}}
