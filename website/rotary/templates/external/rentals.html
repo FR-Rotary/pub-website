@@ -3,21 +3,25 @@
 
 {% block content%}
 <div class="container is-max-desktop">
-
   <div class="content">
     <h1>{{ g.strings.rentals.header }}</h1>
     <p>{{ g.strings.rentals.intro.text }}</p>
-  
     {% for section_key, section_value in g.strings.rentals.sections.items() %}
       <div class="section">
         <h2>{{ section_value.header }}</h2>
         <p>{{ section_value.content }}</p>
+        {% if section_key == 'sittning' %}
+          <!-- Image and caption for the 'sittning' section -->
+          <figure>
+            <img src="/static/images/dinner.jpg" alt="g.strings.rentals.sections.sittning.caption">
+            <figcaption>{{g.strings.rentals.sections.sittning.caption}}</figcaption>
+          </figure>
+        {% endif %}
       </div>
     {% endfor %}
   </div>
 
   <form class="form" action="{{ request.path }}" method="post">
-
     <div class="field">
       <label class="label">{{ g.strings.rentals.subject }}</label>
       <div class="control">

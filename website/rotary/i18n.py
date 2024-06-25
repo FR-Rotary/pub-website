@@ -164,26 +164,27 @@ strings_sv = {
     'rentals': {
         'header': 'Hyra Rotary Pub',
         'intro': {
-                'text': 'Rotary Pub är tillgänglig för uthyrning till privata sällskap. Vi har lång erfarenhet av att anordna exempelvis 25/30-års-, examens- och disputationskalas. Uthyrningar sker vanligen på lördagar mellan September-Maj men specifikt datum koms överens mellan den som hyr och uthyrningsansvarig som man når genom kontaktforumläret. Vi kan tillmötesgå många variationer och har som exempel haft liveband, DJs, karaokeafton m.m. Notera dock att oftast behöver den som hyr arrangera detta själv då vi inte har utrustning för DJ eller kareoke (vi kan dock hjälpa att hitta vettiga ställen för att hyra detta).',
+                'text': 'Rotary Pub är tillgänglig för uthyrning till privata sällskap. Vi har lång erfarenhet av att anordna exempelvis 25/30-års-, examens- och disputationskalas. Uthyrningar sker vanligen på lördagar mellan September-Maj men specifikt datum koms överens mellan den som hyr och uthyrningsansvarig som går att nå genom kontaktforumläret längst ner på sidan. Vi kan tillmötesgå många variationer och har som exempel haft liveband, DJs, karaokeafton m.m. Notera dock att oftast behöver den som hyr arrangera detta själv då vi inte har utrustning för DJ eller kareoke (vi kan dock hjälpa att hitta vettiga ställen för att hyra detta).',
             },
-            'sections': {
-                'sittning': {
-                    'header': 'Trerätters middag',
-                    'content': 'Trerätters middag med eventuell dryck serveras. Lokalen är tillgänglig från överenskommen tid till senast 03. Vår personal föreslår en matmeny som sedan diskuteras med det hyrande sällskapet. Alternativ för olika prisbilder finns. Maten tillagas av oss på plats och vår personal står för alla arbetsuppgifter. Vi dukar upp för sittning i lokalen och rekommenderat maxantal är 50 sittande gäster, annars blir det väldigt trångt. Minderåriga får befinna sig i lokalen, givetvis så länge de inte serveras alkohol.',
-                },
-                'bar': {
-                    'header': 'Baruthyrning',
-                    'content': 'Lokal med barpersonal hyrs utan att en anordnad middag sker. Vanlig pubmeny kan erbjudas antingen med pizza och hamburgare eller buffé. Perfekt för en lite mer avslappnad fest liknande en kväll på krogen där bara de mest sköna får komma, dina kompisar! Då puben hyrs utan mat betalar uthyraren endast lokalhyran.',
-                },
-                'pricing': {
-                    'header': 'Prissättning',
-                    'content': 'Oberoede av upplägg är hyran 5500 kr för en kväll. Då ingår alltid personal för hela kvällen samt städ efteråt. Beroende på upplägg tillkommer kostnader för mat och dryck, vid en normal trerättersmiddag kan man räkna med att det kostar 200 kr/person för både mat och dryck.',
-                },
-                'rules': {
-                    'header': 'Regler',
-                    'content': 'Det finns inga regler, vi lever i anarki /s',
-                },
+        'sections': {
+            'sittning': {
+                'header': 'Trerätters middag',
+                'content': 'Trerätters middag med eventuell dryck serveras. Lokalen är tillgänglig från överenskommen tid till senast 03. Vår personal föreslår en matmeny som sedan diskuteras med det hyrande sällskapet. Alternativ för olika prisbilder finns. Maten tillagas av oss på plats och vår personal står för alla arbetsuppgifter. Vi dukar upp för sittning i lokalen och rekommenderat maxantal är 50 sittande gäster, annars blir det väldigt trångt. Minderåriga får befinna sig i lokalen, givetvis så länge de inte serveras alkohol.',
+                'caption': 'En uppdukning för ett mindre sällskap.'
             },
+            'bar': {
+                'header': 'Baruthyrning',
+                'content': 'Lokal med barpersonal hyrs utan att en anordnad middag sker. Vanlig pubmeny kan erbjudas antingen med pizza och hamburgare eller buffé. Perfekt för en lite mer avslappnad fest liknande en kväll på krogen där bara de mest sköna får komma, dina kompisar! Då puben hyrs utan mat betalar uthyraren endast lokalhyran.',
+            },
+            'pricing': {
+                'header': 'Prissättning',
+                'content': 'Oberoede av upplägg är hyran 5500 kr för en kväll. Då ingår alltid personal för hela kvällen samt städ efteråt. Beroende på upplägg tillkommer kostnader för mat och dryck, vid en normal trerättersmiddag kan man räkna med att det kostar 200 kr/person för både mat och dryck.',
+            },
+            'rules': {
+                'header': 'Regler',
+                'content': 'Det finns inga regler, vi lever i anarki /s',
+            },
+        },
         
         'submit': 'Skicka',
         'email': 'Din mailadress',
