@@ -30,3 +30,16 @@ $primary: $brown;
     display: inline-block; /* Ensures the anchor behaves like a button */
     text-align: center; /* Centers the text within the button */
 }
+
+.checkbox-column {
+    display: flex; // Enables flexbox
+    justify-content: center; // Centers horizontally
+    align-items: center; // Centers vertically
+    height: 100%; // Optional: Adjust based on your layout needs
+    padding: 1rem;
+}
+
+.chungus-checkbox {
+    transform: scale(3); // Adjust scale as needed
+    margin: 0; // Removes default margin to aid in centering
+}

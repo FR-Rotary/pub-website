@@ -25,7 +25,9 @@
         <tr>
           <form action="{{ request.path }}" method="POST">
             <td>
-              <input name="available"  type="checkbox" {% if beer.available %}checked{% endif %}>
+              <div class="checkbox-column">
+                <input name="available" type="checkbox" class="chungus-checkbox" {% if beer.available %}checked{% endif %}>
+              </div>
             </td>
             <td>
               <input class="input" type="text" name="name" value="{{beer.name}}">

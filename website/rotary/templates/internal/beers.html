@@ -99,9 +99,11 @@
         {% for beer in beers %}
         <tr>
           <td>
-            <form action="{{ url_for('internal.toggle_beer', n=beer.id) }}" method="POST">
-              <input onclick="this.form.submit()" type="checkbox" {% if beer.available %}checked{% endif %}>
-            </form>
+            <div class="checkbox-column">
+              <form action="{{ url_for('internal.toggle_beer', n=beer.id) }}" method="POST">
+                <input onclick="this.form.submit()" type="checkbox" class="chungus-checkbox" {% if beer.available %}checked{% endif %}>
+              </form>
+            </div>
           </td>
           <td>{{ beer.name }}</td>
           <td>{{ beer.category }}</td>
