@@ -43,3 +43,13 @@ $primary: $brown;
     transform: scale(3); // Adjust scale as needed
     margin: 0; // Removes default margin to aid in centering
 }
+
+.avail-column{ width: 5%; }
+.name-column { width: 20%; }
+.cat-column { width: 10%; }
+.style-column { width: 20%; }
+.abv-column { width: 7%; }
+.vol-column { width: 7%; }
+.price-column { width: 5%; }
+.country-column { width: 5% }
+.empty-column { width: 5%; }
