@@ -41,10 +41,10 @@
           <td>{{ food.price_kr }}kr</td>
           <td>
             <form action="{{ url_for('internal.delete_food', n=food.id) }}" method="POST">
-              <button class="button is-danger is-small">Delete</button>
+              <button class="button is-danger is-small uniform-button">Delete</button>
             </form>
             <form action="{{ url_for('internal.edit_food', n=food.id) }}" method="POST">
-              <a href="{{ url_for('internal.edit_food', n=food.id) }}" class="button is-link is-small">Edit</a>
+              <a href="{{ url_for('internal.edit_food', n=food.id) }}" class="button is-link is-small uniform-button">Edit</a>
             </form>
           </td>
         </tr>

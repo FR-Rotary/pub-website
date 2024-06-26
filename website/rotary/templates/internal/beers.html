@@ -112,10 +112,10 @@
           <td>{{ to_letter_code(beer.country_iso_3166_id) }}</td>
           <td>
             <form action="{{ url_for('internal.delete_beer', n=beer.id) }}" method="POST">
-              <button type="submit" class="button is-danger is-small">Delete</button>
+              <button type="submit" class="button is-danger is-small uniform-button">Delete</button>
             </form>
             <form action="{{ url_for('internal.edit_beer', n=beer.id) }}" method="POST">
-              <a href="{{ url_for('internal.edit_beer', n=beer.id) }}" class="button is-link is-small">Edit</a>
+              <a href="{{ url_for('internal.edit_beer', n=beer.id) }}" class="button is-link is-small uniform-button">Edit</a>
             </form>
           </td>
         </tr>

@@ -24,3 +24,9 @@ $primary: $brown;
     //padding-top: 1.5rem;
     padding: 1.5rem;
 }
+
+.uniform-button {
+    width: 5em; /* Or any specific width you prefer */
+    display: inline-block; /* Ensures the anchor behaves like a button */
+    text-align: center; /* Centers the text within the button */
+}
