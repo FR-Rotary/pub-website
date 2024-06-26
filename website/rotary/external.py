@@ -181,8 +181,8 @@ def menu():
                                  (beer['abv'] / 100) / beer['price_kr'], '.3f')
             categories[i]['beers'][j] = beer
 
-    foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
-    snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
+    foods = db.execute('SELECT * FROM food WHERE available = 1 ORDER BY name ASC').fetchall()
+    snacks = db.execute('SELECT * FROM snack WHERE available = 1 ORDER BY name ASC').fetchall()
 
     return render_template(
         'external/menu.html',
