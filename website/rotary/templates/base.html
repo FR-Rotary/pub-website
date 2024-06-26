@@ -66,6 +66,8 @@
             <div class="navbar-item has-dropdown is-hoverable" id="internal-dropdown">
               <a class="navbar-link internal-dropdown-color" onclick="document.getElementById('internal-dropdown').classList.toggle('is-active')">Internal</a>
               <div class="navbar-dropdown">
+                <a class="navbar-item" href="{{ url_for('internal.index') }}">Home</a>
+                <hr class="navbar-divider">
                 <a class="navbar-item" href="{{ url_for('internal.news') }}">News</a>
                 <a class="navbar-item" href="{{ url_for('internal.opening_hours') }}">Hours</a>
                 <a class="navbar-item" href="{{ url_for('internal.shifts') }}">Shifts</a>
