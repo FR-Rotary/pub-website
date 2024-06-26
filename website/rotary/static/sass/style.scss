@@ -48,3 +48,8 @@ $brown: #745E38; // Rotary Brown
 .price-column { width: 5%; }
 .country-column { width: 5% }
 .empty-column { width: 5%; }
+
+/* Increase specificity for all buttons to ensure styles are applied */
+.button:not(#undefined), .button-group .buttons.has-addons label.button:not(#undefined) {
+    border-radius: var(--bulma-radius-rounded); /* Adjust the border-radius value as needed */
+}

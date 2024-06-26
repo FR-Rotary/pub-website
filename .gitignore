@@ -139,3 +139,4 @@ cython_debug/
 .sass-cache/
 website/rotary/static/bulma
 website/rotary/static/css/style.css
+website/rotary/static/images/comics

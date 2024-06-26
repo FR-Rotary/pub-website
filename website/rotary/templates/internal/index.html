@@ -1,9 +1,62 @@
 {% extends "base.html" %}
 {% block title %} {{ g.strings.nav.index }} {% endblock%}
+{% block content %}
+<div class="container">
+  <div class="columns">
+    <div class="column">
+      <div class="content">
+        <h1 class="title">Hemsidan</h1>
+        <ul>
+            <li><a href="internal/news">Skapa nyheter</a></li>
+            <li><a href="internal/opening_hours">Redigera öppettider</a></li>
+            <li><a href="internal/shifts">Liggaren</a></li>
+        </ul>
+        <h1 class="title">Arbetare</h1>
+        <ul>
+            <li><a href="internal/workers">Hantera arbetare</a></li>
+            <li><a href="internal/add_workers">Lägg till arbetare</a></li>
+        </ul>
 
-{% block content%}
+      </div>
+    </div>
+    <div class="column">
+      <div class="content">
+        <h1 class="title">Redigera meny</h1>
+        <ul>
+            <li><a href="internal/beers">Drycker</a></li>
+            <li><a href="internal/food">Mat och snacks</a></li>
+            <li><a href="internal/print_menu">Skriv ut meny</a></li>
+        </ul>
+        <h1 class="title">Diverse länkar</h1>
+        <ul>
+            <li><a href="https://youtube.com/watch?v=dQw4w9WgXcQ">Pubens Drive</a></li>
+            <li><a href="https://youtube.com/watch?v=dQw4w9WgXcQ">Pubens Wiki</a></li>
+        </ul>
+      </div>
+    </div>
 
-<div class="container  mt-6 mb-6">
-</div>
+    <div class="column">
+      <h1 class="title">WiFi</h1>
+      <ul>
+          <li>SSID: Puben</li>
+          <li>Lösenord: youbetterbuybeer</li>
+      </ul>
+    </div>
+  </div>
 
+  {% if comic_strip_url %}
+  <figure class="image" style="text-align: center;">
+    <img src="{{ comic_strip_url }}" alt="Random Comic Strip" style="max-width: 25%; height: auto; margin: 0 auto;">
+  </figure>
+  {% endif %}
+
+  <div class="buttons has-addons is-centered" style="text-align: center; padding-top: 1rem;">
+    <form action="{{ url_for('internal.upload_comic_strip') }}" method="post" enctype="multipart/form-data" style="display: inline-block; margin-right: 10px;">
+      <input type="file" name="comic_strip" id="comic_strip" style="display: none;" onchange="this.form.submit()">
+      <label for="comic_strip" class="button">Ladda upp seriestrip</label>
+    </form>
+    <form action="{{ url_for('internal.index') }}" method="get" style="display: inline-block;">
+      <button type="submit" class="button">Slumpa fram en ny strip</button>
+    </form>
+  </div>
 {% endblock %}

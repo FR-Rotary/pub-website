@@ -23,7 +23,7 @@ def login():
             # Correct login
             session.clear()
             session['authenticated'] = True
-            return redirect(url_for('external.index'))
+            return redirect(url_for('internal.index'))
         else:
             # Wrong login
             return render_template('internal/login.html', login_failed=True)

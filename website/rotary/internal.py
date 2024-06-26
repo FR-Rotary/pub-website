@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template, redirect, request, url_for, Response
+import os
+import subprocess
+import random
+import datetime
+
+from flask import Blueprint, render_template, redirect, request, url_for, Response, send_from_directory
 from pycountry import countries
 from tempfile import TemporaryDirectory
-import subprocess
-import os
-import datetime
+from werkzeug.utils import secure_filename
 
 from rotary.db import get_db
 from rotary.auth import login_required
@@ -16,7 +19,19 @@ bp = Blueprint('internal', __name__, url_prefix='/internal')
 @bp.route('')
 @login_required
 def index():
-    return render_template('internal/index.html')
+    # Call the existing randomize_comic_strip function
+    directory = 'rotary/static/images/comics/'
+    try:
+        files = os.listdir(directory)
+        if files:
+            random_file = random.choice(files)
+            comic_strip_url = os.path.join('/static/images/comics/', random_file)
+        else:
+            comic_strip_url = None
+    except Exception as e:
+        comic_strip_url = None
+    # Pass the comic strip URL to the template
+    return render_template('internal/index.html', comic_strip_url=comic_strip_url)
 
 
 @bp.route('/')
@@ -621,3 +636,24 @@ def escape_tex(s):
         .replace('}', '\\}')
         .replace('<', '\\textless{}')
     )
+
+@bp.route('/internal/upload_comic_strip', methods=['POST'])
+@login_required
+def upload_comic_strip():
+    if 'comic_strip' not in request.files:
+        # Handle the case where no file part is provided
+        return redirect(request.url)
+    file = request.files['comic_strip']
+    if file.filename == '':
+        # Handle the case where no file is selected
+        return redirect(request.url)
+    if file:
+        filename = secure_filename(file.filename)
+        save_path = os.path.join('rotary/static/images/comics/', filename)
+        directory = os.path.dirname(save_path)
+        # Check if the directory exists, and create it if it doesn't
+        if not os.path.exists(directory):
+            os.makedirs(directory, exist_ok=True)
+        file.save(save_path)
+        # Optionally, update the database or perform other actions
+        return redirect(url_for('internal.index'))
