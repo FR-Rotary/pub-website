@@ -127,9 +127,9 @@
             <form action="{{ url_for('internal.delete_snacks', n=snack.id) }}" method="POST">
               <button class="button is-danger is-small uniform-button">Delete</button>
             </form>
-          <form action="{{ url_for('internal.edit_snack', n=snack.id) }}" method="POST">
-            <a href="{{ url_for('internal.edit_snack', n=snack.id) }}" class="button is-link is-small uniform-button">Edit</a>
-          </form>
+            <form action="{{ url_for('internal.edit_snack', n=snack.id) }}" method="POST">
+              <a href="{{ url_for('internal.edit_snack', n=snack.id) }}" class="button is-link is-small uniform-button">Edit</a>
+            </form>
           </td>
         </tr>
         {% endfor %}

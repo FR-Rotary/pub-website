@@ -76,7 +76,7 @@ def beers():
         'ORDER BY beer.name ASC'
     )
     categories = db.execute(
-        f'SELECT id, name_sv AS name FROM beer_category ORDER BY id ASC').fetchall()
+        f'SELECT id, name_sv AS name, name_en, priority FROM beer_category ORDER BY priority ASC').fetchall()
     
     category_names = {category['id']: category['name'] for category in categories}
 
@@ -283,6 +283,55 @@ def delete_snacks(n):
 
     return redirect(url_for('internal.food'))
 
+@bp.route('/categories/edit/<int:n>', methods=('GET', 'POST'))
+@login_required
+def edit_category(n):
+    if request.method == 'POST' and n is not None:
+        db = get_db()
+
+        name_sv = request.form['name_sv']
+        name_en = request.form['name_en']
+        priority = request.form['priority']
+
+        db.execute(
+            'UPDATE beer_category SET '
+            'name_sv = ?, name_en = ?, priority = ? '
+            'WHERE id = ?',
+            (name_sv, name_en, priority, n)
+        )
+
+        db.commit()
+        return redirect(url_for('internal.beers'))
+
+    if n is not None:
+        db = get_db()
+        category = db.execute('SELECT * FROM beer_category WHERE id = ?', (n,)).fetchone()
+
+        return render_template(
+            'internal/edit_category.html',
+            category=category
+        )
+
+    return redirect(url_for('internal.beers'))
+
+@bp.post('/categories/add')
+@login_required
+def add_category():
+    if request.method == 'POST':
+        db = get_db()
+
+        name_sv = request.form['name_sv']
+        name_en = request.form['name_en']
+        priority = int(request.form['priority'])
+
+        db.execute(
+            'INSERT INTO beer_category (name_sv, name_en, priority) '
+            'VALUES (?, ?, ?)',
+            (name_sv, name_en, priority)
+        )
+        db.commit()
+
+    return render_template('internal/add_category.html')
 
 @bp.route('/news', methods=('GET', 'POST'))
 @login_required

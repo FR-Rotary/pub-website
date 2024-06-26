@@ -2,6 +2,7 @@
 
 # Set Flask environment variables
 export FLASK_ENV=development
+export FLASK_DEBUG=1
 export FLASK_APP=rotary
 
 # Change directory to the static assets directory
