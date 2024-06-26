@@ -217,6 +217,41 @@ def add_snacks():
 
     return redirect(url_for('internal.food'))
 
+@bp.route('/snack/edit/<int:n>', methods=['GET', 'POST'])
+def edit_snack(n):
+    if request.method == 'POST' and n is not None:
+        db = get_db()
+        name = request.form['name']
+        price = int(request.form['price'])
+
+        db.execute(
+            'UPDATE snack SET '
+            'name = ?, price_kr = ? '
+            'WHERE id = ?',
+            (name, price, n)
+        )
+        db.commit()
+        return redirect(url_for('internal.food')) 
+
+    if n is not None:
+        db = get_db()
+        snack = db.execute('SELECT * FROM snack WHERE id = ?', (n,)).fetchone()
+        
+        return render_template(
+                'internal/edit_snack.html', 
+                snack=snack)
+
+    return redirect(url_for('internal.food'))
+
+@bp.post('/snack/toggle/<int:n>')
+@login_required
+def toggle_snack(n):
+    if n is not None:
+        db = get_db()
+        db.execute('UPDATE snack SET available = NOT available WHERE id = ?', (n,))
+        db.commit()
+
+    return redirect(url_for('internal.food'))
 
 @bp.post('/snacks/delete/<int:n>')
 @login_required
