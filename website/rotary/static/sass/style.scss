@@ -5,7 +5,15 @@ $brown: #745E38; // Rotary Brown
     $primary: $brown,
     $navbar-height: 4.5rem,
 );
-
+/* Add this inside a <style> tag in the <head> or in an external stylesheet */
+@media screen and (max-width: 768px) {
+    .table {
+        width: 100%; /* Make table width 100% */
+    }
+    .table th, .table td {
+        width: auto; /* Allow table cells to adjust their width automatically */
+    }
+}
 .navbar-item img {
     height: 3rem; // Adjusted height
     max-height: none; // Ensure the image scales proportionally
