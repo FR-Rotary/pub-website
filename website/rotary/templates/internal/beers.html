@@ -5,11 +5,11 @@
 
 <div class="container mt-6 mb-6">
   <a href="{{ url_for('internal.print_menu') }}"class="button is-link">Print</a>
-  <div class="box has-background-info-light">
+  <div class="box has-background">
     <label class="label">Add a new beer!</label>
     <p class="paragraph">Below you can fill in the form for the new beer to be added. Make sure to give the beer a reasonable 'Style' which makes sense when compared to all the other beers.</p>
     <form action="{{ request.path }}" method="POST">
-      <table class="table is-narrow has-background-info-light">
+      <table class="table is-narrow has-background">
         <tr>
           <td>Name: </td>
           <td> 

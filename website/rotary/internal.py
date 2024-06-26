@@ -119,7 +119,6 @@ def edit_beer(n):
 
     return redirect(url_for('internal.beers'))
 
-
 @bp.post('/beers/delete/<int:n>')
 @login_required
 def delete_beer(n):
@@ -155,7 +154,9 @@ def add_food():
     db = get_db()
     name = request.form['name']
     price = request.form['price']
-    db.execute( 'INSERT INTO food (name, price_kr) VALUES (?,?)', (name, price))
+    available = 1 if request.form.get('available') else 0
+
+    db.execute( 'INSERT INTO food (name, price_kr, available) VALUES (?,?,?)', (name, price, available))
     db.commit()
 
     return redirect(url_for('internal.food'))
@@ -166,12 +167,13 @@ def edit_food(n):
         db = get_db()
         name = request.form['name']
         price = int(request.form['price'])
+        available = 1 if request.form.get('available') else 0
 
         db.execute(
             'UPDATE food SET '
-            'name = ?, price_kr = ? '
+            'name = ?, price_kr = ?, available = ?'
             'WHERE id = ?',
-            (name, price, n)
+            (name, price, available, n)
         )
         db.commit()
         return redirect(url_for('internal.food')) 
@@ -212,7 +214,9 @@ def add_snacks():
     db = get_db()
     name = request.form['name']
     price = request.form['price']
-    db.execute( 'INSERT INTO snack (name, price_kr) VALUES (?,?)', (name, price))
+    available = 1 if request.form.get('available') else 0
+
+    db.execute('INSERT INTO snack (name, price_kr, available) VALUES (?,?,?)', (name, price, available))
     db.commit()
 
     return redirect(url_for('internal.food'))
@@ -223,12 +227,13 @@ def edit_snack(n):
         db = get_db()
         name = request.form['name']
         price = int(request.form['price'])
+        available = 1 if request.form.get('available') else 0
 
         db.execute(
             'UPDATE snack SET '
-            'name = ?, price_kr = ? '
+            'name = ?, price_kr = ?, available = ?'
             'WHERE id = ?',
-            (name, price, n)
+            (name, price, available, n)
         )
         db.commit()
         return redirect(url_for('internal.food')) 
