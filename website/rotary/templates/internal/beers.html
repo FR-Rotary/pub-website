@@ -23,7 +23,7 @@
               <select name="category_id">
                 {% for category in categories %}
                 <option style="max-width: 5vw; overflow: hidden" value="{{category.id}}">
-                  {{ category_names[category.name] }}
+                  {{ category_names[category.id] }}
                 </option>
                 {% endfor %}
               </select>
@@ -104,7 +104,7 @@
             </form>
           </td>
           <td>{{ beer.name }}</td>
-          <td>{{ category_names[beer.category] }}</td>
+          <td>{{ beer.category }}</td>
           <td>{{ beer.style }}</td>
           <td>{{ beer.abv }}%</td>
           <td>{{ beer.volume_ml }}ml</td>
