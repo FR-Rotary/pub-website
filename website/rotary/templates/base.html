@@ -33,6 +33,30 @@
 
       });
     </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('workers-container');
+        const addWorkerBtn = document.getElementById('add-worker');
+        const removeWorkerBtn = document.getElementById('remove-worker');
+      
+        addWorkerBtn.addEventListener('click', function () {
+          // Clone the first worker selection box
+          const newSelect = container.firstElementChild.cloneNode(true);
+          // Append the cloned worker selection box to the container
+          container.appendChild(newSelect);
+        });
+      
+        removeWorkerBtn.addEventListener('click', function () {
+          // Ensure there's more than one worker selection box before removing
+          if (container.children.length > 1) {
+            container.removeChild(container.lastElementChild);
+          } else {
+            alert('At least one worker must be selected.');
+          }
+        });
+      });
+      </script>
+    
     <script type="application/ld+json">
     {
       "@context": "http://schema.org",

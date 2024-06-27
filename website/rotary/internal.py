@@ -520,31 +520,30 @@ def shifts():
     db = get_db()
 
     if request.method == 'POST':
-        worker = request.form['worker']
+        workers = request.form.getlist('worker[]')
         date = request.form['date']
         start = request.form['start']
         end = request.form['end']
-        #TODO make this do stuff
-        shift_type = request.form['shift_type']
+        shift_types = request.form.getlist('shift_type[]')
 
-        existing_shift = db.execute(
-            'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
-            (date, worker)
-        ).fetchone()
-        if existing_shift is None:
-            db.execute(
-                'INSERT INTO shift '
-                '(worker_id, date, start, end)'
-                'VALUES (?, date(?), time(?), time(?))',
-                (worker, date, start, end)
-            )
-        else:
-            db.execute(
-                'UPDATE shift SET start = time(?), end = time(?) WHERE id = ?',
-                (start, end, existing_shift['id'])
-            )
-
-        db.commit()
+        for worker, shift_type in zip(workers, shift_types):
+            existing_shift = db.execute(
+                'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
+                (date, worker)
+            ).fetchone()
+            if existing_shift is None:
+                db.execute(
+                    'INSERT INTO shift '
+                    '(worker_id, date, start, end, shift_type_id)'
+                    'VALUES (?, date(?), time(?), time(?), ?)',
+                    (worker, date, start, end, shift_type)
+                )
+            else:
+                db.execute(
+                    'UPDATE shift SET start = time(?), end = time(?), shift_type_id = ? WHERE id = ?',
+                    (start, end, shift_type, existing_shift['id'])
+                )
+        db.commit() 
 
     all_workers = db.execute(
         'SELECT * FROM worker ORDER BY display_name ASC'
@@ -560,10 +559,10 @@ def shifts():
         default_end = opening_hours_today['end']
 
     shifts = db.execute(
-        'SELECT' 
-        '(SELECT name FROM shift_type WHERE shift_type.id = shift_type_id)'
+        'SELECT ' 
+        '(SELECT name FROM shift_type WHERE shift_type.id = shift_type_id) '
         'as type, '
-        'IFNULL(display_name, \'<deleted worker>\') as worker, date, start,'
+        'IFNULL(display_name, \'<deleted worker>\') as worker, date, start, '
         'end, shift.id as id '
         'FROM shift LEFT OUTER JOIN worker ON worker.id = shift.worker_id '
         'ORDER BY date DESC'

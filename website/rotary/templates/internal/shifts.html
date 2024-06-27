@@ -4,7 +4,65 @@
 {% block content%}
 
 <div class="container mt-6 mb-6">
-  <table class="table">
+  
+  <div class="box has-background">
+    <label class="label">Add a shift</label>
+    <p class="paragraph">Below you can add which people are working this shift. You can even add multiple people at once.</p>
+    <div class="columns">
+      <div class="column">
+        <form action="{{ request.path }}" method="POST">
+          <table class="table is-narrow has-background">
+            <tr>
+              <td>Date </td>
+              <td> 
+                <input name="date" type="date" value="{{ today }}" required>
+              </td>
+            </tr>
+            <tr>
+              <td>Start </td>
+              <td>
+                <input name="start" type="time" value="{{ default_start }}" required></td>
+              </td>
+            </tr>
+            <tr>
+              <td>End </td>
+              <td> 
+                <input name="end" type="time" value="{{ default_end }}" required></td>
+              </td>
+            <tr>
+          </table>
+        </div> <!-- End of column -->
+      <div class="column">
+        <td>Workers </td>
+        <td colspan="2"> 
+          <div id="workers-container">
+            <div class="worker-select">
+              <span class="select">
+                <select name="worker[]">
+                  {% for worker in workers %}
+                  <option value="{{worker.id}}">{{worker.display_name}}</option>
+                  {% endfor %}
+                </select>
+              </span>
+              <span class="select" style="margin-left: 1em;"> <!-- Added margin for spacing -->
+                <select name="shift_type[]">
+                  {% for shift_type in shift_types %}
+                  <option value="{{shift_type.id}}">{{shift_type.name}}</option>
+                  {% endfor %}
+                </select>
+              </span>
+            </div>
+          </div>
+          <button type="button" id="add-worker" class="button is-link" style="margin-top: 1em;">Add Worker</button>
+          <button type="button" id="remove-worker" class="button is-danger" style="margin-top: 1em;">Remove Worker</button>
+        </td>
+      </div> <!-- End of column -->
+    </div>
+    <button type="submit" formmethod="post" class="button is-link">Add shift</a> </button>
+    </form>
+  </div>
+
+  <table class="table is-fullwidth">
     <thead>
       <tr>
         <th>Date</th>
@@ -15,40 +73,13 @@
         <th></th>
       <tr>
     </thead>
-    <tr>
-      <form action="{{ request.path }}" method="post" class="level container is-max-desktop">
-        <td><input name="date" type="date" value="{{ today }}" required></td>
-        <td><input name="start" type="time" value="{{ default_start }}" required></td>
-        <td><input name="end" type="time" value="{{ default_end }}" required></td>
-        <td>
-          <span class="select">
-            <select name="worker">
-              {% for worker in workers %}
-              <option value="{{worker.id}}">{{worker.display_name}}</option>
-              {% endfor %}
-            </select>
-          </span>
-        <td>
-          <span class="select">
-            <select name="shift_type">
-              {% for shift_type in shift_types %}
-              <option value="{{shift_type.id}}">{{shift_type.name}}</option>
-              {% endfor %}
-            </select>
-          </span>
-        </td>
-        <td>
-          <button type="submit" formmethod="post" class="button is-link">Add</button>
-        </td>
-      </form>
-    </tr>
   {% for shift in shifts %}
     <tr>
       <td><p>{{ shift.date }}</p></td>
       <td><p>{{ shift.start }}</p></td>
       <td><p>{{ shift.end }}</p></td>
       <td><p>{{ shift.worker }}</p></td>
-      <td><p>{{ shift.job }}</p></td>
+      <td><p>{{ shift.type }}</p></td>
       <td>
         <form action="{{ request.path }}/delete/{{ shift.id }}" method="post">
           <button class="button is-danger is-small" type="submit">Delete</button>
