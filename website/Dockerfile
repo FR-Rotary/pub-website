@@ -11,6 +11,7 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     unzip \
     curl \
     texlive-latex-base && \
+    texlive-latex-extra && \
     apt-get clean
 
 RUN npm install -g sass
