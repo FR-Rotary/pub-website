@@ -616,8 +616,8 @@ def print_menu():
         }
         categories.append(category)
 
-    foods = db.execute('SELECT * FROM food ORDER BY name ASC').fetchall()
-    snacks = db.execute('SELECT * FROM snack ORDER BY name ASC').fetchall()
+    foods = db.execute('SELECT * FROM food WHERE available = 1 ORDER BY name ASC').fetchall()
+    snacks = db.execute('SELECT * FROM snack WHERE available = 1 ORDER BY name ASC').fetchall()
 
 
     tex = render_template(
