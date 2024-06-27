@@ -6,13 +6,14 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     apt-get install --no-install-recommends -y \
     python3 \
     python3-pip \
-    uwsgi \
-    uwsgi-plugin-python3 \
-    ruby-sass \
+    nodejs \
+    npm \ 
     unzip \
     curl \
     texlive-latex-base && \
     apt-get clean
+
+RUN npm install -g sass
 
 RUN curl -Lo /bulma.zip https://github.com/jgthms/bulma/releases/download/1.0.1/bulma-1.0.1.zip
 
