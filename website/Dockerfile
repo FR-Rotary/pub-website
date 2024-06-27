@@ -10,7 +10,7 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     npm \ 
     unzip \
     curl \
-    texlive-latex-base && \
+    texlive-latex-base \
     texlive-latex-extra && \
     apt-get clean
 
