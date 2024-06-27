@@ -3,6 +3,9 @@ import subprocess
 import random
 import datetime
 
+##debug
+import sys
+
 from flask import Blueprint, render_template, redirect, request, url_for, Response, send_from_directory
 from pycountry import countries
 from tempfile import TemporaryDirectory
@@ -372,19 +375,7 @@ def delete_news_post(n):
 def workers():
 
     db = get_db()
-    all_workers = db.execute('SELECT * FROM worker ORDER BY display_name ASC')
-    worker_status = db.execute('SELECT * FROM worker_status').fetchall()
-
-    return render_template('internal/workers.html', workers=all_workers, worker_status=worker_status)
-
-
-@bp.route('/workers/add', methods=('POST', 'GET'))
-@login_required
-def add_workers():
-    # TODO: Mailing list stuff
-    db = get_db()
-    worker_status = db.execute('SELECT * FROM worker_status').fetchall()
-
+    ## Create new worker
     if request.method == 'POST':
         display_name = request.form['display_name']
         first_name = request.form['first_name']
@@ -406,8 +397,13 @@ def add_workers():
         db.commit()
 
         return redirect(url_for('internal.workers'))
-
-    return render_template('internal/add_workers.html', worker=None, worker_status=worker_status)
+    ## Provide all current workers
+    else:
+        all_workers = db.execute('SELECT * FROM worker WHERE status_id = 1 OR status_id = 2 ORDER BY display_name ASC').fetchall()
+        worker_status = db.execute('SELECT * FROM worker_status').fetchall()
+        for worker in all_workers:
+            print(worker["id"], ": ", worker["display_name"], file=sys.stdout)
+        return render_template('internal/workers.html', workers=all_workers, worker=None, worker_status=worker_status)
 
 
 @bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
@@ -431,6 +427,7 @@ def edit_worker(n):
         display_name = request.form['display_name']
         first_name = request.form['first_name']
         last_name = request.form['last_name']
+        personal_id_number = request.form['personal_id_number']
         telephone = request.form['telephone']
         email = request.form['email']
         address = request.form['address']
@@ -439,10 +436,11 @@ def edit_worker(n):
 
         db.execute(
             'UPDATE worker SET '
-            'display_name = ?, first_name = ?, last_name = ?, telephone = ?, '
+            'display_name = ?, first_name = ?, last_name = ?, '
+            'personal_id_number = ?, telephone = ?, '
             'email = ?, address = ?, note = ?, status_id = ? '
             'WHERE id = ?',
-            (display_name, first_name, last_name, telephone, email, address,
+            (display_name, first_name, last_name, personal_id_number, telephone, email, address,
              note, status_id, n)
         )
         db.commit()

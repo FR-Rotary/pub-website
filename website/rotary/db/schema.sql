@@ -50,6 +50,7 @@ CREATE TABLE worker (
     display_name TEXT UNIQUE NOT NULL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
+    personal_id_number TEXT NOT NULL,
     telephone TEXT,
     email TEXT NOT NULL,
     address TEXT,

@@ -1,0 +1,133 @@
+<form class="form" action="{{ request.path }}" method="post">
+
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+      <p class="label">Name</p>
+    </div>
+
+    <div class="field-body">
+
+      <div class="field">
+        <div class="control">
+          <input value="{{worker.display_name}}" class="input is-info" name="display_name" type="text" placeholder="Nickname">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <input value="{{worker.first_name}}" class="input is-info" name="first_name" type="text" placeholder="First Name">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <input value="{{worker.last_name}}" class="input is-info" name="last_name" type="text" placeholder="Last Name">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+      <p class="label">Personal ID Nr</p>
+    </div>
+
+    <div class="field-body">
+
+      <div class="field">
+        <div class="control">
+          <input value="{{worker.personal_id_number}}" class="input is-info" name="personal_id_number" type="text" placeholder="YYYYMMDD-XXXX">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+      <p class="label">Contact</p>
+    </div>
+
+    <div class="field-body">
+
+      <div class="field">
+        <div class="control">
+          <input value="{{worker.telephone}}" class="input" name="telephone" pattern="[0-9- ]+" type="tel" placeholder="07xxxxxxxx">
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <input value="{{worker.email}}" class="input is-info" name="email" type="email" placeholder="name@example.com">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+      <p class="label">Address</p>
+    </div>
+
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input value="{{worker.address}}" class="input" name="address" type="text" placeholder="Streetname 99 42232 Gothenburg">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="field is-horizontal">
+
+    <div class="field-label is-normal">
+      <p class="label">Note</p>
+    </div>
+
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <textarea value="{{worker.note}}" class="textarea" name="note" placeholder="Likes Beer"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="field has-addons ">
+    <div class="field-label is-normal">
+      <p class="label"></p>
+    </div>
+    <div class="control">
+      <div class="select">
+        <select name="status_id">
+          {% for status in worker_status %}
+          <option value="{{ status.id }}"
+          {% if worker.status_id == status.id %}
+          selected
+          {% endif %}
+          >{{ status.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="control">
+      <button type="submit" formmethod="post"
+        {% if worker == None %}
+        class="button is-link">
+        Add
+        {% else %}
+        class="button is-warning">
+        Edit
+        {% endif %}
+      </button>
+    </div>
+  </div>
+
+</form>

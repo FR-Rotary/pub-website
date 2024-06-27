@@ -3,21 +3,26 @@
 
 {% block content%}
 
-<div class=" mt-6 mb-6 ">
+<div class="container mt-6 mb-6 ">
 
-  <a href="{{ url_for('internal.add_workers') }}" class="button is-link mb-5">Add new Worker</a>
+
+  <!-- Display add new workers -->
+  <div class="box has-background">
+    <label class="label">Add a new worker!</label>
+    <p class="paragraph">Below you can fill in the form for the new worker to be added. Make sure to show the new puber around and go through the "new puber" list with them.</p>
+    {% include 'internal/add_workers_form.html' %}
+  </div>
+
+  <!-- Display current workers -->
   <div class="table-container">
     <table class="table is-striped is-fullwidth">
       <thead>
         <tr>
           <th>Nick</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
+          <th>Personal ID Nr</th>
           <th>Tel</th>
           <th>Email</th>
-          <th>Adress</th>
-          <th>Note</th>
-          <th>Status</th>
           <th></th>
         </tr>
       </thead>
@@ -25,13 +30,10 @@
         {% for worker in workers %}
         <tr>
           <td>{{ worker.display_name }}</td>
-          <td>{{ worker.first_name }}</td>
-          <td>{{ worker.last_name }}</td>
+          <td>{{ worker.first_name }} {{ worker.last_name }}</td>
+          <td>{{ worker.personal_id_number }}</td>
           <td>{{ worker.telephone }}</td>
           <td>{{ worker.email }}</td>
-          <td>{{ worker.address }}</td>
-          <td>{{ worker.note }}</td>
-          <td>{{ worker_status[worker.status_id -1].name }}</td>
           <td>
             <a href="{{ url_for('internal.edit_worker',n=worker.id) }}" class="button is-link is-small">Edit</a>
             <a href="{{ url_for('internal.delete_worker',n=worker.id) }}" class="button is-danger is-small">Delete</a>
