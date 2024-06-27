@@ -55,8 +55,6 @@ def beers():
         category_id = int(request.form['category_id'])
         available = 1 if request.form.get('available') else 0
 
-        print('DEBUG: available =', available)
-
         db.execute(
             'INSERT INTO beer '
             '(name, style, country_iso_3166_id, abv, '

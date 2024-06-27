@@ -1,11 +1,13 @@
 import os
 
 from flask import Flask, redirect, url_for
+from flask_compress import Compress
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    Compress(app)
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('ROTARY_SECRET_KEY', 'dev'),
         DATABASE=os.environ.get(

@@ -32,6 +32,8 @@ def init_db():
     with current_app.open_resource('db/seed.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
+    db.execute("PRAGMA journal_mode=WAL;")
+
 
 @click.command('init-db')
 @with_appcontext
