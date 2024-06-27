@@ -3,9 +3,6 @@ import subprocess
 import random
 import datetime
 
-##debug
-import sys
-
 from flask import Blueprint, render_template, redirect, request, url_for, Response, send_from_directory
 from pycountry import countries
 from tempfile import TemporaryDirectory
@@ -401,8 +398,6 @@ def workers():
     else:
         all_workers = db.execute('SELECT * FROM worker WHERE status_id = 1 OR status_id = 2 ORDER BY display_name ASC').fetchall()
         worker_status = db.execute('SELECT * FROM worker_status').fetchall()
-        for worker in all_workers:
-            print(worker["id"], ": ", worker["display_name"], file=sys.stdout)
         return render_template('internal/workers.html', workers=all_workers, worker=None, worker_status=worker_status)
 
 

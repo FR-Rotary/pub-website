@@ -4,8 +4,8 @@ services:
     container_name: pub-website
     build: website
     environment:
-      - ROTARY_USERNAME=dev
-      - ROTARY_PASSWORD=password
+      - ROTARY_USERNAME=${USERNAME}
+      - ROTARY_PASSWORD=${PASSWORD}
       - ROTARY_SMTP_PORT=587
       - ROTARY_SMTP_HOST=smtp-relay.gmail.com
       - ROTARY_SMTP_USERNAME=user@host.com

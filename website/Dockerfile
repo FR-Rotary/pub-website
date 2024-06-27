@@ -6,6 +6,8 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     apt-get install --no-install-recommends -y \
     python3 \
     python3-pip \
+    uwsgi \
+    uwsgi-plugin-python3 \
     nodejs \
     npm \ 
     unzip \
@@ -26,6 +28,6 @@ RUN python3 setup.py install
 COPY . /app
 
 RUN unzip /bulma.zip -d /app/rotary/static/ && \
-    sass --sourcemap=none rotary/static/sass/style.scss:rotary/static/css/style.css
+    sass rotary/static/sass/style.scss:rotary/static/css/style.css
 
 CMD ["uwsgi", "--ini=uwsgi.ini"]
