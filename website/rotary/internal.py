@@ -48,7 +48,7 @@ def beers():
     if request.method == 'POST':
         name = request.form['name']
         style = request.form['style']
-        country_code = int(request.form['country_code'])
+        country_code = request.form['country_code']     #DO NOT TYPECAST THIS TO INT!
         abv = float(request.form['abv'].replace(',', '.'))
         volume = int(request.form['volume'])
         price = int(request.form['price'])
@@ -96,7 +96,7 @@ def edit_beer(n):
 
         name = request.form['name']
         style = request.form['style']
-        country_code = int(request.form['country_code'])
+        country_code = request.form['country_code']     #DO NOT TYPECAST THIS TO INT!
         abv = float(request.form['abv'].replace(',', '.'))
         volume = int(request.form['volume'])
         price = int(request.form['price'])
