@@ -31,9 +31,9 @@
   <div class="box has-background">
     <label class="label">Add a shift</label>
     <p class="paragraph">Below you can add which people are working this shift. You can even add multiple people at once.</p>
-    <div class="columns">
-      <div class="column">
-        <form action="{{ request.path }}" method="POST">
+    <form action="{{ request.path }}" method="POST">
+      <div class="columns">
+        <div class="column">
           <table class="table is-narrow has-background">
             <tr>
               <td>Date </td>
@@ -55,33 +55,34 @@
             <tr>
           </table>
         </div> <!-- End of column -->
-      <div class="column">
-        <td>Workers </td>
-        <td colspan="2"> 
-          <div id="workers-container">
-            <div class="worker-select">
-              <span class="select">
-                <select name="worker[]">
-                  {% for worker in workers %}
-                  <option value="{{worker.id}}">{{worker.display_name}}</option>
-                  {% endfor %}
-                </select>
-              </span>
-              <span class="select" style="margin-left: 1em;"> <!-- Added margin for spacing -->
-                <select name="shift_type[]">
-                  {% for shift_type in shift_types %}
-                  <option value="{{shift_type.id}}">{{shift_type.name}}</option>
-                  {% endfor %}
-                </select>
-              </span>
+        <div class="column">
+          <td>Workers </td>
+          <td colspan="2"> 
+            <div id="workers-container">
+              <div class="worker-select">
+                <span class="select">
+                  <select name="worker[]">
+                    <option value="-1" disabled selected>Select Worker</option> 
+                    {% for worker in workers %}
+                    <option value="{{worker.id}}">{{worker.display_name}}</option>
+                    {% endfor %}
+                  </select>
+                </span>
+                <span class="select" style="margin-left: 1em;"> <!-- Added margin for spacing -->
+                  <select name="shift_type[]">
+                    {% for shift_type in shift_types %}
+                    <option value="{{shift_type.id}}">{{shift_type.name}}</option>
+                    {% endfor %}
+                  </select>
+                </span>
+              </div>
             </div>
-          </div>
-          <button type="button" id="add-worker" class="button is-link" style="margin-top: 1em;">Add Worker</button>
-          <button type="button" id="remove-worker" class="button is-danger" style="margin-top: 1em;">Remove Worker</button>
-        </td>
-      </div> <!-- End of column -->
-    </div>
-    <button type="submit" formmethod="post" class="button is-link">Add shift</a> </button>
+            <button type="button" id="add-worker" class="button is-link" style="margin-top: 1em;">Add Worker</button>
+            <button type="button" id="remove-worker" class="button is-danger" style="margin-top: 1em;">Remove Worker</button>
+          </td>
+        </div> <!-- End of column -->
+      </div>
+      <button type="submit" formmethod="post" class="button is-link">Add shift</a> </button>
     </form>
   </div>
 

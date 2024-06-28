@@ -3,7 +3,7 @@ import subprocess
 import random
 import datetime
 
-from flask import Blueprint, render_template, redirect, request, url_for, Response, send_from_directory
+from flask import Blueprint, render_template, redirect, request, url_for, Response, send_from_directory, current_app
 from pycountry import countries
 from tempfile import TemporaryDirectory
 from werkzeug.utils import secure_filename
@@ -521,6 +521,7 @@ def shifts():
         end = request.form['end']
         shift_types = request.form.getlist('shift_type[]')
 
+        current_app.logger.info(request.form)
         for worker, shift_type in zip(workers, shift_types):
             existing_shift = db.execute(
                 'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
@@ -539,6 +540,7 @@ def shifts():
                     (start, end, shift_type, existing_shift['id'])
                 )
         db.commit() 
+        return redirect(url_for("internal.shifts"))
 
     all_workers = db.execute(
         'SELECT * FROM worker ORDER BY display_name ASC'
