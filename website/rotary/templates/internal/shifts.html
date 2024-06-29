@@ -109,22 +109,32 @@
   }
   
   function filterTable() {
-      const filterValue = document.getElementById('view-worker-shifts').value.toLowerCase();
-      const filteredData = window.data.filter(shift => shift.worker.toLowerCase().includes(filterValue));
-      console.log(filteredData);
-      console.log(filterValue);
-      displayTable(filteredData);
+    const filterWorkerValue = document.getElementById('view-worker-shifts').value.toLowerCase();
+    const filterStartValue = document.getElementById('view-start-shifts').value.toLowerCase();
+    const filterEndValue = document.getElementById('view-end-shifts').value.toLowerCase();
+    console.log(filterEndValue)
+    if (!filterWorkerValue && (!filterStartValue || !filterEndValue)) {
+      return
+    }
+    const preFiltered = window.data.filter(shift => shift.worker.toLowerCase().includes(filterWorkerValue));
+    const filteredData = preFiltered.filter(shift => shift.date > filterStartValue && shift.date < filterEndValue);
+    displayTable(filteredData);
   }
 </script>
 
   <div class="box has-background">
       <label>View shifts for worker: </label>
       <select id="view-worker-shifts" onchange="filterTable()">
-        <option value="-1" disabled selected>Select Worker</option> 
+        <option value="" disabled selected>Select Worker</option> 
         {% for worker in workers %}
         <option value="{{worker.display_name}}">{{worker.display_name}}</option>
         {% endfor %}
       </select>
+
+      <label>And/Or in the timespan between</label>
+      <input id="view-start-shifts" type="date" onchange="filterTable()">
+      <label> and </label>
+      <input id="view-end-shifts" type="date" onchange="filterTable()">
   </div>
 
   <table id="shifts-table" class="table is-fullwidth">
