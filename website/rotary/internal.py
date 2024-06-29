@@ -3,7 +3,7 @@ import subprocess
 import random
 import datetime
 
-from flask import Blueprint, render_template, redirect, request, url_for, Response, send_from_directory, current_app
+from flask import Blueprint, render_template, redirect, request, url_for, Response, jsonify, current_app
 from pycountry import countries
 from tempfile import TemporaryDirectory
 from werkzeug.utils import secure_filename
@@ -508,6 +508,34 @@ def delete_opening_hours(n):
 
     return redirect(url_for('internal.opening_hours'))
 
+
+@bp.get('/get_shifts')
+@login_required
+def get_shifts():
+    db = get_db()
+    shifts = db.execute(
+        'SELECT ' 
+        '(SELECT name FROM shift_type WHERE shift_type.id = shift_type_id) '
+        'as type, '
+        'IFNULL(display_name, \'<deleted worker>\') as worker, date, start, '
+        'end, shift.id as id '
+        'FROM shift LEFT OUTER JOIN worker ON worker.id = shift.worker_id '
+        'ORDER BY date DESC'
+    ).fetchall()
+    data = []
+    for type, worker, date, start, end, id in shifts:
+        shift = {
+            'date':   date,
+            'start':  start,
+            'end':    end,
+            'worker': worker,
+            'type':   type,
+            'id': id
+            }
+        data.append(shift)
+        current_app.logger.info(shift)
+    current_app.logger.info(data)
+    return jsonify(data)
 
 @bp.route('/shifts', methods=('GET', 'POST'))
 @login_required
