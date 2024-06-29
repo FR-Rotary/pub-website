@@ -110,9 +110,8 @@
   
   function filterTable() {
     const filterWorkerValue = document.getElementById('view-worker-shifts').value.toLowerCase();
-    const filterStartValue = document.getElementById('view-start-shifts').value.toLowerCase();
-    const filterEndValue = document.getElementById('view-end-shifts').value.toLowerCase();
-    console.log(filterEndValue)
+    const filterStartValue = document.getElementById('view-start-shifts').value.toLowerCase() || "1980-01-01";
+    const filterEndValue = document.getElementById('view-end-shifts').value.toLowerCase() || "4000-01-01";
     if (!filterWorkerValue && (!filterStartValue || !filterEndValue)) {
       return
     }
@@ -123,18 +122,33 @@
 </script>
 
   <div class="box has-background">
-      <label>View shifts for worker: </label>
-      <select id="view-worker-shifts" onchange="filterTable()">
-        <option value="" disabled selected>Select Worker</option> 
-        {% for worker in workers %}
-        <option value="{{worker.display_name}}">{{worker.display_name}}</option>
-        {% endfor %}
-      </select>
-
-      <label>And/Or in the timespan between</label>
-      <input id="view-start-shifts" type="date" onchange="filterTable()">
-      <label> and </label>
-      <input id="view-end-shifts" type="date" onchange="filterTable()">
+    <label class="label">Filter shifts</label>
+    <p class="paragraph">In this box, you can select any combination of worker and timespan</p>
+    <table class="table is-narrow has-background">
+      <tr>
+        <td>Worker</td>
+        <td>
+          <select id="view-worker-shifts" onchange="filterTable()">
+            <option value="" disabled selected>Select Worker</option> 
+            {% for worker in workers %}
+            <option value="{{worker.display_name}}">{{worker.display_name}}</option>
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>From</td>
+        <td>
+          <input id="view-start-shifts" type="date" onchange="filterTable()">
+        </td>
+      </tr>
+      <tr>
+        <td>To</td>
+        <td>
+          <input id="view-end-shifts" type="date" onchange="filterTable()">
+        </td>
+      </tr>
+    </table>
   </div>
 
   <table id="shifts-table" class="table is-fullwidth">
