@@ -57,7 +57,12 @@ $brown: #745E38; // Rotary Brown
 .country-column { width: 5% }
 .empty-column { width: 5%; }
 
-/* Increase specificity for all buttons to ensure styles are applied */
+/* This style is for the upload and random comic buttons on internal page */
 .button:not(#undefined), .button-group .buttons.has-addons label.button:not(#undefined) {
-    border-radius: var(--bulma-radius-rounded); /* Adjust the border-radius value as needed */
+    border-radius: var(--bulma-radius-rounded); 
+}
+
+/* This style is for the submit button on the shifts page */
+#submitter { 
+    margin-left: 20px;
 }
