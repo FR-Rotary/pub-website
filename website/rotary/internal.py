@@ -533,8 +533,8 @@ def get_shifts():
             'id': id
             }
         data.append(shift)
-        current_app.logger.info(shift)
-    current_app.logger.info(data)
+    #    current_app.logger.info(shift)
+    #current_app.logger.info(data)
     return jsonify(data)
 
 @bp.route('/shifts', methods=('GET', 'POST'))
@@ -543,24 +543,23 @@ def shifts():
     db = get_db()
 
     if request.method == 'POST':
-        workers = request.form.getlist('worker[]')
+        worker_ids = request.form.getlist('workerid[]')
         date = request.form['date']
         start = request.form['start']
         end = request.form['end']
         shift_types = request.form.getlist('shift_type[]')
 
-        current_app.logger.info(request.form)
-        for worker, shift_type in zip(workers, shift_types):
+        for worker_id, shift_type in zip(worker_ids, shift_types):
             existing_shift = db.execute(
                 'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
-                (date, worker)
+                (date, worker_id)
             ).fetchone()
             if existing_shift is None:
                 db.execute(
                     'INSERT INTO shift '
                     '(worker_id, date, start, end, shift_type_id)'
                     'VALUES (?, date(?), time(?), time(?), ?)',
-                    (worker, date, start, end, shift_type)
+                    (worker_id, date, start, end, shift_type)
                 )
             else:
                 db.execute(
@@ -570,12 +569,18 @@ def shifts():
         db.commit() 
         return redirect(url_for("internal.shifts"))
 
-    all_workers = db.execute(
+    active_workers = db.execute(
+        'SELECT * FROM worker WHERE status_id = 1 ORDER BY display_name ASC'
+    ).fetchall()
+    active_workers = [dict_from_row(worker) for worker in active_workers]
+
+    all_workers = db.execute( 
         'SELECT * FROM worker ORDER BY display_name ASC'
     ).fetchall()
+    all_workers = [dict_from_row(worker) for worker in all_workers]
 
-    default_start = "19:00"
-    default_end = "00:00"
+    default_start = "17:00"
+    default_end = "01:00"
     opening_hours_today = db.execute(
         'SELECT * FROM opening_hours WHERE date = date(\'now\')'
     ).fetchone()
@@ -601,7 +606,8 @@ def shifts():
 
     return render_template(
         'internal/shifts.html',
-        workers=all_workers,
+        active_workers=active_workers,
+        all_workers=all_workers,
         default_start=default_start,
         default_end=default_end,
         today=today,

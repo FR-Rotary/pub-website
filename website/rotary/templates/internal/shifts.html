@@ -26,6 +26,56 @@
   });
 </script>
 
+<script type="text/javascript">
+  let active_worker = {{ active_workers|tojson }};
+  let all_worker = {{ all_workers|tojson }};
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
+    const container = document.getElementById('workers-container');
+
+    function updateWorkerSelectOptions() {
+      const workersToUse = toggleAllWorkersCheckbox.checked ? all_worker : active_worker;
+      const workerSelectContainers = container.querySelectorAll('.worker-select');
+      workerSelectContainers.forEach(container => {
+        const selectElement = container.querySelector('select[name="workerid[]"]');
+        selectElement.innerHTML = ''; // Clear existing options
+        // Add a default disabled option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = "-1";
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        defaultOption.textContent = "Select Worker";
+        selectElement.appendChild(defaultOption);
+        // Populate with new options
+        workersToUse.forEach(worker => {
+          const optionElement = document.createElement('option');
+          optionElement.value = worker.id;
+          optionElement.textContent = worker.display_name;
+          selectElement.appendChild(optionElement);
+        });
+      });
+    }
+
+    // Update options when the checkbox state changes
+    toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
+
+    // Ensure new worker select boxes are updated according to the checkbox state
+    addWorkerBtn.addEventListener('click', function () {
+      // Clone the first worker selection box
+      const newSelect = container.firstElementChild.cloneNode(true);
+      // Append the cloned worker selection box to the container
+      container.appendChild(newSelect);
+      // Update the select options of the newly added box
+      updateWorkerSelectOptions();
+    });
+
+    // Initial population based on the checkbox state
+    updateWorkerSelectOptions();
+  });
+</script>
 <div class="container mt-6 mb-6">
   
   <div class="box has-background">
@@ -59,32 +109,36 @@
         <div class="column" style="display: flex; flex-direction: column;">
           <table style="flex:1">
             <tr>
-              <td colspan="2"> 
+              <td colspan="3"> 
                 <div id="workers-container">
-                  <div class="worker-select">
+                  <div class="worker-select" data-row-index="0">
                     <span class="select">
-                      <select name="worker[]">
+                      <select name="workerid[]" id="select-worker-shift-0">
                         <option value="-1" disabled selected>Select Worker</option> 
                         {% for worker in workers %}
-                        <option value="{{worker.id}}">{{worker.display_name}}</option>
+                        <option value="{{ worker.id }}">{{ worker.display_name }}</option>
                         {% endfor %}
                       </select>
                     </span>
-                    <span class="select" style="margin-left: 1em;"> <!-- Added margin for spacing -->
+                    <span class="select" style="margin-left: 1em;"> 
                       <select name="shift_type[]">
                         {% for shift_type in shift_types %}
-                        <option value="{{shift_type.id}}">{{shift_type.name}}</option>
+                        <option value="{{ shift_type.id }}">{{ shift_type.name }}</option>
                         {% endfor %}
                       </select>
                     </span>
-                  </div>
+
                 </div>
               </td>
             </tr>
           </table>
-          <div style="marign-top:1em">
+          <div style="margin-top:1em">
             <button type="button" id="add-worker" class="button is-link" style="margin-left:1em;">Add Worker</button>
             <button type="button" id="remove-worker" class="button is-danger" style="margin-left:1em;">Remove Worker</button>
+            <span>
+              <label for="toggle-all-workers">Show All Workers</label>
+              <input type="checkbox" id="toggle-all-workers" class="toggle-workers-checkbox">
+            </span>
           </div>
         </div> <!-- End of column -->
       </div>
@@ -135,7 +189,7 @@
         <td>
           <select id="view-worker-shifts" onchange="filterTable()">
             <option value="" disabled selected>Select Worker</option> 
-            {% for worker in workers %}
+            {% for worker in all_workers %}
             <option value="{{worker.display_name}}">{{worker.display_name}}</option>
             {% endfor %}
           </select>
