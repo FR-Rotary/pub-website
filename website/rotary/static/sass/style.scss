@@ -3,8 +3,13 @@ $brown: #745E38; // Rotary Brown
 @use "../bulma/sass" with (
     $family-primary: '"inter", sans-serif',
     $primary: $brown,
-    $navbar-height: 4.5rem,
+    $navbar-height: 4.5rem
 );
+
+body {
+    background-color: var(--bulma-scheme-main);
+}
+
 /* Add this inside a <style> tag in the <head> or in an external stylesheet */
 @media screen and (max-width: 768px) {
     .table {
@@ -65,4 +70,45 @@ $brown: #745E38; // Rotary Brown
 /* This style is for the submit button on the shifts page */
 #submitter { 
     margin-left: 20px;
+}
+
+/* Hide the checkbox visually but remain accessible */
+.theme-toggle-checkbox {
+  display: none;
+}
+
+/* Style the label to look like a slider track */
+.theme-toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 50px; /* Adjust based on your preference */
+  height: 24px; /* Adjust based on your preference */
+  background-color: var(--bulma-scheme-main); /* Light mode track color */
+  border-radius: 12px; /* Half of the height to make it circular */
+  cursor: pointer;
+  padding: 2px 2px 0;
+}
+
+/* Hide the emojis from the visual slider */
+.theme-toggle-label i {
+    font-size: 14px;
+}
+
+/* Style the ball */
+.ball {
+  position: absolute;
+  top: 2px; 
+  left: 2px; 
+  width: 20px; 
+  height: 20px; 
+  background-color: hsl(0, 0%, 48%); /* Ball color */
+  border-radius: 50%; 
+  transition: all 0.3s ease; 
+}
+
+/* Move the ball when the checkbox is checked */
+#theme-toggle:checked + .theme-toggle-label .ball {
+  transform: translateX(26px); 
 }

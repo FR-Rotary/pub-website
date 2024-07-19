@@ -6,7 +6,33 @@
     <title>{% block title %}{%  endblock %} - Rotary Pub</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
     <script>
+      // Dark mode toggle logic
+      document.addEventListener('DOMContentLoaded', () => {
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Function to apply the theme
+        function applyTheme(theme) {
+          body.setAttribute('data-theme', theme);
+          localStorage.setItem('theme', theme); // Save theme preference
+        }
+        
+        // Check for saved theme preference and apply it
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+          applyTheme(savedTheme);
+        }
+    
+        toggleButton.addEventListener('click', () => {
+          const currentTheme = body.getAttribute('data-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          applyTheme(newTheme);
+        });
+      });
+
+      
       document.addEventListener('DOMContentLoaded', () => {
         fetch('/internal/get_shifts')
           .then(response => response.json())
@@ -36,9 +62,9 @@
             });
           });
         }
-
       });
     </script>
+
     
     <script type="application/ld+json">
     {
@@ -120,14 +146,19 @@
                 {{g.strings.nav.language}}
               </a>
             </div>
+            <div class="navbar-item">
+              <input type="checkbox" class="theme-toggle-checkbox" id="theme-toggle">
+              <label for="theme-toggle" class="theme-toggle-label">
+                <i>🌜 <!-- Moon emoji --></i>
+                <i>🌞 <!-- Sun emoji --></i>
+                <span class="ball"></span>
+              </label>
+            </div>
           </div>
-
-          </div>
-
         </div>
       </div>
-
     </nav>
+
     <div class="mr-6 ml-6">
     {% block content %}
     {%  endblock %}
