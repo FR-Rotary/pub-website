@@ -32,6 +32,17 @@
 </script>
 
 <script>
+  document.addEventListener('DOMContentLoaded', () =>  {
+    fetch('/internal/get_shifts')
+    .then(response => response.json())
+    .then(data => {
+        window.data = data;  // Store data globally
+        displayTable(data);
+    });
+  });
+</script>
+
+<script>
   document.addEventListener('DOMContentLoaded', function () {
     const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
     const container = document.getElementById('workers-container');
@@ -61,16 +72,6 @@
 
     // Update options when the checkbox state changes
     toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
-
-    // Ensure new worker select boxes are updated according to the checkbox state
-    addWorkerBtn.addEventListener('click', function () {
-      // Clone the first worker selection box
-      const newSelect = container.firstElementChild.cloneNode(true);
-      // Append the cloned worker selection box to the container
-      container.appendChild(newSelect);
-      // Update the select options of the newly added box
-      updateWorkerSelectOptions();
-    });
 
     // Initial population based on the checkbox state
     updateWorkerSelectOptions();

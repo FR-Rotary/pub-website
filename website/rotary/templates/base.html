@@ -47,13 +47,6 @@
 
       
       document.addEventListener('DOMContentLoaded', () => {
-        fetch('/internal/get_shifts')
-          .then(response => response.json())
-          .then(data => {
-              window.data = data;  // Store data globally
-              displayTable(data);
-          });
-
         // Get all "navbar-burger" elements
         const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
