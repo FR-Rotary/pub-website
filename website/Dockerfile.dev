@@ -15,7 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     texlive-lang-european && \
     apt-get clean
 
-RUN npm install -g sass
+RUN npm install -g sass jquery
 
 RUN curl -Lo /bulma.zip https://github.com/jgthms/bulma/releases/download/1.0.1/bulma-1.0.1.zip
 
