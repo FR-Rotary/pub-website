@@ -46,44 +46,47 @@ def beers():
     db = get_db()
 
     if request.method == 'POST':
-        name = request.form['name']
-        style = request.form['style']
-        country_code = request.form['country_code']     #DO NOT TYPECAST THIS TO INT!
-        abv = float(request.form['abv'].replace(',', '.'))
-        volume = int(request.form['volume'])
-        price = int(request.form['price'])
-        category_id = int(request.form['category_id'])
-        available = 1 if request.form.get('available') else 0
-
-        db.execute(
-            'INSERT INTO beer '
-            '(name, style, country_iso_3166_id, abv, '
-            'volume_ml, price_kr, category_id, available) '
-            'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-            (name, style, country_code, abv,
-             volume, price, category_id, available)
-        )
-        db.commit()
+        # Assuming input validation is done elsewhere
+        try:
+            db.execute(
+                'INSERT INTO beer (name, style, country_iso_3166_id, abv, volume_ml, price_kr, category_id, available) '
+                'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (
+                    request.form['name'],
+                    request.form['style'],
+                    request.form['country_code'],  # Assuming validation for non-int type
+                    float(request.form['abv'].replace(',', '.')),
+                    int(request.form['volume']),
+                    int(request.form['price']),
+                    int(request.form['category_id']),
+                    1 if request.form.get('available') else 0,
+                )
+            )
+            db.commit()
+        except db.DatabaseError as e:
+            db.rollback()
+            
+            # Handle error (e.g., log it, return an error message)
 
     beers = db.execute(
-        'SELECT available, beer.name, '
-        'IFNULL(beer_category.name_sv, \'<unknown category>\') as category, '
-        'beer.id, style, abv, country_iso_3166_id, volume_ml, price_kr '
-        'FROM beer LEFT OUTER JOIN beer_category '
-        'ON beer.category_id = beer_category.id '
-        'ORDER BY beer.name ASC'
-    )
-    categories = db.execute(
-        f'SELECT id, name_sv AS name, name_en, priority FROM beer_category ORDER BY priority ASC').fetchall()
+        'SELECT b.available, b.name, b.id, b.style, b.abv, b.country_iso_3166_id, b.volume_ml, b.price_kr, '
+        'IFNULL(bc.name_sv, \'<unknown category>\') as category '
+        'FROM beer b '
+        'LEFT JOIN beer_category bc ON b.category_id = bc.id '
+        'ORDER BY b.name ASC'
+    ).fetchall()
     
-    category_names = {category['id']: category['name'] for category in categories}
+    # Fetch categories only if needed for other parts of the template
+    categories = db.execute(
+        'SELECT id, name_sv AS name, name_en, priority FROM beer_category ORDER BY priority ASC'
+    ).fetchall()
 
     return render_template(
         'internal/beers.html',
         beers=beers,
         countries=countries,
         categories=categories,
-        category_names=category_names
+        category_names={category['id']: category['name'] for category in categories}
     )
 
 @bp.route('/beers/edit/<int:n>', methods=('GET', 'POST'))
@@ -118,17 +121,16 @@ def edit_beer(n):
         db = get_db()
         beer = db.execute('SELECT * FROM beer WHERE beer.id = ? ', (n,)).fetchone()
         categories = db.execute(
-            f'SELECT id, name_sv AS name FROM beer_category ORDER BY id ASC').fetchall()
-    
-        category_names = {category['id']: category['name'] for category in categories}
+            f'SELECT id, name_sv AS name FROM beer_category ORDER BY id ASC'
+        ).fetchall()
 
         return render_template(
-                'internal/edit_beer.html',
-                beer = beer,
-                countries=countries,
-                categories=categories,
-                category_names=category_names
-                )
+            'internal/edit_beer.html',
+            beer = beer,
+            countries=countries,
+            categories=categories,
+            category_names={category['id']: category['name'] for category in categories}
+        )
 
     return redirect(url_for('internal.beers'))
 
