@@ -551,24 +551,17 @@ def shifts():
         end = request.form['end']
         shift_types = request.form.getlist('shift_type[]')
 
+        db.begin()
         for worker_id, shift_type in zip(worker_ids, shift_types):
-            existing_shift = db.execute(
-                'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
-                (date, worker_id)
-            ).fetchone()
-            if existing_shift is None:
-                db.execute(
-                    'INSERT INTO shift '
-                    '(worker_id, date, start, end, shift_type_id)'
-                    'VALUES (?, date(?), time(?), time(?), ?)',
-                    (worker_id, date, start, end, shift_type)
-                )
-            else:
-                db.execute(
-                    'UPDATE shift SET start = time(?), end = time(?), shift_type_id = ? WHERE id = ?',
-                    (start, end, shift_type, existing_shift['id'])
-                )
-        db.commit() 
+            db.execute(
+                'INSERT INTO shift (worker_id, date, start, end, shift_type_id) '
+                'VALUES (?, ?, ?, ?, ?) '
+                'ON CONFLICT (worker_id, date) DO UPDATE SET '
+                'start = EXCLUDED.start, end = EXCLUDED.end, shift_type_id = EXCLUDED.shift_type_id',
+                (worker_id, date, start, end, shift_type)
+            )
+        db.commit()
+
         return redirect(url_for("internal.shifts"))
 
     active_workers = db.execute(
@@ -591,19 +584,19 @@ def shifts():
         default_end = opening_hours_today['end']
 
     shifts = db.execute(
-        'SELECT ' 
-        '(SELECT name FROM shift_type WHERE shift_type.id = shift_type_id) '
-        'as type, '
-        'IFNULL(display_name, \'<deleted worker>\') as worker, date, start, '
-        'end, shift.id as id '
-        'FROM shift LEFT OUTER JOIN worker ON worker.id = shift.worker_id '
-        'ORDER BY date DESC'
+        'SELECT st.name AS type, '
+        'IFNULL(w.display_name, \'<deleted worker>\') AS worker, '
+        's.date, s.start, s.end, s.id '
+        'FROM shift s '
+        'LEFT JOIN worker w ON w.id = s.worker_id '
+        'LEFT JOIN shift_type st ON st.id = s.shift_type_id '
+        'ORDER BY s.date DESC'
     ).fetchall()
 
     today = datetime.date.today().isoformat()
 
     shift_types = db.execute(
-        'SELECT id, name FROM shift_type WHERE name != \'legacy shift type\''
+        'SELECT id, name FROM shift_type'
     ).fetchall()
 
     return render_template(
