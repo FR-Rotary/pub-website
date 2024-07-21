@@ -32,17 +32,6 @@
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () =>  {
-    fetch('/internal/get_shifts')
-    .then(response => response.json())
-    .then(data => {
-        window.data = data;  // Store data globally
-        displayTable(data);
-    });
-  });
-</script>
-
-<script>
   document.addEventListener('DOMContentLoaded', function () {
     const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
     const container = document.getElementById('workers-container');
@@ -78,7 +67,6 @@
   });
 </script>
 <div class="container mt-6 mb-6">
-  
   <div class="box has-background">
     <label class="label">Add a shift</label>
     <p class="paragraph">Below you can add which people are working this shift. You can even add multiple people at once.</p>
@@ -146,85 +134,36 @@
     </form>
   </div>
 
-<script>
-  function displayTable(data) {
-      const tableBody = document.getElementById('shifts-table').getElementsByTagName('tbody')[0];
-      tableBody.innerHTML = '';
-      data.forEach(shift => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-          <td><p>${shift.date}</p></td>
-          <td><p>${shift.start}</p></td>
-          <td><p>${shift.end}</p></td>
-          <td><p>${shift.worker}</p></td>
-          <td><p>${shift.type}</p></td>
-          <td>
-            <form action='/internal/shifts/delete/${shift.id}' method="post">
-              <button class="button is-danger is-small" type="submit">Delete</button>
-            </form>
-          </td>
-          `;
-          tableBody.appendChild(row);
-      });
-  }
-  
-  function filterTable() {
-    const filterWorkerValue = document.getElementById('view-worker-shifts').value.toLowerCase();
-    const filterStartValue = document.getElementById('view-start-shifts').value.toLowerCase() || "1980-01-01";
-    const filterEndValue = document.getElementById('view-end-shifts').value.toLowerCase() || "4000-01-01";
-    if (!filterWorkerValue && (!filterStartValue || !filterEndValue)) {
-      return
-    }
-    const preFiltered = window.data.filter(shift => shift.worker.toLowerCase().includes(filterWorkerValue));
-    const filteredData = preFiltered.filter(shift => shift.date > filterStartValue && shift.date < filterEndValue);
-    displayTable(filteredData);
-  }
-</script>
-
-  <div class="box has-background">
-    <label class="label">Filter shifts</label>
-    <p class="paragraph">In this box, you can select any combination of worker and timespan</p>
-    <table class="table is-narrow has-background">
-      <tr>
-        <td>Worker</td>
-        <td>
-          <select id="view-worker-shifts" onchange="filterTable()">
-            <option value="" disabled selected>Select Worker</option> 
-            {% for worker in all_workers %}
-            <option value="{{worker.display_name}}">{{worker.display_name}}</option>
-            {% endfor %}
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>From</td>
-        <td>
-          <input id="view-start-shifts" type="date" onchange="filterTable()">
-        </td>
-      </tr>
-      <tr>
-        <td>To</td>
-        <td>
-          <input id="view-end-shifts" type="date" onchange="filterTable()">
-        </td>
-      </tr>
+  <div class="table-container">
+    <table id="shiftsTable" class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Worker</th>
+          <th>Job</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for shift in shifts %}
+          <tr>
+            <td>{{ shift.date }}</td>
+            <td>{{ shift.start }}</td>
+            <td>{{ shift.end }}</td>
+            <td>{{ shift.worker }}</td>
+            <td>{{ shift.type }}</td>
+            <td>
+              <form action="{{ request.path }}/delete/{{ shift.id }}" method="post">
+                <button class="button is-danger is-small" type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
-
-  <table id="shifts-table" class="table is-fullwidth">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Worker</th>
-        <th>Job</th>
-        <th></th>
-      <tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
 </div>
 
 {% endblock %}
