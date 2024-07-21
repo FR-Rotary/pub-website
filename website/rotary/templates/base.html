@@ -7,21 +7,21 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
     
+    <!--'Installs' DataTables-->
     <!--TODO: Always get the latest version DataTables and its dependecies-->
-    <link href="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.css" rel="stylesheet">
+      <link href="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.css" rel="stylesheet">
 
-    <!--Include Javascript for jQuery and DataTables-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.js"></script>
-    
-    <script>
-    $(document).ready(function() {
-        $('#beerTable').DataTable();
-    });
-    </script>
+      <!--Include Javascript for jQuery and DataTables-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+      <script src="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.js"></script>
+      <script>
+      $(document).ready(function() {
+          $('#beerTable').DataTable();
+      });
+      </script>
 
+    <!--Dark mode toggle logic--> 
     <script>
-      // Dark mode toggle logic
       document.addEventListener('DOMContentLoaded', () => {
         const toggleButton = document.getElementById('theme-toggle');
         const body = document.body;
@@ -70,8 +70,8 @@
         }
       });
     </script>
-
     
+    <!--Schema for SEO-->
     <script type="application/ld+json">
     {
       "@context": "http://schema.org",

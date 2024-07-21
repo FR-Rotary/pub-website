@@ -10,31 +10,24 @@ body {
     background-color: var(--bulma-scheme-main);
 }
 
-/* Add this inside a <style> tag in the <head> or in an external stylesheet */
-@media screen and (max-width: 768px) {
-    .table {
-        width: 100%; /* Make table width 100% */
-    }
-    .table th, .table td {
-        width: auto; /* Allow table cells to adjust their width automatically */
-    }
-}
 .navbar-item img {
     height: 3rem; // Adjusted height
     max-height: none; // Ensure the image scales proportionally
     width: auto; // Ensure the image scales proportionally
     object-position: center; // Adjust if necessary to align the image as desired
 }
+
 .internal-dropdown-color {
     background-color: #5A5E5E;
 }
 
 .section {
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
+//Used for the edit and delete buttons in internal/beers.html
 .uniform-button {
-    width: 5em; /* Or any specific width you prefer */
+    width: 5em; 
     display: inline-block; /* Ensures the anchor behaves like a button */
     text-align: center; /* Centers the text within the button */
 }
@@ -47,6 +40,7 @@ body {
     padding: 1rem;
 }
 
+//Used for setting availability of beers in internal/beers.html
 .chungus-checkbox {
     transform: scale(3); // Adjust scale as needed
     margin: 0; // Removes default margin to aid in centering
