@@ -6,8 +6,16 @@ $brown: #745E38; // Rotary Brown
     $navbar-height: 4.5rem
 );
 
+// Fixes so that colors correctly switch when changing between dark/light mode.
 body {
     background-color: var(--bulma-scheme-main);
+    color: var(--bulma-text);
+}
+
+footer {
+    strong{
+        color: var(--bulma-text);
+    }
 }
 
 .navbar-item img {
