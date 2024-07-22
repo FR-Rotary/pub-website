@@ -31,13 +31,14 @@
     <!--Dark mode toggle logic--> 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const toggleButton = document.getElementById('theme-toggle');
+        const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
         
         // Function to apply the theme
         function applyTheme(theme) {
           body.setAttribute('data-theme', theme);
           localStorage.setItem('theme', theme); // Save theme preference
+          themeToggle.checked = theme === 'light'; // Set checkbox state based on theme
         }
         
         // Check for saved theme preference and apply it
@@ -46,13 +47,11 @@
           applyTheme(savedTheme);
         }
     
-        toggleButton.addEventListener('click', () => {
-          const currentTheme = body.getAttribute('data-theme');
-          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        themeToggle.addEventListener('change', () => {
+          const newTheme = themeToggle.checked ? 'light' : 'dark';
           applyTheme(newTheme);
         });
       });
-
       
       document.addEventListener('DOMContentLoaded', () => {
         // Get all "navbar-burger" elements
