@@ -547,21 +547,27 @@ def shifts():
     if request.method == 'POST':
         worker_ids = request.form.getlist('workerid[]')
         date = request.form['date']
-        start = request.form['start']
-        end = request.form['end']
+        start, end = request.form['start'], request.form['end']
         shift_types = request.form.getlist('shift_type[]')
 
-        db.begin()
         for worker_id, shift_type in zip(worker_ids, shift_types):
-            db.execute(
-                'INSERT INTO shift (worker_id, date, start, end, shift_type_id) '
-                'VALUES (?, ?, ?, ?, ?) '
-                'ON CONFLICT (worker_id, date) DO UPDATE SET '
-                'start = EXCLUDED.start, end = EXCLUDED.end, shift_type_id = EXCLUDED.shift_type_id',
-                (worker_id, date, start, end, shift_type)
-            )
-        db.commit()
-
+            existing_shift = db.execute(
+                'SELECT id FROM shift WHERE date = date(?) AND worker_id = ?',
+                (date, worker_id)
+            ).fetchone()
+            if existing_shift is None:
+                db.execute(
+                    'INSERT INTO shift '
+                    '(worker_id, date, start, end, shift_type_id)'
+                    'VALUES (?, date(?), time(?), time(?), ?)',
+                    (worker_id, date, start, end, shift_type)
+                )
+            else:
+                db.execute(
+                    'UPDATE shift SET start = time(?), end = time(?), shift_type_id = ? WHERE id = ?',
+                    (start, end, shift_type, existing_shift['id'])
+                )
+        db.commit() 
         return redirect(url_for("internal.shifts"))
 
     active_workers = db.execute(
