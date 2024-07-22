@@ -63,7 +63,7 @@ for id, available, name, style, country_code, abv, volume, price, category_id in
         'style': style,
         'country_code': countries.get(alpha_3=country_code).numeric,
         'abv': float(abv.strip('<% ')),
-        'volume': -1 if volume == 'Glas' else int(volume),
+        'volume': 120 if volume == 'Glas' else int(volume),
         'price': int(price),
         'category': category_lookup[category_id],
     }
