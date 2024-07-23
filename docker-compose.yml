@@ -7,10 +7,10 @@ services:
       - ROTARY_USERNAME=${USERNAME}
       - ROTARY_PASSWORD=${PASSWORD}
       - ROTARY_SMTP_PORT=587
-      - ROTARY_SMTP_HOST=smtp-relay.gmail.com
-      - ROTARY_SMTP_USERNAME=user@host.com
-      - ROTARY_SMTP_PASSWORD=password
-      - ROTARY_SMTP_CONTACT_FORM_ADDRESS=user@host.com
+      - ROTARY_SMTP_HOST=smtp.gmail.com
+      - ROTARY_SMTP_USERNAME=website@rotarypub.se
+      - ROTARY_SMTP_PASSWORD=Weebsite@rotary69
+      - ROTARY_SMTP_CONTACT_FORM_ADDRESS=website@rotarypub.se
     volumes:
       - ./instance:/app/instance
     networks:
