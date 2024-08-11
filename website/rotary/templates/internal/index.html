@@ -44,17 +44,17 @@
   </div>
 
   {% if comic_strip_url %}
-    <figure class="image" style="text-align: center;">
-      <img src="{{ comic_strip_url }}" alt="Random Comic Strip" style="max-height:30em; width: auto; display: block; margin-left: auto; margin-right: auto;">
+    <figure class="image">
+      <img src="{{ comic_strip_url }}" alt="Random Comic Strip" style="max-height:30em; width: auto; margin: auto;">
     </figure>
   {% endif %}
 
-  <div class="buttons has-addons is-centered" style="text-align: center; padding-top: 1rem;">
-    <form action="{{ url_for('internal.upload_comic_strip') }}" method="post" enctype="multipart/form-data" style="display: inline-block; margin-right: 10px;">
+  <div class="buttons is-centered" style="padding-top: 1rem;">
+    <form action="{{ url_for('internal.upload_comic_strip') }}" method="post" enctype="multipart/form-data">
       <input type="file" name="comic_strip" id="comic_strip" style="display: none;" onchange="this.form.submit()">
       <label for="comic_strip" class="button">Ladda upp seriestrip</label>
     </form>
-    <form action="{{ url_for('internal.index') }}" method="get" style="display: inline-block;">
+    <form action="{{ url_for('internal.index') }}" method="get">
       <button type="submit" class="button">Slumpa fram en ny strip</button>
     </form>
   </div>

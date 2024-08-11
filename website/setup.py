@@ -9,6 +9,7 @@ setup(
     install_requires=[
         'flask',
         'flask_compress',
+        'flask-talisman',
         'pycountry'
     ],
 )

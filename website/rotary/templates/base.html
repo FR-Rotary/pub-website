@@ -12,9 +12,9 @@
       <link href="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.css" rel="stylesheet">
 
       <!--Include Javascript for jQuery and DataTables-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-      <script src="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.js"></script>
-      <script>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js" nonce="{{ csp_nonce() }}"></script>
+      <script src="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.js" nonce="{{ csp_nonce() }}"></script>
+      <script nonce="{{ csp_nonce() }}">
         $(document).ready(function() {
             $('#beersTable').DataTable({
                 pageLength: 50,
@@ -26,10 +26,7 @@
                 order: [[0, 'desc']]
             });
         });
-      </script>
 
-    <!--Dark mode toggle logic--> 
-    <script>
       document.addEventListener('DOMContentLoaded', () => {
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;

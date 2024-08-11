@@ -2,12 +2,22 @@ import os
 
 from flask import Flask, redirect, url_for
 from flask_compress import Compress
+from flask_talisman import Talisman
 
+# A CSP copied from the talisman documentation and added code until the website wasn't broken anymore. Could probably be improved.
+CSP_POLICY = {
+    # <iframe> based embedding for Maps.
+    'frame-src': '\'self\' www.google.com',
+    'script-src': '\'self\' \'nonce-{nonce}\' code.jquery.com cdn.datatables.net',
+    'style-src': '\'self\' \'nonce-{nonce}\' \'unsafe-inline\' cdn.datatables.net',
+}
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    Compress(app)
+    Compress(app) #Compress responses, a fast website is a good website
+    Talisman(app, content_security_policy=CSP_POLICY, content_security_policy_nonce_in=['script-src']) #Extension that sets security headers
+
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('ROTARY_SECRET_KEY', 'dev'),
         DATABASE=os.environ.get(

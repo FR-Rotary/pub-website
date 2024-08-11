@@ -9,7 +9,7 @@
   }
 </style>
 
-<script>
+<script nonce="{{ csp_nonce() }}">
 $(document).ready(function () {
   const $container = $('#workers-container');
   const $addWorkerBtn = $('#add-worker');
