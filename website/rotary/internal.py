@@ -15,7 +15,6 @@ from rotary.util import dict_from_row
 
 bp = Blueprint('internal', __name__, url_prefix='/internal')
 
-
 @bp.route('')
 @login_required
 def index():
@@ -33,20 +32,18 @@ def index():
     # Pass the comic strip URL to the template
     return render_template('internal/index.html', comic_strip_url=comic_strip_url)
 
-
 @bp.route('/')
 @login_required
 def index_slash_redirect():
     return redirect(url_for('internal.index'))
 
-
+# Add/Display beers
 @bp.route('/beers', methods=('GET', 'POST'))
 @login_required
 def beers():
     db = get_db()
 
     if request.method == 'POST':
-        # Assuming input validation is done elsewhere
         try:
             db.execute(
                 'INSERT INTO beer (name, style, country_iso_3166_id, abv, volume_ml, price_kr, category_id, available) '
@@ -509,35 +506,6 @@ def delete_opening_hours(n):
         db.commit()
 
     return redirect(url_for('internal.opening_hours'))
-
-
-@bp.get('/get_shifts')
-@login_required
-def get_shifts():
-    db = get_db()
-    shifts = db.execute(
-        'SELECT ' 
-        '(SELECT name FROM shift_type WHERE shift_type.id = shift_type_id) '
-        'as type, '
-        'IFNULL(display_name, \'<deleted worker>\') as worker, date, start, '
-        'end, shift.id as id '
-        'FROM shift LEFT OUTER JOIN worker ON worker.id = shift.worker_id '
-        'ORDER BY date DESC'
-    ).fetchall()
-    data = []
-    for type, worker, date, start, end, id in shifts:
-        shift = {
-            'date':   date,
-            'start':  start,
-            'end':    end,
-            'worker': worker,
-            'type':   type,
-            'id': id
-            }
-        data.append(shift)
-    #    current_app.logger.info(shift)
-    #current_app.logger.info(data)
-    return jsonify(data)
 
 @bp.route('/shifts', methods=('GET', 'POST'))
 @login_required
