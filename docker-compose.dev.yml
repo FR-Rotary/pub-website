@@ -20,3 +20,12 @@ services:
       - ./website/rotary:/app/rotary
       - /app/rotary/static/
     network_mode: "host"
+
+  dokuwiki:
+    container_name: pub-dokuwiki
+    image: linuxserver/dokuwiki
+    environment:
+      - TZ=Europe/Stockholm
+    volumes:
+      - ./dokuwiki:/config
+    restart: "no"

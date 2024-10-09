@@ -17,6 +17,16 @@ services:
       - reverse-proxy
     restart: "no"
 
+  dokuwiki:
+    container_name: pub-dokuwiki
+    image: linuxserver/dokuwiki
+    environment:
+      - TZ=Europe/Stockholm
+    volumes:
+      - ./dokuwiki:/config
+    networks:
+      - reverse-proxy
+    restart: "no"
 networks:
   reverse-proxy:
     external: true
