@@ -31,7 +31,7 @@
 \end{center}
 
 {% for category in beer_categories %}
-    {% if category.beers %}
+ {% if category.name != "Källarmeny" and category.beers %}
         \rowcolors{2}{gray!25}{white}
         \begin{table}[H]
             \caption{\large \textbf{ {{ category.name | escape_tex }} } }
@@ -88,6 +88,51 @@
         {% endfor %}
     \end{tabularx}
 \end{table}
+
+{% if beer_categories | selectattr("name", "equalto", "Källarmeny") | list %}
+\newpage
+\begin{center}
+    \Huge
+    \textbf{K Ä L L A R M E N Y}
+\end{center}
+
+\vspace{1cm}
+\begin{center}
+    \large
+    Detta är lite speciellare/sällsyntare öl som vi inte har plats för i kylen och förvaras i våran ölkällare, perfekt att dela med några kompisar när man vill ha något extra speciellt. Detta betyder att de är förrådskalla när du beställer ölen vilket passar för de flesta av ölen men vi kan vid beställning eller intresse för senare köp lägga undan någon flaska så att du kan få den kallare när du vill dricka den.
+    OBS! Det kan ta tid för de som jobbar att hitta ölen och om det är mycket att göra i baren kan personalen servera andra gäster innan den hämtar er flaska eller be er vänta vilket vi ber er ha översikt för. Eftersom denna lista inte underhålls lika flitigt som vår vanliga öllista betyder det att saker kan vara slut eller ligga på ett konstigt ställe där de som jobbar inte hittar i vilket fall våra bartenders gärna hjälper er att hitta något annat i liknande stil.
+\end{center}
+{% for category in beer_categories %}
+    {% if category.name == "Källarmeny" and category.beers %}
+        \rowcolors{2}{gray!25}{white}
+        \begin{table}[H]
+            \caption{\large \textbf{ {{ category.name | escape_tex }} } }
+            \begin{tabularx}{\textwidth{}}{
+                X
+                r
+                >{\raggedleft{}}p{3em}
+                >{\centering{}}p{2.7em}
+                p{3.5em} % TODO: Right-align
+                p{3em} % TODO: Right-align
+            }
+                {% for beer in category.beers %}
+                    {{ beer.name | escape_tex }} &
+                    {{ beer.style | escape_tex }} &
+                    {{ beer.abv }} \% &
+                    {{ to_letter_code(beer.country_code) }} &
+                    {% if beer.volume_ml == -1 %}
+                        Glas
+                    {% else %}
+                        {{ beer.volume_ml }} ml
+                    {% endif %} &
+                    {{ beer.price_kr }} kr \\
+                {% endfor %}
+            \end{tabularx}
+        \end{table}
+    {% endif %}
+{% endfor %}
+{% endif %}
+
 
 % Add footer with current date
 \begin{center}
