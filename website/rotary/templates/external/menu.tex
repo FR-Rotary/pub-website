@@ -1,6 +1,6 @@
 {% autoescape false %}
-\documentclass[9pt,a4paper]{extarticle}
-\usepackage[margin=1.7cm]{geometry}
+\documentclass[11pt,a4paper]{extarticle}
+\usepackage[margin=0.5cm, bottom=1.2cm]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[swedish]{babel}
 \usepackage{parskip}
@@ -10,6 +10,8 @@
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{datetime}
+\usepackage{fancyhdr}
+
 \DeclareUnicodeCharacter{202F}{\,}
 \captionsetup{
     labelformat=empty,
@@ -22,9 +24,12 @@
 % Set date format to ISO standard
 \renewcommand{\dateseparator}{-}
 \newdateformat{iso}{\THEYEAR-\twodigit{\THEMONTH}-\twodigit{\THEDAY}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[R]{\iso\today}
+\renewcommand{\headrulewidth}{0pt}
 
 \begin{document}
-
 \begin{center}
     \Huge
     \textbf{D R I C K B A R T}
@@ -134,11 +139,6 @@
 {% endif %}
 
 
-% Add footer with current date
-\begin{center}
-    \vspace{1cm}
-    \large \textbf{\iso\today}
-\end{center}
 
 \end{document}
 {% endautoescape %}

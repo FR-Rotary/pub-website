@@ -154,12 +154,12 @@ def menu():
     name_column = 'name_en' if session.get('english') else 'name_sv'
 
     category_names = db.execute(
-        f'SELECT {name_column} as name FROM beer_category ORDER BY id ASC'
+        f'SELECT id, {name_column} as name FROM beer_category ORDER BY priority ASC'
     ).fetchall()
 
     categories = []
 
-    for index, category_name in enumerate(category_names):
+    for category_name in category_names:
         query = (
             f'SELECT beer.name as name, style, beer_category.{name_column} as category, '
             'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
@@ -169,7 +169,7 @@ def menu():
         )
         category = {
             'name': category_name["name"],
-            'beers': db.execute(query, (str(index + 1),)).fetchall()
+            'beers': db.execute(query, (category_name["id"],)).fetchall()
         }
         categories.append(category)
 

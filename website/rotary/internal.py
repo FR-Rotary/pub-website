@@ -62,8 +62,6 @@ def beers():
             db.commit()
         except db.DatabaseError as e:
             db.rollback()
-            
-            # Handle error (e.g., log it, return an error message)
 
     beers = db.execute(
         'SELECT b.available, b.name, b.id, b.style, b.abv, b.country_iso_3166_id, b.volume_ml, b.price_kr, '
@@ -283,33 +281,18 @@ def delete_snacks(n):
 @bp.route('/categories/edit/<int:n>', methods=('GET', 'POST'))
 @login_required
 def edit_category(n):
-    if request.method == 'POST' and n is not None:
-        db = get_db()
-
-        name_sv = request.form['name_sv']
-        name_en = request.form['name_en']
-        priority = request.form['priority']
-
+    db = get_db()
+    
+    if request.method == 'POST':
         db.execute(
-            'UPDATE beer_category SET '
-            'name_sv = ?, name_en = ?, priority = ? '
-            'WHERE id = ?',
-            (name_sv, name_en, priority, n)
+            'UPDATE beer_category SET name_sv = ?, name_en = ?, priority = ? WHERE id = ?',
+            (request.form['name_sv'], request.form['name_en'], request.form['priority'], n)
         )
-
         db.commit()
         return redirect(url_for('internal.beers'))
 
-    if n is not None:
-        db = get_db()
-        category = db.execute('SELECT * FROM beer_category WHERE id = ?', (n,)).fetchone()
-
-        return render_template(
-            'internal/edit_category.html',
-            category=category
-        )
-
-    return redirect(url_for('internal.beers'))
+    category = db.execute('SELECT * FROM beer_category WHERE id = ?', (n,)).fetchone()
+    return render_template('internal/edit_category.html', category=category) if category else redirect(url_for('internal.beers'))
 
 @bp.post('/categories/add')
 @login_required
@@ -327,8 +310,8 @@ def add_category():
             (name_sv, name_en, priority)
         )
         db.commit()
-
-    return render_template('internal/add_category.html')
+    
+    return redirect(url_for('internal.beers'))
 
 @bp.route('/news', methods=('GET', 'POST'))
 @login_required
@@ -601,13 +584,13 @@ def print_menu():
     db = get_db()
 
     category_names = db.execute(
-        'SELECT name_sv AS name FROM beer_category ORDER BY id ASC'
+        'SELECT id, name_sv AS name FROM beer_category ORDER BY priority ASC'
     ).fetchall()
 
 
     categories = []
 
-    for index, category_name in enumerate(category_names):
+    for category_name in category_names:
         query = (
             'SELECT beer.name as name, style, beer_category.name_sv as category, '
             'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
@@ -617,7 +600,7 @@ def print_menu():
         )
         category = {
             'name': category_name["name"],
-            'beers': db.execute(query, (str(index + 1),)).fetchall()
+            'beers': db.execute(query, (category_name["id"],)).fetchall()
         }
         categories.append(category)
 
