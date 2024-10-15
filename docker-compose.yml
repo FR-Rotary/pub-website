@@ -1,4 +1,3 @@
-version: "3.1"
 services:
   website:
     container_name: pub-website
@@ -8,8 +7,8 @@ services:
       - ROTARY_PASSWORD=${PASSWORD}
       - ROTARY_SMTP_PORT=587
       - ROTARY_SMTP_HOST=smtp.gmail.com
-      - ROTARY_SMTP_USERNAME=website@rotarypub.se
-      - ROTARY_SMTP_PASSWORD=Weebsite@rotary69
+      - ROTARY_SMTP_USERNAME=${GOOGLE_USERNAME}
+      - ROTARY_SMTP_PASSWORD=${GOOGLE_PASSWORD}
       - ROTARY_SMTP_CONTACT_FORM_ADDRESS=website@rotarypub.se
     volumes:
       - ./instance:/app/instance
@@ -17,16 +16,6 @@ services:
       - reverse-proxy
     restart: "no"
 
-  dokuwiki:
-    container_name: pub-dokuwiki
-    image: linuxserver/dokuwiki
-    environment:
-      - TZ=Europe/Stockholm
-    volumes:
-      - ./dokuwiki:/config
-    networks:
-      - reverse-proxy
-    restart: "no"
 networks:
   reverse-proxy:
     external: true

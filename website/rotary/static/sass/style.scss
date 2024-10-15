@@ -1,6 +1,6 @@
 $brown: #745E38; // Rotary Brown
 
-@use "../bulma/sass" with (
+@use "../../../node_modules/bulma/sass" with (
     $family-primary: '"inter", sans-serif',
     $primary: $brown,
     $navbar-height: 4.5rem
