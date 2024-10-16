@@ -1,0 +1,15 @@
+{
+    "name": "rotary",
+    "version": "0.1.1",
+    "scripts": {
+        "build-css": "sass rotary/static/sass/style.scss:rotary/static/css/style.css",
+        "build-dataTables": "parcel build rotary/static/js/dataTables.js --dist-dir rotary/static/dist"
+    },
+    "dependencies": {
+      "bulma": "^1.0.2",
+      "jquery": "^3.7.1",
+      "sass": "^1.32.0",
+      "datatables.net-bm": "^2.1.8",
+      "parcel": "^2.12.0"
+    }
+  }

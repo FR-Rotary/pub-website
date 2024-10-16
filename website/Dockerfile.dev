@@ -24,6 +24,7 @@ RUN python3 setup.py install
 COPY . /app
 
 RUN npm run build-css
+RUN npm run build-dataTables
 
 EXPOSE 5000
 CMD ["flask", "run", "--host=0.0.0.0", "--debug"]

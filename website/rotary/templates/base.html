@@ -4,29 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{%  endblock %} - Rotary Pub</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/dataTables.css') }}">
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
-    
-    <!--'Installs' DataTables-->
-    <!--TODO: Always get the latest version DataTables and its dependecies-->
-      <link href="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.css" rel="stylesheet">
-
-      <!--Include Javascript for jQuery and DataTables-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js" nonce="{{ csp_nonce() }}"></script>
-      <script src="https://cdn.datatables.net/v/bm/dt-2.1.0/datatables.min.js" nonce="{{ csp_nonce() }}"></script>
-      <script nonce="{{ csp_nonce() }}">
-        $(document).ready(function() {
-            $('#beersTable').DataTable({
-                pageLength: 50,
-                lengthMenu: [ [50, 100, 500, -1], [50, 100, 500, "All"] ]
-            });
-            $('#shiftsTable').DataTable({
-                pageLength: 50,
-                lengthMenu: [ [50, 100, -1], [50, 100, "All"] ],
-                order: [[0, 'desc']]
-            });
-        });
-
+   
+    <script nonce="{{ csp_nonce() }}">
       document.addEventListener('DOMContentLoaded', () => {
         const themeToggle = document.getElementById('theme-toggle');
         const body = document.body;
@@ -169,7 +151,6 @@
         </div>
       </div>
     </nav>
-
     <div class="mr-2 ml-2">
     {% block content %}
     {%  endblock %}
@@ -193,6 +174,7 @@
       </nav>
 
     </footer>
-
+    <!-- Your content here -->
+    <script src="{{ url_for('static', filename='dist/dataTables.js') }}"></script>
   </body>
 </html>

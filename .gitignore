@@ -141,6 +141,4 @@ website/rotary/static/bulma
 website/rotary/static/css/style.css
 website/rotary/static/images/comics
 node_modules/
-package-lock.json
-package.json
 .vscode/settings.json

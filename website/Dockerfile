@@ -26,5 +26,6 @@ RUN python3 setup.py install
 COPY . /app
 
 RUN npm run build-css
+RUN npm run build-dataTables
 
 CMD ["uwsgi", "--ini=uwsgi.ini"]
