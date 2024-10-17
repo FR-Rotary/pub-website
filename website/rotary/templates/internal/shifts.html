@@ -8,68 +8,68 @@
     justify-content: flex-end;
   }
 </style>
-
+{% comment %} TODO: Put this into shifts.js {% endcomment %}
 <script nonce="{{ csp_nonce() }}">
-$(document).ready(function () {
-  const $container = $('#workers-container');
-  const $addWorkerBtn = $('#add-worker');
-  const $removeWorkerBtn = $('#remove-worker');
+  document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById('workers-container');
+      const addWorkerBtn = document.getElementById('add-worker');
+      const removeWorkerBtn = document.getElementById('remove-worker');
 
-  $addWorkerBtn.click(function () {
-    const $newSelect = $container.children().first().clone();                     // Clone the first worker selection box
-    $newSelect.find('select').val($newSelect.find('select option:first').val());  // Reset select values in the clone to default
-    $container.append($newSelect);                                                // Append the cloned worker selection box to the container
-  });
-
-  $removeWorkerBtn.click(function () {
-    // Ensure there's more than one worker selection box before removing
-    if ($container.children().length > 1) {
-      $container.children().last().remove();
-    } else {
-      alert('At least one worker must be selected.');
-    }
-  });
-});
-
-
-$(document).ready(function () {
-  const all_worker = {{ all_workers|tojson }};
-  const active_worker = {{ active_workers|tojson }};
-
-  const $toggleAllWorkersCheckbox = $('#toggle-all-workers');
-  const $container = $('#workers-container');
-
-  function updateWorkerSelectOptions() {
-    const workersToUse = $toggleAllWorkersCheckbox.is(':checked') ? all_worker : active_worker;
-    $container.find('.worker-select').each(function () {
-      const $selectElement = $(this).find('select[name="workerid[]"]');
-      $selectElement.empty(); // Clear existing options
-
-      // Add a default disabled option
-      $('<option>', {
-        value: "-1",
-        disabled: true,
-        selected: true,
-        text: "Select Worker"
-      }).appendTo($selectElement);
-
-      // Populate with new options
-      $.each(workersToUse, function (index, worker) {
-        $('<option>', {
-          value: worker.id,
-          text: worker.display_name
-        }).appendTo($selectElement);
+      const allWorkers = JSON.parse('{{ all_workers|tojson}}');
+      const activeWorkers = JSON.parse('{{ active_workers|tojson }}');
+      const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
+  
+      addWorkerBtn.addEventListener('click', function () {
+          const firstChild = container.children[0];
+          if (firstChild) {
+              const newSelect = firstChild.cloneNode(true);
+              const selectElement = newSelect.querySelector('select');
+              if (selectElement) {
+                  selectElement.value = selectElement.options[0].value;
+              }
+              container.appendChild(newSelect);
+          }
       });
-    });
-  }
-
-  // Update options when the checkbox state changes
-  $toggleAllWorkersCheckbox.change(updateWorkerSelectOptions);
-
-  // Initial population based on the checkbox state
-  updateWorkerSelectOptions();
-});
-</script>
+  
+      removeWorkerBtn.addEventListener('click', function () {
+          if (container.children.length > 1) {
+              container.removeChild(container.lastElementChild);
+          } else {
+              alert('At least one worker must be selected.');
+          }
+      });
+  
+      function updateWorkerSelectOptions() {
+          const workersToUse = toggleAllWorkersCheckbox.checked ? allWorkers : activeWorkers;
+          const workerSelects = container.querySelectorAll('.worker-select select[name="workerid[]"]');
+  
+          workerSelects.forEach(function (selectElement) {
+              selectElement.innerHTML = ''; // Clear existing options
+  
+              // Add a default disabled option
+              const defaultOption = document.createElement('option');
+              defaultOption.value = "-1";
+              defaultOption.disabled = true;
+              defaultOption.selected = true;
+              defaultOption.textContent = "Select Worker";
+              selectElement.appendChild(defaultOption);
+  
+              // Populate with new options
+              workersToUse.forEach(function (worker) {
+                  const option = document.createElement('option');
+                  option.value = worker.id;
+                  option.textContent = worker.display_name;
+                  selectElement.appendChild(option);
+              });
+          });
+      }
+  
+      toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
+  
+      // Initial population based on the checkbox state
+      updateWorkerSelectOptions();
+  });
+  </script>
 
 <div class="container mt-6 mb-6">
   <div class="box has-background">

@@ -8,7 +8,7 @@ from flask_talisman import Talisman
 CSP_POLICY = {
     # <iframe> based embedding for Maps.
     'frame-src':    '\'self\' www.google.com',
-    'script-src':   '\'self\'  ajax.googleapis.com *.googleanalytics.com *.google-analytics.com',
+    'script-src':   '\'self\'  \'unsafe-inline\' ajax.googleapis.com *.googleanalytics.com *.google-analytics.com',
     'style-src':    '\'self\'  \'unsafe-inline\' ajax.googleapis.com fonts.googleapis.com *.gstatic.com',
     'default-src':  '\'self\' *.gstatic.com',
 }
@@ -17,7 +17,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     Compress(app) #Compress responses, a fast website is a good website
-    Talisman(app, content_security_policy=CSP_POLICY) #Extension that sets security headers
+    Talisman(app, content_security_policy=CSP_POLICY, content_security_policy_nonce_in=['script-src']) #Extension that sets security headers
 
     app.config.from_mapping(
         SECRET_KEY=os.environ.get('ROTARY_SECRET_KEY', 'dev'),
