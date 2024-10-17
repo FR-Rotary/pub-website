@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const container = document.getElementById('workers-container');
     const addWorkerBtn = document.getElementById('add-worker');
     const removeWorkerBtn = document.getElementById('remove-worker');
-
-    const allWorkers = JSON.parse(allWorkersJson);
-    const activeWorkers = JSON.parse(activeWorkersJson);
     const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
 
-    addWorkerBtn.addEventListener('click', function () {
+    const allWorkers = window.allWorkers;
+    const activeWorkers = window.activeWorkers;
+
+    function addWorker() {
         const firstChild = container.children[0];
         if (firstChild) {
             const newSelect = firstChild.cloneNode(true);
@@ -17,15 +17,15 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             container.appendChild(newSelect);
         }
-    });
+    }
 
-    removeWorkerBtn.addEventListener('click', function () {
+    function removeWorker() {
         if (container.children.length > 1) {
             container.removeChild(container.lastElementChild);
         } else {
             alert('At least one worker must be selected.');
         }
-    });
+    }
 
     function updateWorkerSelectOptions() {
         const workersToUse = toggleAllWorkersCheckbox.checked ? allWorkers : activeWorkers;
@@ -52,8 +52,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
+    function initializeEventListeners() {
+        addWorkerBtn.addEventListener('click', addWorker);
+        removeWorkerBtn.addEventListener('click', removeWorker);
+        toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
+    }
 
-    // Initial population based on the checkbox state
+    initializeEventListeners();
     updateWorkerSelectOptions();
 });

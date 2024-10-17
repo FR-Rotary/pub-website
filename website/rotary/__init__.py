@@ -8,7 +8,7 @@ from flask_talisman import Talisman
 CSP_POLICY = {
     # <iframe> based embedding for Maps.
     'frame-src':    '\'self\' www.google.com',
-    'script-src':   '\'self\'  \'unsafe-inline\' ajax.googleapis.com *.googleanalytics.com *.google-analytics.com',
+    'script-src':   '\'self\' ajax.googleapis.com *.googleanalytics.com *.google-analytics.com',
     'style-src':    '\'self\'  \'unsafe-inline\' ajax.googleapis.com fonts.googleapis.com *.gstatic.com',
     'default-src':  '\'self\' *.gstatic.com',
 }

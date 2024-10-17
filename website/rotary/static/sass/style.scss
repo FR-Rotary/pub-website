@@ -25,6 +25,11 @@ footer {
     object-position: center; // Adjust if necessary to align the image as desired
 }
 
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
 .internal-dropdown-color {
     background-color: #5A5E5E;
 }

@@ -1,6 +1,34 @@
 {% extends "base.html" %}
 
 {% block content%}
+
+<script nonce="{{ csp_nonce() }}">
+  document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('.toggle-food-form');
+
+    forms.forEach(function (form) {
+      const checkbox = form.querySelector('.chungus-checkbox');
+      checkbox.addEventListener('change', function () {
+        form.submit();
+      });
+    });
+  });
+</script>
+
+<script nonce="{{ csp_nonce() }}">
+  document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('.toggle-snack-form');
+
+    forms.forEach(function (form) {
+      const checkbox = form.querySelector('.chungus-checkbox');
+      checkbox.addEventListener('change', function () {
+        form.submit();
+      });
+    });
+  });
+</script>
+
+
 <div class="container mt-6 mb-6">
   <div class="box has-background">
     <label class="label">Add a new food!</label>
@@ -48,8 +76,8 @@
         <tr>
           <td>
             <div class="checkbox-column">
-              <form action="{{ url_for('internal.toggle_food', n=food.id) }}" method="POST">
-                <input onclick="this.form.submit()" type="checkbox" class="chungus-checkbox" {% if food.available %}checked{% endif %}>
+              <form action="{{ url_for('internal.toggle_food', n=food.id) }}" method="POST" class="toggle-food-form">
+                <input type="checkbox" class="chungus-checkbox" {% if food.available %}checked{% endif %}>
               </form>
             </div>
           </td>
@@ -114,8 +142,8 @@
         <tr>
           <td>
             <div class="checkbox-column">
-              <form action="{{ url_for('internal.toggle_snack', n=snack.id) }}" method="POST">
-                <input onclick="this.form.submit()" type="checkbox" class="chungus-checkbox" {% if snack.available %}checked{% endif %}>
+              <form action="{{ url_for('internal.toggle_snack', n=snack.id) }}" method="POST" class="toggle-snack-form">
+                <input type="checkbox" class="chungus-checkbox" {% if snack.available %}checked{% endif %}>
               </form>
             </div>
           </td>

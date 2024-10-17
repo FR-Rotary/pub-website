@@ -3,6 +3,20 @@
 
 {% block content%}
 
+<script src="{{ url_for('static', filename='dist/data-tables.js') }}" defer></script>
+<script nonce="{{ csp_nonce() }}"  defer>
+  document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('.toggle-beer-form');
+
+    forms.forEach(function (form) {
+      const checkbox = form.querySelector('.chungus-checkbox');
+      checkbox.addEventListener('change', function () {
+        form.submit();
+      });
+    });
+  });
+</script>
+
 <div class="container mt-6 mb-6">
   <div class="box has-background">
     <label class="label">Add a new beer!</label>
@@ -98,8 +112,8 @@
         <tr>
           <td>
             <div class="checkbox-column">
-              <form action="{{ url_for('internal.toggle_beer', n=beer.id) }}" method="POST">
-                <input onclick="this.form.submit()" type="checkbox" class="chungus-checkbox" {% if beer.available %}checked{% endif %}>
+              <form action="{{ url_for('internal.toggle_beer', n=beer.id) }}" method="POST" class="toggle-beer-form">
+                <input type="checkbox" class="chungus-checkbox" {% if beer.available %}checked{% endif %}>
               </form>
             </div>
           </td>
@@ -180,5 +194,7 @@
     </table>
   </div>
 </div>
+
+
 
 {% endblock %}

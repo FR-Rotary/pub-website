@@ -2,24 +2,19 @@
 {% block title %} {{ g.strings.nav.index }} {% endblock%}
 
 {% block content%}
-<style>
-  .button-container {
-    display: flex;
-    justify-content: flex-end;
-  }
-</style>
 
+<script src="{{ url_for('static', filename='dist/data-tables.js') }}" defer></script>
 <script nonce="{{ csp_nonce() }}">
   document.addEventListener('DOMContentLoaded', function () {
       const container = document.getElementById('workers-container');
       const addWorkerBtn = document.getElementById('add-worker');
       const removeWorkerBtn = document.getElementById('remove-worker');
-
-      const allWorkers = JSON.parse('{{ all_workers|tojson}}');
-      const activeWorkers = JSON.parse('{{ active_workers|tojson }}');
       const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
-  
-      addWorkerBtn.addEventListener('click', function () {
+
+      const allWorkers = JSON.parse('{{ all_workers|tojson }}');
+      const activeWorkers = JSON.parse('{{ active_workers|tojson }}');
+
+      function addWorker() {
           const firstChild = container.children[0];
           if (firstChild) {
               const newSelect = firstChild.cloneNode(true);
@@ -29,23 +24,23 @@
               }
               container.appendChild(newSelect);
           }
-      });
-  
-      removeWorkerBtn.addEventListener('click', function () {
+      }
+
+      function removeWorker() {
           if (container.children.length > 1) {
               container.removeChild(container.lastElementChild);
           } else {
               alert('At least one worker must be selected.');
           }
-      });
-  
+      }
+
       function updateWorkerSelectOptions() {
           const workersToUse = toggleAllWorkersCheckbox.checked ? allWorkers : activeWorkers;
           const workerSelects = container.querySelectorAll('.worker-select select[name="workerid[]"]');
-  
+
           workerSelects.forEach(function (selectElement) {
               selectElement.innerHTML = ''; // Clear existing options
-  
+
               // Add a default disabled option
               const defaultOption = document.createElement('option');
               defaultOption.value = "-1";
@@ -53,7 +48,7 @@
               defaultOption.selected = true;
               defaultOption.textContent = "Select Worker";
               selectElement.appendChild(defaultOption);
-  
+
               // Populate with new options
               workersToUse.forEach(function (worker) {
                   const option = document.createElement('option');
@@ -63,13 +58,17 @@
               });
           });
       }
-  
-      toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
-  
-      // Initial population based on the checkbox state
+
+      function initializeEventListeners() {
+          addWorkerBtn.addEventListener('click', addWorker);
+          removeWorkerBtn.addEventListener('click', removeWorker);
+          toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
+      }
+
+      initializeEventListeners();
       updateWorkerSelectOptions();
   });
-  </script>
+</script>
 
 <div class="container mt-6 mb-6">
   <div class="box has-background">
@@ -118,7 +117,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="column">
           <div id="workers-container">
             <div class="worker-select" data-row-index="0">
@@ -127,14 +126,14 @@
                   <select name="workerid[]" id="select-worker-shift-0">
                     <option value="-1" disabled selected>Select Worker</option>
                     {% for worker in workers %}
-                    <option value="{{ worker.id }}">{{ worker.display_name }}</option>
+                      <option value="{{ worker.id }}">{{ worker.display_name }}</option>
                     {% endfor %}
                   </select>
                 </div>
                 <div class="select is-fullwidth">
                   <select name="shift_type[]">
                     {% for shift_type in shift_types %}
-                    <option value="{{ shift_type.id }}">{{ shift_type.name }}</option>
+                      <option value="{{ shift_type.id }}">{{ shift_type.name }}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -164,12 +163,12 @@
     <table id="shiftsTable" class="table is-fullwidth">
       <thead>
         <tr>
-          <th>Date</th>
+          <th width="10%">Date</th>
           <th>Start</th>
           <th>End</th>
           <th>Worker</th>
           <th>Job</th>
-          <th></th>
+          <th width="8%"></th>
         </tr>
       </thead>
       <tbody>
