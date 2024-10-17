@@ -1,6 +1,4 @@
 import $ from 'jquery';
-//import 'datatables.net-dt';
-// import 'datatables.net-dt/css/dataTables.dataTables.css';
 import 'datatables.net-bm';
 import 'datatables.net-bm/css/dataTables.bulma.css';
 

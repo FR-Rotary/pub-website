@@ -5,60 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{%  endblock %} - Rotary Pub</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='dist/dataTables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/data-tables.css') }}">
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
-   
-    <script nonce="{{ csp_nonce() }}">
-      document.addEventListener('DOMContentLoaded', () => {
-        const themeToggle = document.getElementById('theme-toggle');
-        const body = document.body;
-        
-        // Function to apply the theme
-        function applyTheme(theme) {
-          body.setAttribute('data-theme', theme);
-          localStorage.setItem('theme', theme); // Save theme preference
-          themeToggle.checked = theme === 'light'; // Set checkbox state based on theme
-        }
-        
-        // Check for saved theme preference and apply it
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-          applyTheme(savedTheme);
-        }
-    
-        themeToggle.addEventListener('change', () => {
-          const newTheme = themeToggle.checked ? 'light' : 'dark';
-          applyTheme(newTheme);
-        });
-      });
-      
-      document.addEventListener('DOMContentLoaded', () => {
-        // Get all "navbar-burger" elements
-        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-        // Check if there are any navbar burgers
-        if ($navbarBurgers.length > 0) {
-
-          // Add a click event on each of them
-          $navbarBurgers.forEach( el => {
-            el.addEventListener('click', () => {
-
-              // Get the target from the "data-target" attribute
-              const target = el.dataset.target;
-              const $target = document.getElementById(target);
-
-              // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-              el.classList.toggle('is-active');
-              $target.classList.toggle('is-active');
-
-            });
-          });
-        }
-      });
-    </script>
     
     <!--Schema for SEO-->
-    <script type="application/ld+json">
+    <script  nonce="{{ csp_nonce() }}" type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "Restaurant",
@@ -86,52 +37,46 @@
     
   </head>
   <body>
-
     <nav class="navbar is-primary mb-6" role="navigation" aria-label="main navigation">
       <div class="container">
-
         <div class="navbar-brand">
-          <a class="navbar-item" href="{{ url_for('index') }}">
-            <img src="/static/images/newLogo.png">
-          </a>
+          <a class="navbar-item" href="{{ url_for('index') }}"><img src="/static/images/newLogo.png"></a>
           <a role="button" id="burger" class="navbar-burger" aria-label="menu" data-target="navmenu" aria-expanded="false">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
           </a>
         </div>
-
+        
         <div id="navmenu" class="navbar-menu">
-
           <div class="navbar-start">
             <a class='navbar-item' href="{{ url_for('external.index') }}">{{ g.strings.nav.index }}</a>
             <a class='navbar-item' href="{{ url_for('external.menu') }}">{{ g.strings.nav.menu }}</a>
             <a class='navbar-item' href="{{ url_for('external.work') }}">{{ g.strings.nav.work }}</a>
             <a class='navbar-item' href="{{ url_for('external.rentals') }}">{{ g.strings.nav.rentals }}</a>
             <a class='navbar-item' href="{{ url_for('external.contact') }}">{{ g.strings.nav.contact }}</a>
-
           </div>
 
           <div class="navbar-end">
             {% if g.authenticated %}
-            <div class="navbar-item has-dropdown is-hoverable" id="internal-dropdown">
-              <a class="navbar-link internal-dropdown-color" onclick="document.getElementById('internal-dropdown').classList.toggle('is-active')">Internal</a>
-              <div class="navbar-dropdown">
-                <a class="navbar-item" href="{{ url_for('internal.index') }}">Home</a>
-                <hr class="navbar-divider">
-                <a class="navbar-item" href="{{ url_for('internal.news') }}">News</a>
-                <a class="navbar-item" href="{{ url_for('internal.opening_hours') }}">Hours</a>
-                <a class="navbar-item" href="{{ url_for('internal.shifts') }}">Shifts</a>
-                <hr class="navbar-divider">
-                <a class="navbar-item" href="{{ url_for('internal.beers') }}">Beer</a>
-                <a class="navbar-item" href="{{ url_for('internal.food') }}">Food & Snacks</a></a>
-                <a class="navbar-item" href="{{ url_for('internal.print_menu') }}">Print Menu</a>
-                <hr class="navbar-divider">
-                <a class="navbar-item" href="{{ url_for('internal.workers') }}">Manage Workers</a>
-                <hr class="navbar-divider">
-                <a class="navbar-item" href="{{ url_for('auth.logout') }}" class="button is-danger">Logout</a>
+              <div class="navbar-item has-dropdown is-hoverable" id="internal-dropdown">
+                <a class="navbar-link internal-dropdown-color">Internal</a>
+                <div class="navbar-dropdown">
+                  <a class="navbar-item" href="{{ url_for('internal.index') }}">Home</a>
+                  <hr class="navbar-divider">
+                    <a class="navbar-item" href="{{ url_for('internal.news') }}">News</a>
+                    <a class="navbar-item" href="{{ url_for('internal.opening_hours') }}">Hours</a>
+                    <a class="navbar-item" href="{{ url_for('internal.shifts') }}">Shifts</a>
+                  <hr class="navbar-divider">
+                    <a class="navbar-item" href="{{ url_for('internal.beers') }}">Beer</a>
+                    <a class="navbar-item" href="{{ url_for('internal.food') }}">Food & Snacks</a></a>
+                    <a class="navbar-item" href="{{ url_for('internal.print_menu') }}">Print Menu</a>
+                  <hr class="navbar-divider">
+                    <a class="navbar-item" href="{{ url_for('internal.workers') }}">Manage Workers</a>
+                  <hr class="navbar-divider">
+                    <a class="navbar-item" href="{{ url_for('auth.logout') }}" class="button is-danger">Logout</a>
+                </div>
               </div>
-            </div>
             {% endif %}
             
             <div class="navbar-item">
@@ -158,23 +103,19 @@
 
     <footer class="footer mt-6">
       <nav class="level">
-
         <div class="level-item has-text-centered">
           <p class="heading">Currently Serving <strong>{{ g.beer_count }}</strong> beers</p>
         </div>
-
         <div class="level-item has-text-centered">
-          <p class="heading"> &copy; <script>document.write(new Date().getFullYear());</script> Rotary Pub </p>
+          <p class="heading"> &copy; <span id="current-year"></span> Rotary Pub </p>
         </div>
-
         <div class="level-item has-text-centered">
           <p class="heading">made with 🍺</p>
         </div>
-
       </nav>
 
     </footer>
-    <!-- Your content here -->
-    <script src="{{ url_for('static', filename='dist/dataTables.js') }}"></script>
+    <script src="{{ url_for('static', filename='dist/data-tables.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
   </body>
 </html>
