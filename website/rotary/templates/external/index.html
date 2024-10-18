@@ -6,36 +6,31 @@
 <div class="container">
   <div class="columns is-8 is-variable">
     <div class="column is-two-thirds-desktop">
-
       <div class="mb-5">
         <h1 class="title">{{ g.strings.index.welcome }}</h1>
         <h2 class="subtitle is-italic mb-5">{{ g.strings.index.tagline }}</h2>
-        <figure class="image is-2by1 mb-5">
-          <img src="static/images/pub.jpeg">
-        </figure>
+        <figure class="image is-2by1 mb-5"><img src="static/images/pub.jpeg" alt="A crowded pub or bar interior with exposed brick walls and wooden tables. Patrons are seated at communal tables with drinks and food, watching what appears to be a live music setup or performance area at the far end of the room. The space has recessed lighting in the ceiling and decorative window alcoves with plants. Several people are holding phones or beverages, and there is a casual, social atmosphere."></figure>
         <p>{{ g.strings.index.description }}</p>
       </div>
 
-      <div class="mb-4">
-        <h1 class="title is-5">{{ g.strings.index.rent }}</h1>
+      <div class="mb-5">
+        <h2 class="title is-5">{{ g.strings.index.rent }}</h2>
         <p>
-          {{ g.strings.index.rent_text }} <a href="{{url_for('external.rentals')}}">
-            {{ g.strings.index.contact_us }}
-          </a>
+          {{ g.strings.index.rent_text }} 
+          <a class="has-text-link" href="{{url_for('external.rentals')}}">{{ g.strings.index.contact_us }} </a>
         </p>
       </div>
 
       <div class="mb-5">
-        <h1 class="title is-5">{{ g.strings.index.work }}</h1>
+        <h2 class="title is-5">{{ g.strings.index.work }}</h2>
         <p>
-          {{ g.strings.index.work_text }} <a href="{{url_for('external.work')}}">
-            {{g.strings.index.work_link}}
-          </a>
+          {{ g.strings.index.work_text }} 
+          <a class="has-text-link" href="{{url_for('external.work')}}"> {{g.strings.index.work_link}}</a>
         </p>
       </div>
 
-      <div class=" blog">
-        <h1 class="title">{{ g.strings.index.news.header }}</h2>
+      <div class="blog">
+        <h2 class="title">{{ g.strings.index.news.header }}</h2>
         <article class="message">
           <div class="message-header">
             <p>{{ news.title }}</p>
@@ -46,42 +41,36 @@
           </div>
         </article>
       </div>
-
     </div>
 
     <div class="column">
-
       <div class="content hours">
-        <h1>{{ g.strings.index.opening_hours }}</h1>
+        <h2>{{ g.strings.index.opening_hours }}</h2>
         <table class="table is-fullwidth">
           <tbody>
             {% for day in range(7) %}
-            {% if opening_hours[day]['hours'] == none %}
-            <tr class="has-text-grey-light is-italic">
-            {% else %}
-            <tr>
-            {% endif %}
+              {% if opening_hours[day]['hours'] == none %}
+                <tr class="has-text-grey-light is-italic">
+              {% else %}
+                <tr>
+              {% endif %}
               <td>{{ g.strings.days[day] }} {{ opening_hours[day]['date'] }}</td>
               {% if opening_hours[day]['hours'] == none %}
-              <td class="has-text-right">{{ g.strings.index.closed }}</td>
+                <td class="has-text-right">{{ g.strings.index.closed }}</td>
               {% else %}
-              <td class="has-text-right">{{ opening_hours[day]['hours'] }}</td>
+                <td class="has-text-right">{{ opening_hours[day]['hours'] }}</td>
               {% endif %}
-            </tr>
+              </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
 
       <div class="content map">
-        <h1>{{ g.strings.index.find }}</h1>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2132.48154199987!2d11.98127941600669!3d57.69128828111599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x464ff37540c3f44f%3A0x34b27b50dc84b05d!2sRotary%20Pub!5e0!3m2!1sen!2sse!4v1620212844072!5m2!1sen!2sse" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <h2>{{ g.strings.index.find }}</h2>
+        <iframe title="Our Location on Google Maps" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2132.48154199987!2d11.98127941600669!3d57.69128828111599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x464ff37540c3f44f%3A0x34b27b50dc84b05d!2sRotary%20Pub!5e0!3m2!1sen!2sse!4v1620212844072!5m2!1sen!2sse" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
       </div>
-
     </div>
-
   </div>
 </div>
-
-
 {% endblock %}

@@ -7,6 +7,7 @@ from flask_talisman import Talisman
 # A CSP copied from the talisman documentation and added code until the website wasn't broken anymore. Could probably be improved.
 CSP_POLICY = {
     # <iframe> based embedding for Maps.
+    'font-src':     '\'self\'',
     'frame-src':    '\'self\' www.google.com',
     'script-src':   '\'self\' ajax.googleapis.com *.googleanalytics.com *.google-analytics.com',
     'style-src':    '\'self\'  \'unsafe-inline\' ajax.googleapis.com fonts.googleapis.com *.gstatic.com',

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ g.language}}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{%  endblock %} - Rotary Pub</title>
+    <meta name="description" content="Rotary Pub is a student driven pub open for everyone located in Gothenburg. We serve a huge variety of beers and some snacks as well.">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/png" href="/static/images/favicon.png">
     
@@ -38,7 +39,7 @@
     <nav class="navbar is-primary mb-6" role="navigation" aria-label="main navigation">
       <div class="container">
         <div class="navbar-brand">
-          <a class="navbar-item" href="{{ url_for('index') }}"><img src="/static/images/newLogo.png"></a>
+          <a class="navbar-item" href="{{ url_for('index') }}" aria-label="Home page"><img src="/static/images/newLogo.png" alt="Logo for 'Rotary Pub' featuring stylized text where the first 'O' is replaced with a gear symbol. The text arches slightly upward and is designed in a black and tan/bronze color scheme with a minimalist, modern style."></a>
           <a role="button" id="burger" class="navbar-burger" aria-label="menu" data-target="navmenu" aria-expanded="false">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>

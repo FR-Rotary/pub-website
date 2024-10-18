@@ -238,5 +238,7 @@ def set_language():
 
     if english:
         g.strings = strings_en
+        g.language = 'en'
     else:
         g.strings = strings_sv
+        g.language = 'sv'
