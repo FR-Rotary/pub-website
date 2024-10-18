@@ -1,3 +1,14 @@
+import $ from 'jquery';
+import 'datatables.net-bm'; 
+
+$(document).ready(function() {
+    $('#shiftsTable').DataTable({
+        pageLength: 50,
+        lengthMenu: [ [50, 100, -1], [50, 100, "All"] ],
+        order: [[0, 'desc']]
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     const container = document.getElementById('workers-container');
     const addWorkerBtn = document.getElementById('add-worker');

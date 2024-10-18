@@ -3,7 +3,9 @@
     "version": "0.1.1",
     "scripts": {
         "build-css": "sass rotary/static/sass/style.scss:rotary/static/css/style.css",
-        "build-dataTables": "parcel build rotary/static/js/data-tables.js --dist-dir rotary/static/dist"
+        "build-beers": "parcel build rotary/static/js/beers.js --dist-dir rotary/static/dist",
+        "build-shifts": "parcel build rotary/static/js/shifts.js --dist-dir rotary/static/dist",
+        "build": "npm run build-css && npm run build-beers && npm run build-shifts"
     },
     "devDependencies": {
       "parcel": "^2.12.0",
