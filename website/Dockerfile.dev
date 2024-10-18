@@ -1,4 +1,4 @@
-FROM ubuntu:23.04
+FROM debian:bookworm
 
 RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     echo "Europe/Stockholm" > /etc/timezone && \

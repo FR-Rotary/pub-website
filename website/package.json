@@ -1,19 +1,22 @@
 {
-    "name": "rotary",
-    "version": "0.1.1",
-    "scripts": {
-        "build-css": "sass rotary/static/sass/style.scss:rotary/static/css/style.css",
-        "build-beers": "parcel build rotary/static/js/beers.js --dist-dir rotary/static/dist",
-        "build-shifts": "parcel build rotary/static/js/shifts.js --dist-dir rotary/static/dist",
-        "build": "npm run build-css && npm run build-beers && npm run build-shifts"
-    },
-    "devDependencies": {
-      "parcel": "^2.12.0",
-      "sass": "^1.32.0"
-    },
-    "dependencies": {
-      "bulma": "^1.0.2",
-      "jquery": "^3.7.1",
-      "datatables.net-bm": "^2.1.8"
-    }
+  "name": "rotary",
+  "version": "0.1.1",
+  "scripts": {
+    "build-css": "sass rotary/static/sass/style.scss:rotary/static/css/style.css",
+    "purge-css": "postcss rotary/static/css/style.css -o rotary/static/css/style.css",
+    "build-beers": "parcel build rotary/static/js/beers.js --dist-dir rotary/static/dist",
+    "build-shifts": "parcel build rotary/static/js/shifts.js --dist-dir rotary/static/dist",
+    "build": "npm run build-css && npm run build-beers && npm run build-shifts && npm run purge-css"
+  },
+  "devDependencies": {
+    "parcel": "^2.12.0",
+    "sass": "^1.80.2",
+    "postcss-cli": "^11.0.0",
+    "@fullhuman/postcss-purgecss": "^6.0.0"
+  },
+  "dependencies": {
+    "bulma": "^1.0.2",
+    "jquery": "^3.7.1",
+    "datatables.net-bm": "^2.1.8"
   }
+}
