@@ -15,9 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const removeWorkerBtn = document.getElementById('remove-worker');
     const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
 
-    const allWorkers = window.allWorkers;
-    const activeWorkers = window.activeWorkers;
-
     function addWorker() {
         const firstChild = container.children[0];
         if (firstChild) {

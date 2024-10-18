@@ -7,7 +7,7 @@ $brown: #745E38; // Rotary Brown
 );
 
 // Import DataTables styles
-@use "../../../node_modules/datatables.net-bm/css/dataTables.bulma.css";
+@use "../../../node_modules/datatables.net-bm/css/dataTables.bulma.min.css";
 
 // Fixes so that colors correctly switch when changing between dark/light mode.
 body {

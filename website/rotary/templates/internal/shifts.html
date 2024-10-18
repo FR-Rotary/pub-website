@@ -3,72 +3,10 @@
 
 {% block content%}
 
-<script src="{{ url_for('static', filename='js/shifts.js') }}" defer></script>
-
+<script src="{{ url_for('static', filename='dist/shifts.js') }}" defer></script>
 <script nonce="{{ csp_nonce() }}">
-  document.addEventListener('DOMContentLoaded', function () {
-      const container = document.getElementById('workers-container');
-      const addWorkerBtn = document.getElementById('add-worker');
-      const removeWorkerBtn = document.getElementById('remove-worker');
-      const toggleAllWorkersCheckbox = document.getElementById('toggle-all-workers');
-
-      const allWorkers = JSON.parse('{{ all_workers|tojson }}');
-      const activeWorkers = JSON.parse('{{ active_workers|tojson }}');
-
-      function addWorker() {
-          const firstChild = container.children[0];
-          if (firstChild) {
-              const newSelect = firstChild.cloneNode(true);
-              const selectElement = newSelect.querySelector('select');
-              if (selectElement) {
-                  selectElement.value = selectElement.options[0].value;
-              }
-              container.appendChild(newSelect);
-          }
-      }
-
-      function removeWorker() {
-          if (container.children.length > 1) {
-              container.removeChild(container.lastElementChild);
-          } else {
-              alert('At least one worker must be selected.');
-          }
-      }
-
-      function updateWorkerSelectOptions() {
-          const workersToUse = toggleAllWorkersCheckbox.checked ? allWorkers : activeWorkers;
-          const workerSelects = container.querySelectorAll('.worker-select select[name="workerid[]"]');
-
-          workerSelects.forEach(function (selectElement) {
-              selectElement.innerHTML = ''; // Clear existing options
-
-              // Add a default disabled option
-              const defaultOption = document.createElement('option');
-              defaultOption.value = "-1";
-              defaultOption.disabled = true;
-              defaultOption.selected = true;
-              defaultOption.textContent = "Select Worker";
-              selectElement.appendChild(defaultOption);
-
-              // Populate with new options
-              workersToUse.forEach(function (worker) {
-                  const option = document.createElement('option');
-                  option.value = worker.id;
-                  option.textContent = worker.display_name;
-                  selectElement.appendChild(option);
-              });
-          });
-      }
-
-      function initializeEventListeners() {
-          addWorkerBtn.addEventListener('click', addWorker);
-          removeWorkerBtn.addEventListener('click', removeWorker);
-          toggleAllWorkersCheckbox.addEventListener('change', updateWorkerSelectOptions);
-      }
-
-      initializeEventListeners();
-      updateWorkerSelectOptions();
-  });
+  const activeWorkers = {{ active_workers|tojson }};
+  const allWorkers = {{ all_workers|tojson }};
 </script>
 
 <div class="container mt-6 mb-6">
