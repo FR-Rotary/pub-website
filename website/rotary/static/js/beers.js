@@ -1,11 +1,7 @@
-import $ from 'jquery';
-import 'datatables.net-bm';
+import { initializeTable } from './tableutils.js';
 
-$(document).ready(function() {
-    $('#beersTable').DataTable({
-        pageLength: 50,
-        lengthMenu: [ [50, 100, 500, -1], [50, 100, 500, "All"] ]
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    initializeTable('beersTable', 'searchInput', 'pagination', 25);
 });
 
 document.addEventListener('DOMContentLoaded', function () {

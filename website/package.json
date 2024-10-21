@@ -10,13 +10,11 @@
   },
   "devDependencies": {
     "parcel": "^2.12.0",
-    "sass": "^1.80.2",
+    "sass": "^1.80.3",
     "postcss-cli": "^11.0.0",
     "@fullhuman/postcss-purgecss": "^6.0.0"
   },
   "dependencies": {
-    "bulma": "^1.0.2",
-    "jquery": "^3.7.1",
-    "datatables.net-bm": "^2.1.8"
+    "bulma": "^1.0.2"
   }
 }

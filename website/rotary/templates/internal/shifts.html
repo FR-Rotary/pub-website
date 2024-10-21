@@ -98,6 +98,7 @@
     </form>
   </div>
 
+  <input class="input" type="text" id="searchInput" placeholder="Search..." style="width: 20%;">
   <div class="table-container mt-2">
     <table id="shiftsTable" class="table is-fullwidth">
       <thead>
@@ -127,6 +128,11 @@
         {% endfor %}
       </tbody>
     </table>
+    <nav id="pagination" class="pagination is-centered" role="navigation" aria-label="pagination">
+      <a href="#" class="pagination-previous">Previous</a>
+      <a href="#" class="pagination-next">Next page</a>
+      <ul class="pagination-list"></ul>
+    </nav>
   </div>
 </div>
 

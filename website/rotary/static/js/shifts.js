@@ -1,12 +1,7 @@
-import $ from 'jquery';
-import 'datatables.net-bm'; 
+import { initializeTable } from './tableutils.js';
 
-$(document).ready(function() {
-    $('#shiftsTable').DataTable({
-        pageLength: 50,
-        lengthMenu: [ [50, 100, -1], [50, 100, "All"] ],
-        order: [[0, 'desc']]
-    });
+document.addEventListener('DOMContentLoaded', function () {
+    initializeTable('shiftsTable', 'searchInput', 'pagination', 25);
 });
 
 document.addEventListener('DOMContentLoaded', function () {
