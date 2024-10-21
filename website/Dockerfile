@@ -1,4 +1,4 @@
-FROM ubuntu:23.04
+FROM debian:bookworm
 
 RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     echo "Europe/Stockholm" > /etc/timezone && \
@@ -25,7 +25,6 @@ RUN python3 setup.py install
 
 COPY . /app
 
-RUN npm run build-css
-RUN npm run build-dataTables
+RUN npm run build
 
 CMD ["uwsgi", "--ini=uwsgi.ini"]

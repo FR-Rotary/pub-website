@@ -10,7 +10,7 @@ CSP_POLICY = {
     'font-src':     '\'self\' themes.googleusercontent.com *.gstatic.com',
     'frame-src':    '\'self\' www.google.com',
     'script-src':   '\'self\' ajax.googleapis.com *.googleanalytics.com *.google-analytics.com',
-    'style-src':    '\'self\'  \'unsafe-inline\' ajax.googleapis.com fonts.googleapis.com *.gstatic.com',
+    'style-src':    '\'self\' \'unsafe-inline\' ajax.googleapis.com fonts.googleapis.com *.gstatic.com',
     'default-src':  '\'self\' *.gstatic.com',
 }
 
@@ -20,16 +20,14 @@ def create_app(test_config=None):
     Compress(app) #Compress responses, a fast website is a good website
     Talisman(app, content_security_policy=CSP_POLICY, content_security_policy_nonce_in=['script-src']) #Extension that sets security headers
 
+    # Load config variables from docker
     app.config.from_mapping(
-        SECRET_KEY=os.environ.get('ROTARY_SECRET_KEY', 'dev'),
-        DATABASE=os.environ.get(
-            'ROTARY_DATABASE',
-            os.path.join(app.instance_path, 'rotary.sqlite')
-        ),
-        USERNAME=os.environ.get('ROTARY_USERNAME', 'dev'),
-        PASSWORD=os.environ.get('ROTARY_PASSWORD', 'password'),
+        SECRET_KEY=os.environ.get('ROTARY_SECRET_KEY'),
+        DATABASE=os.environ.get('ROTARY_DATABASE'),
+        USERNAME=os.environ.get('ROTARY_USERNAME'),
+        PASSWORD=os.environ.get('ROTARY_PASSWORD'),
         SMTP_HOST=os.environ.get('ROTARY_SMTP_HOST'),
-        SMTP_PORT=os.environ.get('ROTARY_SMTP_PORT', 587),
+        SMTP_PORT=os.environ.get('ROTARY_SMTP_PORT'),
         SMTP_USERNAME=os.environ.get('ROTARY_SMTP_USERNAME'),
         SMTP_PASSWORD=os.environ.get('ROTARY_SMTP_PASSWORD'),
         CONTACT_FORM_ADDRESS=os.environ.get('ROTARY_CONTACT_FORM_ADDRESS'),

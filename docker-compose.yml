@@ -3,6 +3,8 @@ services:
     container_name: pub-website
     build: website
     environment:
+      - ROTARY_SECRET_KEY=${SECRET_KEY}
+      - ROTARY_DATABASE=instance/rotary.sqlite
       - ROTARY_USERNAME=${USERNAME}
       - ROTARY_PASSWORD=${PASSWORD}
       - ROTARY_SMTP_PORT=587
