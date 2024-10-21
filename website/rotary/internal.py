@@ -667,18 +667,19 @@ def escape_tex(s):
 @bp.route('/internal/upload_comic_strip', methods=['POST'])
 @login_required
 def upload_comic_strip():
+    # Handle the case where no file part is provided
     if 'comic_strip' not in request.files:
-        # Handle the case where no file part is provided
-        return redirect(request.url)
+        print("No file part")
+        return redirect(url_for('internal.index'))
     file = request.files['comic_strip']
+    # Handle the case where no file is selected
     if file.filename == '':
-        # Handle the case where no file is selected
-        return redirect(request.url)
+        return redirect(url_for('internal.index'))
     if file:
         filename = secure_filename(file.filename)
         save_path = os.path.join('rotary/static/images/comics/', filename)
         directory = os.path.dirname(save_path)
-        # Check if the directory exists, and create it if it doesn't
+        # Create directory if it does not exist
         if not os.path.exists(directory):
             os.makedirs(directory, exist_ok=True)
         file.save(save_path)
