@@ -46,7 +46,7 @@ strings_en = {
     },
     'contact': {
         'header': 'Contact Us',
-        'text': 'Use the form below to send us an email',
+        'text': 'Use the form below to send us an email!',
         'submit': 'Submit',
         'subject': 'Subject',
         'email': 'Your email address',
@@ -77,7 +77,7 @@ strings_en = {
             },
             'rules': {
                 'header': 'Rules',
-                'content': 'There are no rules /s',
+                'content': 'It is strictly forbidden to bring your own alcohol onto the premises of the pub.',
             },
         },
         
@@ -150,7 +150,7 @@ strings_sv = {
     },
     'contact': {
         'header': 'Kontakta oss',
-        'text': 'Använd formuläret nedan för att skicka ett mail till oss',
+        'text': 'Använd formuläret nedan för att skicka ett mail till oss!',
         'submit': 'Skicka',
         'email': 'Din mailadress',
         'subject': 'Titel',
@@ -182,7 +182,7 @@ strings_sv = {
             },
             'rules': {
                 'header': 'Regler',
-                'content': 'Det finns inga regler, vi lever i anarki /s',
+                'content': 'Då det gäller serveringstillstånd i lokalen är det strikt förbjudet att ha medhavd alkohol in i lokalen.',
             },
         },
         

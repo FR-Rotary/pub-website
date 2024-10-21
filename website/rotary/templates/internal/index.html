@@ -14,7 +14,6 @@
         <h1 class="title">Arbetare</h1>
         <ul>
             <li><a href="internal/workers">Hantera arbetare</a></li>
-            <!-- TODO add ways to manage old pubers aswell-->
         </ul>
       </div>
     </div>
@@ -30,7 +29,8 @@
         <ul>
             <li><a href="https://drive.rotarypub.se">Pubens Drive</a></li>
             <li><a href="https://wiki.rotarypub.se">Pubens Wiki</a></li>
-            <li><a href="https://therat.se">Adlers Leaderboard</a></li> <!-- Plan is to selfhost this later, so URL needs to changed --> 
+            <li><a href="https://therat.se">Adlers Leaderboard</a></li> <!-- Plan is to selfhost this later, so URL needs to changed -->
+            <li><a href="https://youtu.be/dQw4w9WgXcQ?si=h_l8N3mqPJ0UCHYD">Klicka mig</a></li> <!-- Plan is to selfhost this later, so URL needs to changed -->
         </ul>
       </div>
     </div>
@@ -38,7 +38,7 @@
     <div class="column">
       <h1 class="title">WiFi</h1>
       <ul>
-          <li>SSID: Puben</li>
+          <li>SSID: Rotary Hub</li>
           <li>Lösenord: youbetterbuybeer</li>
       </ul>
     </div>
@@ -52,11 +52,13 @@
 
   <div class="buttons is-centered" style="padding-top: 1rem;">
     <form action="{{ url_for('internal.upload_comic_strip') }}" method="post" enctype="multipart/form-data">
-      <input type="file" name="comic_strip" id="comic_strip" style="display: none;" onchange="this.form.submit()">
+      <input type="file" name="comic_strip" id="comic_strip" style="display: none;">
       <label for="comic_strip" class="button">Ladda upp seriestrip</label>
     </form>
     <form action="{{ url_for('internal.index') }}" method="get">
       <button type="submit" class="button">Slumpa fram en ny strip</button>
     </form>
   </div>
-{% endblock %}
+
+  <script src="{{ url_for('static', filename='js/internal_index.js') }}"></script>
+  {% endblock %}
