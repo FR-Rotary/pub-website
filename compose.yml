@@ -1,0 +1,23 @@
+services:
+  website:
+    container_name: pub-website
+    build: website
+    environment:
+      - ROTARY_USERNAME=${USERNAME}
+      - ROTARY_PASSWORD=${PASSWORD}
+      - ROTARY_SMTP_PORT=587
+      - ROTARY_SMTP_HOST=smtp.gmail.com
+      - ROTARY_SMTP_USERNAME=website@rotarypub.se
+      - ROTARY_SMTP_PASSWORD=Weebsite@rotary69
+      - ROTARY_SMTP_CONTACT_FORM_ADDRESS=website@rotarypub.se
+    volumes:
+      - ./instance:/app/instance
+    networks:
+      - reverse-proxy
+    ports:
+      - 3000:80
+    restart: "always"
+
+networks:
+  reverse-proxy:
+    external: true
