@@ -7,7 +7,7 @@ Använder sig av Flask, UWSGI, och en extern reverse-proxy SWAG för produktion.
 Starta dev-containern med `docker-compose -f docker-compose.dev.yml up -d`och accessa localhost:5000 för att se sidan. Allt under `website/rotary` förutom `website/rotary/static` går att redigera för att se på devhemsidan. Ingen autorefresh på hemsidan tyvärr ;((
 
 ### Steg 1: Skapa en .env fil innehållandes det variabler som behövs i composefilen. ***
-SECRET_KEY behöver genereras [enligt](https://flask.palletsprojects.com/en/stable/config/#SECRET_KEY), om man inte orkar klicka på länkar kan helt enkelt bara köra detta: 'python -c 'import secrets; print(secrets.token_hex())' '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf''
+SECRET_KEY behöver genereras [enligt](https://flask.palletsprojects.com/en/stable/config/#SECRET_KEY), om man inte orkar klicka på länkar kan helt enkelt bara köra detta: `python -c 'import secrets; print(secrets.token_hex())' '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'`
 
 USERNAME och PASSWORD är helt enkelt vilka inloggningsuppgifterna för kontot som har access till internsidan. 
 
