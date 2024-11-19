@@ -6,6 +6,17 @@ Använder sig av Flask, UWSGI, och en extern reverse-proxy SWAG för produktion.
 
 Starta dev-containern med `docker-compose -f docker-compose.dev.yml up -d`och accessa localhost:5000 för att se sidan. Allt under `website/rotary` förutom `website/rotary/static` går att redigera för att se på devhemsidan. Ingen autorefresh på hemsidan tyvärr ;((
 
+### Steg 1: Skapa en .env fil innehållandes det variabler som behövs i composefilen. ***
+SECRET_KEY behöver genereras [enligt](https://flask.palletsprojects.com/en/stable/config/#SECRET_KEY), om man inte orkar klicka på länkar kan helt enkelt bara köra detta: 'python -c 'import secrets; print(secrets.token_hex())' '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf''
+
+USERNAME och PASSWORD är helt enkelt vilka inloggningsuppgifterna för kontot som har access till internsidan. 
+
+GOOGLE_USERNAME & GOOGLE_PASSWORD är lite mer komplicerat. Användarnamnet är helt enkelt mejladressen för kontot. Lösenordet måste däremot vara ett applikationslösenord, instruktioner för hur man gör det finns i [denna](https://support.google.com/accounts/answer/185833?hl=en) artikel.
+
+
+### Steg 2: Migrera databasen
+Detta bör vara så lätt som att bara köra skriptet migrate.py, tyvärr är det sällan så lätt.
+
 ## Kort info om vad NPM gör.
 "You either die a hero or live long enough to see yourself become the villain." beskriver detta projekt ganska bra. Det blev lite mer komplext men grunden är att via npm så hämtas och packeteras de js filerna som använder dataTables (shifts och beers i nuläget). Utöver detså körs också purgecss för att ta bort onödig CSS* och skriver över den redan skapade style.css filen skapat.
 
