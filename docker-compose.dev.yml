@@ -13,7 +13,7 @@ services:
       - ROTARY_SMTP_HOST=smtp.gmail.com
       - ROTARY_SMTP_USERNAME=${GOOGLE_USERNAME}
       - ROTARY_SMTP_PASSWORD=${GOOGLE_PASSWORD}
-      - ROTARY_CONTACT_FORM_ADDRESS=website@rotarypub.se
+      - ROTARY_CONTACT_FORM_ADDRESS=info@rotarypub.se
       - FLASK_APP=rotary
       - FLASK_ENV=development
     volumes:
