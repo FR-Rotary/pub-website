@@ -16,7 +16,7 @@ services:
       - ./instance:/app/instance
     networks:
       - reverse-proxy
-    restart: "no"
+    restart: "always"
 
 networks:
   reverse-proxy:
