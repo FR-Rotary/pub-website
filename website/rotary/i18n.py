@@ -73,7 +73,7 @@ strings_en = {
             },
             'pricing': {
                 'header': 'Pricing',
-                'content': 'The rental fee is always 5500 kr for a night. That includes staff for the entire evening and cleaning after. For the three course dinner it usually costs around 200 kr/person for both food and drinks, but we offer menus in a wide variety of price ranges.',
+                'content': 'The rental fee is always 6000 kr for a night. That includes staff for the entire evening and cleaning after. For the three course dinner it usually costs around 200 kr/person for both food and drinks, but we offer menus in a wide variety of price ranges.',
             },
             'rules': {
                 'header': 'Rules',
@@ -178,7 +178,7 @@ strings_sv = {
             },
             'pricing': {
                 'header': 'Prissättning',
-                'content': 'Oberoede av upplägg är hyran 5500 kr för en kväll. Då ingår alltid personal för hela kvällen samt städ efteråt. Beroende på upplägg tillkommer kostnader för mat och dryck, vid en normal trerättersmiddag kan man räkna med att det kostar 200 kr/person för både mat och dryck.',
+                'content': 'Oberoede av upplägg är hyran 6000 kr för en kväll. Då ingår alltid personal för hela kvällen samt städ efteråt. Beroende på upplägg tillkommer kostnader för mat och dryck, vid en normal trerättersmiddag kan man räkna med att det kostar 200 kr/person för både mat och dryck.',
             },
             'rules': {
                 'header': 'Regler',
@@ -217,7 +217,6 @@ strings_sv = {
     'days' : ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag', 'Söndag'],
 }
 
-
 @bp.route('/language')
 def toggle_language():
     # Return to / if we don't have a location to return to for some reason
@@ -230,7 +229,6 @@ def toggle_language():
         session['english'] = True
 
     return redirect(return_to)
-
 
 @bp.before_app_request
 def set_language():

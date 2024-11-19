@@ -12,6 +12,7 @@ CSP_POLICY = {
     'script-src':   '\'self\' ajax.googleapis.com *.googleanalytics.com *.google-analytics.com',
     'style-src':    '\'self\' \'unsafe-inline\' ajax.googleapis.com fonts.googleapis.com *.gstatic.com',
     'default-src':  '\'self\' *.gstatic.com',
+    'base-uri':     '\'self\'',
 }
 
 def create_app(test_config=None):
