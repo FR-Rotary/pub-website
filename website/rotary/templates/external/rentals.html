@@ -19,6 +19,16 @@
         {% endif %}
       </div>
     {% endfor %}
+    
+    <h2>{{ g.strings.rentals.rules.header }}</h2>
+    <p>{{  g.strings.rentals.rules.text  }}</p> 
+    <ul>
+      {% for rule in g.strings.rentals.rules.content %}
+        <li>{{ rule }}</li>
+      {% endfor %} 
+    </ul>
+    
+    <h1>{{ g.strings.contact.header }}</h1>
   </div>
   {% include "external/contact_form.html" %}
 </div>

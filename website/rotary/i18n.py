@@ -75,10 +75,19 @@ strings_en = {
                 'header': 'Pricing',
                 'content': 'The rental fee is always 6000 kr for a night. That includes staff for the entire evening and cleaning after. For the three course dinner it usually costs around 200 kr/person for both food and drinks, but we offer menus in a wide variety of price ranges.',
             },
-            'rules': {
-                'header': 'Rules',
-                'content': 'It is strictly forbidden to bring your own alcohol onto the premises of the pub.',
-            },
+        },
+        'rules': {
+            'header': 'FAQ and Rules',
+            'text': 'Below some common questions and rules are listed.',
+            'content': [
+                'Renting the pub costs 6000 SEK, which includes the venue, staff, and cleaning. Costs for food and drinks are additional.',
+                'The pub has dimmable ceiling lighting but unfortunately no other lighting system. If you want other mood lighting, you must bring it yourself and decorate with it.',
+                'We have our own sound system which is easiest controlled via Spotify to have your own music. However, keep in mind that you are renting a pub in a residential building and not a nightclub, so we reserve the right to control the volume for the comfort of the residents, the pub, and the staff. Therefore, we prohibit guests from bringing their own sound system (exceptions are made if the guest wants to bring live music).',
+                'We have a projector for possible slideshows, quizzes, speeches, etc. The easiest way is to bring your own USB stick or have it on cloud storage so that we can play it from our computer running a GNU/Linux operating system.',
+                'The pub will be decorated as during our regular opening hours, but you are allowed to redecorate the pub. However, you must then redecorate the pub back to its original state. Glitter is strictly forbidden.',
+                'We have a wide range and expertise in beer but can adapt the selection according to specific requests, with better advance notice increasing the likelihood that the request will be fulfilled.',
+                'The pub has a full serving license, which means that no outside alcohol may be brought into the venue and the staff must be present during the entire rental period.'
+            ],
         },
         
         'submit': 'Send',
@@ -178,22 +187,21 @@ strings_sv = {
             'pricing': {
                 'header': 'Prissättning',
                 'content': 'Oberoede av upplägg är hyran 6000 kr för en kväll. Då ingår alltid personal för hela kvällen samt städ efteråt. Beroende på upplägg tillkommer kostnader för mat och dryck, vid en normal trerättersmiddag kan man räkna med att det kostar 200 kr/person för både mat och dryck.',
-            },
-            'rules': {
-                'header': 'Regler',
-                'content': 'Då det gäller serveringstillstånd i lokalen är det strikt förbjudet att ha medhavd alkohol in i lokalen.',
-            },
+            },  
         },
-        
-        'submit': 'Skicka',
-        'email': 'Din mailadress',
-        'subject': 'Titel',
-        'message': 'Meddelande',
-        'body_placeholder': 'Skriv ditt meddelande här',
-        'captcha': 'CAPTCHA: I vilken stad ligger Rotary Pub?',
-        'captcha_placeholder': 'Nåntingstad',
-        'captcha_failed': 'Fel svar!',
-        'thanks': 'Tack för att du kontaktade oss! Vi återkommer så snart som möjligt.',
+        'rules': {
+            'header': 'Vanliga frågor och regler',
+            'text': 'Nedan listas svar på vanliga frågor samt regler.',
+            'content': [
+                'Att hyra puben kostar 6000kr i vilket ingår lokalen, personalen och städ. Kostnader för mat och dryck tillkommer.',
+                'Puben har dimbar takbelysning men tyvärr inget annat ljussystem. Vill man ha annan stämningsbelysning får man ta med det själv och dekorera med det.',
+                'Vi har ett eget ljudsystem som man lättast styr via Spotify för att ha egen musik. Tänk dock på att du hyr en pub i ett bostadshus och inte en nattklubb så vi ger oss fulla rättigheter att styra volymen för boendes, puben och personalens trivsel. Således förbjuder vi gäster att ta med eget ljudsystem (undantag ges om gästen vill ta med livemusik).',
+                'Vi har projektor för eventuella bildspel, quizar, tal etc. Smidigast är att ta med egen USB-sticka eller ha det på molnbaseradlagring så att vi kan spela upp det från vår dator som kör ett GNU/Linux operativsystem.',
+                'Puben kommer dekorerad som vid våra ordinarie öppettider men man får dekorera om puben. Då måste man då själv dekorera tillbaka puben till sitt ursprung. Glitter är strängligen förbjudet.',
+                'Vi har ett brett utbud och expertis inom öl men kan anpassa utbudet efter specifika önskemål, med bättre framförhållning ökar sannolikheten att önskemålet uppfylls.',
+                'Puben har fullt serveringstillstånd vilket betyder att ingen utomstående alkohol får tas in i lokalen och personalen måste vara närvarande under hela uthyrningen.'
+            ],
+        },
     },
     'work' : {
         'header' : 'Jobba på Rotary Pub',
