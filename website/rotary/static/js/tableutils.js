@@ -77,8 +77,25 @@ export function initializeTable(tableId, searchInputId, paginationId, rowsPerPag
                 return cell.textContent.toLowerCase().includes(query);
             });
         });
-
-        renderTable(filteredRows);
+    
+        const sortedRows = filteredRows.sort((a, b) => {
+            const aText = a.textContent.toLowerCase();
+            const bText = b.textContent.toLowerCase();
+            const queryLower = query.toLowerCase();
+    
+            const aStartsWith = aText.startsWith(queryLower);
+            const bStartsWith = bText.startsWith(queryLower);
+    
+            if (aStartsWith && !bStartsWith) {
+                return -1;
+            } else if (!aStartsWith && bStartsWith) {
+                return 1;
+            } else {
+                return aText.indexOf(queryLower) - bText.indexOf(queryLower);
+            }
+        });
+    
+        renderTable(sortedRows);
     };
 
     searchInput.addEventListener('input', filterTable);
