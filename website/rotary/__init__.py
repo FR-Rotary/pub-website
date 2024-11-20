@@ -31,7 +31,7 @@ def create_app(test_config=None):
         SMTP_PORT=os.environ.get('ROTARY_SMTP_PORT'),
         SMTP_USERNAME=os.environ.get('ROTARY_SMTP_USERNAME'),
         SMTP_PASSWORD=os.environ.get('ROTARY_SMTP_PASSWORD'),
-        CONTACT_FORM_ADDRESS=os.environ.get('ROTARY_CONTACT_FORM_ADDRESS'),
+        CONTACT_FORM_ADDRESS=os.environ.get('ROTARY_SMTP_CONTACT_FORM_ADDRESS'),
     )
 
     if test_config is None:
