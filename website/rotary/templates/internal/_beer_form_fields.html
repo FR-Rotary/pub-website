@@ -3,14 +3,14 @@
     <tr>
         <td>Name: </td>
         <td>
-            <input class="input" type="text" name="name" value="{{ beer.name if beer else '' }}" placeholder="Slots Guld">
+            <input class="input" type="text" name="name" value="{{ beer.name if beer else '' }}" placeholder="Slots Guld" required>
         </td>
     </tr>
     <tr>
         <td>Category: </td>
         <td>
             <div class="select">
-                <select name="category_id">
+                <select name="category_id" required>
                     {% for category in categories %}
                     <option value="{{ category.id }}" {% if beer and category.id == beer.category_id %}selected{% endif %}>
                         {{ category_names[category.id] }}
@@ -23,7 +23,7 @@
     <tr>
         <td>Style: </td>
         <td>
-            <input class="input" type="text" name="style" value="{{ beer.style if beer else '' }}" placeholder="Export">
+            <input class="input" type="text" name="style" value="{{ beer.style if beer else '' }}" placeholder="Export" required>
             <small>
                 <a href="https://www.beeradvocate.com/" target="_blank">Use BeerAdvocate's definitions</a>
             </small>
@@ -32,26 +32,26 @@
     <tr>
         <td>ABV: </td>
         <td>
-            <input class="input" type="text" name="abv" value="{{ beer.abv if beer else '' }}" placeholder="5.9">
+            <input class="input" type="text" name="abv" value="{{ beer.abv if beer else '' }}" placeholder="5.9" pattern="^\d+(\.\d{1,2})?$" title="Please enter a valid decimal number" required>
         </td>
     </tr>
     <tr>
         <td>Volume: </td>
         <td>
-            <input class="input" type="text" name="volume" value="{{ beer.volume_ml if beer else '' }}" placeholder="330">
+            <input class="input" type="text" name="volume" value="{{ beer.volume_ml if beer else '' }}" placeholder="330" pattern="^\d+$" title="Please enter a valid integer" required>
         </td>
     </tr>
     <tr>
         <td>Price: </td>
         <td>
-            <input class="input" type="text" name="price" value="{{ beer.price_kr if beer else '' }}" placeholder="10">
+            <input class="input" type="text" name="price" value="{{ beer.price_kr if beer else '' }}" placeholder="10" pattern="^\d+$" title="Please enter a valid integer" required>
         </td>
     </tr>
     <tr>
         <td>Country: </td>
         <td>
             <div class="select">
-                <select name="country_code">
+                <select name="country_code" required>
                     {% for country in countries %}
                     <option value="{{ country.numeric }}" {% if beer and country.numeric == beer.country_iso_3166_id %}selected{% endif %}>
                         {{ country.name }}

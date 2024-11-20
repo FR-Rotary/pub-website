@@ -1,39 +1,18 @@
 {% extends "base.html" %}
-{% block title %} {{ g.strings.nav.index }} {% endblock %}
-{% block content %}
+{% block title %} {{ g.strings.nav.index }} {% endblock%}
+
+{% block content%}
 <div class="container mt-6 mb-6">
-  <h1 class="title">Editing Snack</h1>
-  <div class="table-container">
-    <table class="table is-striped is-fullwidth is-narrow">
-      <thead>
-        <tr>
-          <th>AVAIL</th>
-          <th>NAME</th>
-          <th>PRICE</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <form action="{{ request.path }}" method="POST">
-            <td>
-              <div class="checkbox-column">
-                <input name="available" type="checkbox" class="chungus-checkbox" {% if snack.available %}checked{% endif %}>
-              </div>
-            </td>
-            <td>
-              <input class="input" type="text" name="name" value="{{ snack.name }}">
-            </td>
-            <td>
-              <input class="input" type="text" name="price" value="{{ snack.price_kr }}">
-            </td>
-            <td>
-              <button type="submit" formmethod="post" class="button is-warning">Edit</button>
-            </td>
-          </form>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <h1 class="title">Editing Food</h1>
+    <div class="box has-background">
+        <form action="{{ request.path }}" method="POST">
+            {% include 'internal/_snack_form_fields.html' %}
+            <div class="field">
+                <div class="control">
+                    <button type="submit" formmethod="post" class="button is-warning">Edit</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

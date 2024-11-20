@@ -34,27 +34,12 @@
     <label class="label">Add a new food!</label>
     <p class="paragraph">Below you can fill in the form for course to be added.</p>
     <form action="{{ url_for('internal.add_food') }}" method="POST">
-      <table class="table is-narrow has-background">
-        <tr>
-          <td>Name: </td>
-          <td> 
-            <input class="input" type="text" name="name" placeholder="Omelette du Fromage">
-          </td>
-        </tr>
-        <tr>
-          <td>Price: </td>
-          <td>
-            <input class="input" type="text" name="price" placeholder="69">
-          </td>
-        </tr>
-        <tr>
-          <td>Available? </td>
-          <td> 
-            <input type="checkbox" name="available">
-          </td>
-        </tr>
-      </table>
-      <button type="submit" formmethod="post" class="button is-link">Add</a>
+     {% include 'internal/_food_form_fields.html' %}
+      <div class="field">
+        <div class="control">
+          <button type="submit" formmethod="post" class="button is-link">Add</button>
+        </div>
+      </div>
     </form>
   </div>
 
@@ -102,27 +87,12 @@
     <label class="label">Add a new snack!</label>
     <p class="paragraph">Below you can fill in the form for the snack to be added.</p>
     <form action="{{ url_for('internal.add_snacks') }}" method="POST">
-      <table class="table is-narrow has-background">
-        <tr>
-          <td>Name: </td>
-          <td> 
-            <input class="input" type="text" name="name" placeholder="Deez Nuts">
-          </td>
-        </tr>
-        <tr>
-          <td>Price: </td>
-          <td>
-            <input class="input" type="text" name="price" placeholder="69">
-          </td>
-        </tr>
-        <tr>
-          <td>Available? </td>
-          <td> 
-            <input type="checkbox" name="available">
-          </td>
-        </tr>
-      </table>
-      <button type="submit" formmethod="post" class="button is-link">Add</a>
+      {% include 'internal/_snack_form_fields.html' %}
+      <div class="field">
+        <div class="control">
+          <button type="submit" formmethod="post" class="button is-link">Add</button>
+        </div>
+      </div>
     </form>
   </div>
 

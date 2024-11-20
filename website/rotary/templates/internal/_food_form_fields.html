@@ -1,0 +1,21 @@
+<!-- _food_form_fields.html -->
+<table class="table is-narrow has-background">
+    <tr>
+        <td>Name: </td>
+        <td>
+            <input class="input" type="text" name="name" value="{{ food.name if food else '' }}" placeholder="Omelette du Fromage" required>
+        </td>
+    </tr>
+    <tr>
+        <td>Price: </td>
+        <td>
+            <input class="input" type="text" name="price" value="{{ food.price_kr if food else '' }}" placeholder="69" pattern="^\d+$" title="Please enter a valid integer" required>
+        </td>
+    </tr>
+    <tr>
+        <td>Available? </td>
+        <td>
+            <input type="checkbox" name="available" {% if food and food.available %}checked{% endif %}>
+        </td>
+    </tr>
+</table>
