@@ -212,7 +212,7 @@ strings_sv = {
             'Träffa nytt folk!',
             'Ideelt arbete ser bra ut på CV:t',
             'Nära hem (ifall du bor här)!',
-            'Samla arberslivserfarenhet!',
+            'Samla arbetslivserfarenhet!',
             'Du behöver inte kunna ett skit!',
             "Helt Gratis!!!!"
         ],
