@@ -1,87 +1,18 @@
-
 {% extends "base.html" %}
 {% block title %} {{ g.strings.nav.index }} {% endblock%}
 
 {% block content%}
-
 <div class="container mt-6 mb-6">
-  <h1 class="title">Editing Beer</h1>
-  <div class="table-container">
-    <table class="table is-striped is-fullwidth is-narrow">
-      <thead>
-        <tr>
-          <th class="avail-column">AVAIL</th>
-          <th class="name-column">NAME</th>
-          <th class="cat-column">CAT</th>
-          <th class="style-column">STYLE</th>
-          <th class="abv-column">ABV</th>
-          <th class="vol-column">VOL</th>
-          <th class="price-column">PRICE</th>
-          <th class="country-column">CNTRY</th>
-          <th class="empty-column"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <form action="{{ request.path }}" method="POST">
-            <td>
-              <div class="checkbox-column">
-                <input name="available" type="checkbox" class="chungus-checkbox" {% if beer.available %}checked{% endif %}>
-              </div>
-            </td>
-            <td>
-              <input class="input" type="text" name="name" value="{{beer.name}}">
-            </td>
-            <td>
-              <div class="select">
-                <select name="category_id">
-                  {% for category in categories %}
-                  <option style="max-width: 5vw; overflow: hidden" value="{{category.id}}"
-                  {% if category.id == beer.category_id %}
-                  selected
-                  {% endif %}
-                  >
-                    {{ category_names[category.id] }}
-                  </option>
-                  {% endfor %}
-                </select>
-              </div>
-            </td>
-            <td>
-              <input class="input" type="text" name="style" value="{{beer.style}}">
-            </td>
-            <td>
-              <input class="input" type="text" name="abv" value="{{beer.abv}}">
-            </td>
-            <td>
-              <input class="input" type="text" name="volume" value="{{beer.volume_ml}}">
-            </td>
-            <td>
-              <input class="input" type="text" name="price" value="{{beer.price_kr}}">
-            </td>
-            <td>
-              <div class="select">
-                <select name="country_code">
-                  {% for country in countries %}
-                  <option style="max-width: 5vw; overflow: hidden" value="{{country.numeric}}"
-                  {% if country.numeric == beer.country_iso_3166_id  %}
-                  selected
-                  {% endif %}
-                  >
-                    {{country.name}}
-                  </option>
-                  {% endfor %}
-                </select>
-              </div>
-            </td>
-            <td>
-              <button type="submit" formmethod="post" class="button is-warning">Edit</a>
-            </td>
-          </form>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <h1 class="title">Editing Beer</h1>
+    <div class="box has-background">
+        <form action="{{ request.path }}" method="POST">
+            {% include 'internal/_beer_form_fields.html' %}
+            <div class="field">
+                <div class="control">
+                    <button type="submit" formmethod="post" class="button is-warning">Edit</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-
 {% endblock %}

@@ -60,16 +60,6 @@ footer {
     margin: 0; // Removes default margin to aid in centering
 }
 
-.avail-column{ width: 5%; }
-.name-column { width: 20%; }
-.cat-column { width: 10%; }
-.style-column { width: 20%; }
-.abv-column { width: 7%; }
-.vol-column { width: 7%; }
-.price-column { width: 5%; }
-.country-column { width: 5% }
-.empty-column { width: 5%; }
-
 /* This style is for the upload and random comic buttons on internal page */
 .button:not(#undefined), .button-group .buttons.has-addons label.button:not(#undefined) {
     border-radius: var(--bulma-radius-rounded); 
