@@ -94,9 +94,8 @@ strings_en = {
     'days' : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     'work' : {
         'header' : 'Working at Rotary Pub',
-        'text' : 'Do you also like Rotary? Why not work here!',
+        'text' : 'Rotary Pub is a by students driven non-profit pub and all tasks in the organization are managed without pay. No money? Then why should I keep reading? Ask the people who have run this pub for 40 years. In the business one meets people from a lot more diverse backgrounds than one meets in school and one gets yet more acquaintances. Since no money is involved people work simply because they find it fun and developing. Will you find it that way? You will not know until you have tried!',
         'reasons' : [
-            'Staff Discounts!',
             'Friendly People!',
             'Food while you work!',
             'Meet new people!',
@@ -198,9 +197,8 @@ strings_sv = {
     },
     'work' : {
         'header' : 'Jobba på Rotary Pub',
-        'text' : 'Gillar du också Rotary Pub? Varför inte jobba här?',
+        'text' : 'Rotary Pub är en av studenter ideellt driven pub och alla uppgifter i organisationen sköts utan att ersättning utgår för arbetstiden. Ingen lön? Varför ska man då fortsätta läsa? Fråga de människor som drivit denna pub i snart 40 år. I verksamheten träffar man personer från vida mer spridda bakgrunder än vad man gör i sin utbildning och man får ytterligare en bekantskapskrets. Då det inte är några pengar inblandat så jobbar alla helt enkelt för att de tycker det är kul och utvecklande. Kommer du tycka det är kul? Det vet du inte förrän du provat!',
         'reasons' : [
-            'Personalpriser!',
             'Gött umgänge!',
             'Mat när du jobbar!',
             'Träffa nytt folk!',
