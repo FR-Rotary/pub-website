@@ -533,12 +533,6 @@ def shifts():
 
     default_start = "17:00"
     default_end = "01:00"
-    opening_hours_today = db.execute(
-        'SELECT * FROM opening_hours WHERE date = date(\'now\')'
-    ).fetchone()
-    if opening_hours_today is not None:
-        default_start = opening_hours_today['start']
-        default_end = opening_hours_today['end']
 
     shifts = db.execute(
         'SELECT st.name AS type, '
