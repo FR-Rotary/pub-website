@@ -4,7 +4,7 @@ from flask import (
     Blueprint, g, render_template, request, session, current_app, Response
 )
 
-from rotary.util import dict_from_row, format_time
+from rotary.utils.util import dict_from_row, format_time
 from rotary.db import get_db
 from rotary.mail import Mail, Server
 

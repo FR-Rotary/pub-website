@@ -71,13 +71,13 @@ def create_app(test_config=None):
     def internt_redirect():
         return redirect(url_for('internal.index'))
 
-    from . import countries
+    from .utils import countries
     app.jinja_env.globals.update(
         to_letter_code=countries.to_letter_code,
         to_pretty_name=countries.to_pretty_name
     )
 
-    from . import util
+    from .utils import util
     app.jinja_env.globals.update(
         format_time=util.format_time
     )
