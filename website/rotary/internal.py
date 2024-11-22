@@ -561,7 +561,6 @@ def shifts():
         shift_types=shift_types
     )
 
-
 @bp.post('/shifts/delete/<int:n>')
 @login_required
 def delete_shifts(n):
@@ -572,18 +571,37 @@ def delete_shifts(n):
 
     return redirect(url_for('internal.shifts'))
 
-@bp.route('/print_menu')
-@login_required
-def print_menu():
+def generate_pdf(tex_content, output_filename='texput.pdf'):
+    with TemporaryDirectory() as tmpdir:
+        try:
+            result = subprocess.run(
+                ['pdflatex', '-halt-on-error', '-output-directory', tmpdir],
+                input=tex_content.encode('utf8'),
+                capture_output=True,
+                check=True,
+                timeout=10,
+            )
+            pdf_path = os.path.join(tmpdir, output_filename)
+            with open(pdf_path, 'rb') as pdf:
+                return Response(pdf.read(), mimetype='application/pdf')
+        except subprocess.CalledProcessError as e:
+            return Response(
+                f"Error: {e.stderr.decode('utf8')}",
+                mimetype='text/plain'
+            )
+        except subprocess.TimeoutExpired as e:
+            return Response(
+                f"Timeout: {e.stderr.decode('utf8')}",
+                mimetype='text/plain'
+            )
+        
+def fetch_menu_data():
     db = get_db()
-
     category_names = db.execute(
         'SELECT id, name_sv AS name FROM beer_category ORDER BY priority ASC'
     ).fetchall()
 
-
     categories = []
-
     for category_name in category_names:
         query = (
             'SELECT beer.name as name, style, beer_category.name_sv as category, '
@@ -601,13 +619,19 @@ def print_menu():
     foods = db.execute('SELECT * FROM food WHERE available = 1 ORDER BY name ASC').fetchall()
     snacks = db.execute('SELECT * FROM snack WHERE available = 1 ORDER BY name ASC').fetchall()
 
+    return categories, foods, snacks
 
+@bp.route('/print_menu')
+@login_required
+def print_menu():
+    categories, foods, snacks = fetch_menu_data()
     tex = render_template(
         'external/menu.tex',
         beer_categories=categories,
         foods=foods,
         snacks=snacks,
     )
+    return generate_pdf(tex)
 
     with TemporaryDirectory() as tmpdir:
         try:
