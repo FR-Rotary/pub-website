@@ -20,8 +20,8 @@
             <th width="10%">{{ g.strings.menu.country }}</th>
             {% if g.authenticated %}
             <th width="10%">APK</th>
-            {% endif %}
             <th width="10%">{{ g.strings.menu.price }}</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
@@ -31,8 +31,10 @@
               <td>{{ beer.abv }}%</td>
               <td>{{ beer.volume_ml }}ml</td>
               <td>{{ to_letter_code(beer.country_code) }}</td>
-              {% if g.authenticated %}<td>{{beer.apk}}</td>{% endif %}
+              {% if g.authenticated %}
+              <td>{{beer.apk}}</td>
               <td>{{ beer.price_kr }}kr</td>
+              {% endif %}
             </tr>
           {% endfor %}
         </tbody>
