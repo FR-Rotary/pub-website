@@ -139,13 +139,15 @@ def delete_beer(n):
     return redirect(url_for('internal.beers'))
 
 @bp.post('/beers/toggle/<int:n>')
-@login_required
+@login_required 
 def toggle_beer(n):
     if n is not None:
         db = get_db()
         db.execute('UPDATE beer SET available = NOT available WHERE id = ?', (n,))
         db.commit()
-
+        
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'success': True})
     return redirect(url_for('internal.beers'))
 
 @bp.get('/food')
