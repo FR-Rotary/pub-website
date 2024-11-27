@@ -16,5 +16,6 @@ services:
       - ROTARY_SMTP_CONTACT_FORM_ADDRESS=info@rotarypub.se
     volumes:
       - ./instance:/app/instance
-      - ./website/rotary/:/app/website/rotary
+      - ./website/rotary:/app/rotary
+      - /app/rotary/static/css
     network_mode: host
