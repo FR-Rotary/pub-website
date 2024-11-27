@@ -379,7 +379,7 @@ def workers():
         return redirect(url_for('internal.workers'))
     ## Provide all current workers
     else:
-        all_workers = db.execute('SELECT * FROM worker WHERE status_id = 1 OR status_id = 2 ORDER BY display_name ASC').fetchall()
+        all_workers = db.execute('SELECT * FROM worker ORDER BY display_name ASC').fetchall()
         worker_status = db.execute('SELECT * FROM worker_status').fetchall()
         return render_template('internal/workers.html', workers=all_workers, worker=None, worker_status=worker_status)
 

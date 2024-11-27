@@ -14,37 +14,43 @@
   </div>
 
   <!-- Display current workers -->
-  <div class="table-container">
-    <table class="table is-striped is-fullwidth">
-      <thead>
-        <tr>
-          <th>Nick</th>
-          <th>Name</th>
-          <th>Personal ID Nr</th>
-          <th>Tel</th>
-          <th>Email</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for worker in workers %}
-        <tr>
-          <td>{{ worker.display_name }}</td>
-          <td>{{ worker.first_name }} {{ worker.last_name }}</td>
-          <td>{{ worker.personal_id_number }}</td>
-          <td>{{ worker.telephone }}</td>
-          <td>{{ worker.email }}</td>
-          <td>
-            <a href="{{ url_for('internal.edit_worker',n=worker.id) }}" class="button is-link is-small">Edit</a>
-            <a href="{{ url_for('internal.delete_worker',n=worker.id) }}" class="button is-danger is-small">Delete</a>
-          </td>
-        </tr>
-        {% endfor %}
+  <div class="tables">
+    {% for ws in worker_status %}
+    <h1 class="title">{{ ws.name }}</h1>
+    <div class="table-container">
+      <table class="table is-striped is-fullwidth">
+        <thead>
+          <tr>
+            <th>Nick</th>
+            <th>Name</th>
+            <th>Personal ID Nr</th>
+            <th>Tel</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for worker in workers %}
+          {% if worker.status_id == ws.id %}
+          <tr>
+            <td>{{ worker.display_name }}</td>
+            <td>{{ worker.first_name }} {{ worker.last_name }}</td>
+            <td>{{ worker.personal_id_number }}</td>
+            <td>{{ worker.telephone }}</td>
+            <td>{{ worker.email }}</td>
+            <td>
+              <a href="{{ url_for('internal.edit_worker',n=worker.id) }}" class="button is-link is-small">Edit</a>
+              <a href="{{ url_for('internal.delete_worker',n=worker.id) }}" class="button is-danger is-small">Delete</a>
+            </td>
+          </tr>
+          {% endif %}
+          {% endfor %}
 
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
   </div>
-
 </div>
 
 {% endblock %}
