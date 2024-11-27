@@ -1,0 +1,20 @@
+services:
+  website:
+    container_name: pub-website
+    build: 
+      context: "website" 
+      dockerfile: "Dockerfile.dev"
+    environment:
+      - ROTARY_SECRET_KEY=${SECRET_KEY}
+      - ROTARY_DATABASE=/app/instance/rotary.sqlite
+      - ROTARY_USERNAME=${USERNAME}
+      - ROTARY_PASSWORD=${PASSWORD}
+      - ROTARY_SMTP_PORT=587
+      - ROTARY_SMTP_HOST=smtp.gmail.com
+      - ROTARY_SMTP_USERNAME=${GOOGLE_USERNAME}
+      - ROTARY_SMTP_PASSWORD=${GOOGLE_PASSWORD}
+      - ROTARY_SMTP_CONTACT_FORM_ADDRESS=info@rotarypub.se
+    volumes:
+      - ./instance:/app/instance
+      - ./website/rotary/:/app/website/rotary
+    network_mode: host
