@@ -166,6 +166,7 @@ def menu():
             'FROM beer INNER JOIN beer_category '
             'ON beer.category_id = beer_category.id '
             'WHERE available = 1 AND beer_category.id = ?'
+            'ORDER BY beer.name ASC'
         )
         category = {
             'name': category_name["name"],
