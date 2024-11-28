@@ -522,11 +522,6 @@ def shifts():
         db.commit() 
         return redirect(url_for("internal.shifts"))
 
-    active_workers = db.execute(
-        'SELECT * FROM worker WHERE status_id = 1 ORDER BY display_name ASC'
-    ).fetchall()
-    active_workers = [dict_from_row(worker) for worker in active_workers]
-
     all_workers = db.execute( 
         'SELECT * FROM worker ORDER BY display_name ASC'
     ).fetchall()
@@ -553,7 +548,6 @@ def shifts():
 
     return render_template(
         'internal/shifts.html',
-        active_workers=active_workers,
         all_workers=all_workers,
         default_start=default_start,
         default_end=default_end,

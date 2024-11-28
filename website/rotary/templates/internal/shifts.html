@@ -5,7 +5,6 @@
 
 <script src="{{ url_for('static', filename='dist/shifts.js') }}" defer></script>
 <script nonce="{{ csp_nonce() }}">
-  const activeWorkers = {{ active_workers|tojson }};
   const allWorkers = {{ all_workers|tojson }};
 </script>
 
@@ -64,7 +63,7 @@
                 <div class="select is-fullwidth">
                   <select name="workerid[]" id="select-worker-shift-0">
                     <option value="-1" disabled selected>Select Worker</option>
-                    {% for worker in workers %}
+                    {% for worker in all_workers %}
                       <option value="{{ worker.id }}">{{ worker.display_name }}</option>
                     {% endfor %}
                   </select>

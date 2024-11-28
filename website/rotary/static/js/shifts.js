@@ -31,7 +31,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateWorkerSelectOptions() {
-        const workersToUse = toggleAllWorkersCheckbox.checked ? allWorkers : activeWorkers;
+        const workersToUse = allWorkers.iterable.filter((worker) => {
+          if (toggleAllWorkersCheckbox.checked){
+            return true;
+          } else {
+            return worker.status_id === 1 || worker.status_id === 2
+          }
+        });
         const workerSelects = container.querySelectorAll('.worker-select select[name="workerid[]"]');
 
         workerSelects.forEach(function (selectElement) {
