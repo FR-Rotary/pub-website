@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateWorkerSelectOptions() {
-        const workersToUse = allWorkers.iterable.filter((worker) => {
+        const workersToUse = allWorkers.filter((worker) => {
           if (toggleAllWorkersCheckbox.checked){
             return true;
           } else {

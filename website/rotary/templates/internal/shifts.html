@@ -63,9 +63,7 @@
                 <div class="select is-fullwidth">
                   <select name="workerid[]" id="select-worker-shift-0">
                     <option value="-1" disabled selected>Select Worker</option>
-                    {% for worker in all_workers %}
-                      <option value="{{ worker.id }}">{{ worker.display_name }}</option>
-                    {% endfor %}
+		    	<!-- Options are set in /static/js/shifts.js -->
                   </select>
                 </div>
                 <div class="select is-fullwidth">
