@@ -533,6 +533,9 @@ def shifts():
     shifts = db.execute(
         'SELECT st.name AS type, '
         'IFNULL(w.display_name, \'<deleted worker>\') AS worker, '
+        'IFNULL(w.first_name, \'<deleted worker>\') AS worker_first_name, '
+        'IFNULL(w.last_name, \'<deleted worker>\') AS worker_last_name, '
+        'IFNULL(w.personal_id_number, \'<deleted worker>\') AS worker_personal_id_number, '
         's.date, s.start, s.end, s.id '
         'FROM shift s '
         'LEFT JOIN worker w ON w.id = s.worker_id '

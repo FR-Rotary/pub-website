@@ -104,6 +104,7 @@
           <th>Start</th>
           <th>End</th>
           <th>Worker</th>
+          <th>Personal ID Number</th>
           <th>Job</th>
           <th width="8%"></th>
         </tr>
@@ -114,7 +115,8 @@
             <td>{{ shift.date }}</td>
             <td>{{ shift.start }}</td>
             <td>{{ shift.end }}</td>
-            <td>{{ shift.worker }}</td>
+            <td>{{ shift.worker_first_name }} {{ shift.worker_last_name}}</td>
+            <td>{{ shift.worker_personal_id_number }}</td>
             <td>{{ shift.type }}</td>
             <td>
               <form action="{{ request.path }}/delete/{{ shift.id }}" method="post">

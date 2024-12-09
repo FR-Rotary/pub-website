@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 pyvenv.cfg
 
+package-lock.json
+
 # C extensions
 *.so
 
