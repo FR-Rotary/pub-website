@@ -361,6 +361,7 @@ def workers():
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         telephone = request.form['telephone']
+        p_id = request.form['personal_id_number']
         email = request.form['email']
         address = request.form['address']
         note = request.form['note']
@@ -369,10 +370,11 @@ def workers():
         db.execute(
             'INSERT INTO worker '
             '(display_name, first_name, last_name, '
-            'telephone, email, address, note, status_id) '
-            'VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            'telephone, personal_id_number, email, '
+            'address, note, status_id) '
+            'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
             (display_name, first_name, last_name,
-             telephone, email, address, note, status_id)
+             telephone, p_id, email, address, note, status_id)
         )
         db.commit()
 
