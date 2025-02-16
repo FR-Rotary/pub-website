@@ -9,14 +9,21 @@
   <div class="box has-background">
     <label class="label">Add a new beer!</label>
     <p class="paragraph">Below you can fill in the form for the new beer to be added. Make sure to give the beer a reasonable 'Style' which makes sense when compared to all the other beers.</p>
-    <form action="{{ request.path }}" method="POST">
-      {% include 'internal/_beer_form_fields.html' %}
-      <div class="field">
-        <div class="control">
-          <button type="submit" formmethod="post" class="button is-link">Add</button>
-        </div>
+    <div class="columns">
+      <div class="column">
+        <form action="{{ request.path }}" method="POST">
+          {% include 'internal/_beer_form_fields.html' %}
+          <div class="field">
+            <div class="control">
+              <button type="submit" formmethod="post" class="button is-link">Add</button>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
+      <div class="column">
+       <a href="/internal/print_menu" class="button is-link">Print Menu</a>
+      </div>
+    </div>
   </div>
 
   <input class="input" type="text" id="searchInput" placeholder="Search..." style="width: 20%;">
