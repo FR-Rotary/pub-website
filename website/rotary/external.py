@@ -4,6 +4,7 @@ from flask import (
     Blueprint, g, render_template, request, session, current_app, Response
 )
 
+from rotary.utils.menu import fetch_menu_data
 from rotary.utils.util import dict_from_row, format_time
 from rotary.db import get_db
 from rotary.mail import Mail, Server
@@ -149,30 +150,7 @@ def work():
 
 @bp.route('/menu')
 def menu():
-    db = get_db()
-
-    name_column = 'name_en' if session.get('english') else 'name_sv'
-
-    category_names = db.execute(
-        f'SELECT id, {name_column} as name FROM beer_category ORDER BY priority ASC'
-    ).fetchall()
-
-    categories = []
-
-    for category_name in category_names:
-        query = (
-            f'SELECT beer.name as name, style, beer_category.{name_column} as category, '
-            'country_iso_3166_id as country_code, abv, volume_ml, price_kr '
-            'FROM beer INNER JOIN beer_category '
-            'ON beer.category_id = beer_category.id '
-            'WHERE available = 1 AND beer_category.id = ?'
-            'ORDER BY beer.name ASC'
-        )
-        category = {
-            'name': category_name["name"],
-            'beers': db.execute(query, (category_name["id"],)).fetchall()
-        }
-        categories.append(category)
+    categories, foods, snacks = fetch_menu_data()
 
     # add alcohol per krona for logged in users
     for i, category in enumerate(categories):
@@ -181,9 +159,6 @@ def menu():
             beer['apk'] = format(beer['volume_ml'] *
                                  (beer['abv'] / 100) / beer['price_kr'], '.3f')
             categories[i]['beers'][j] = beer
-
-    foods = db.execute('SELECT * FROM food WHERE available = 1 ORDER BY name ASC').fetchall()
-    snacks = db.execute('SELECT * FROM snack WHERE available = 1 ORDER BY name ASC').fetchall()
 
     return render_template(
         'external/menu.html',

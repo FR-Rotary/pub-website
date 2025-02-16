@@ -583,41 +583,6 @@ def print_menu():
     )
     return generate_pdf(tex)
 
-    with TemporaryDirectory() as tmpdir:
-        try:
-            subprocess.run(
-                ['pdflatex', '-halt-on-error'],
-                cwd=tmpdir,
-                capture_output=True,
-                check=True,
-                input=tex.encode('utf8'),
-                timeout=10,
-            )
-        except subprocess.TimeoutExpired as e:
-            return Response(
-                (
-                    'PDFLaTeX timed out\n\nstdout:\n'
-                    + (e.stdout.decode('utf8') or '[no output on stdout]')
-                    + '\nstderr:\n'
-                    + (e.stderr.decode('utf8') or '[no output on stderr]')
-                ),
-                mimetype='text/plain'
-            )
-        except subprocess.CalledProcessError as e:
-            return Response(
-                (
-                    'PDFLaTeX shit itself\n\nstdout:\n'
-                    + (e.stdout.decode('utf8') or '[no output on stdout]')
-                    + '\nstderr:\n'
-                    + (e.stderr.decode('utf8') or '[no output on stderr]')
-                ),
-                mimetype='text/plain'
-            )
-
-        pdf_path = os.path.join(tmpdir, 'texput.pdf')
-        with open(pdf_path, 'rb') as pdf:
-            return Response(pdf.read(), mimetype='application/pdf')
-
 
 @ bp.app_template_filter(name='escape_tex')
 def escape_tex(s):
