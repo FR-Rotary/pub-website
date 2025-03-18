@@ -19,7 +19,6 @@ class Mail:
         text = '\r\n'.join([
             self.body
             ])
-        print(text)
 
         msg = MIMEText(text, 'plain', 'utf-8')
         msg['subject'] = self.subject
