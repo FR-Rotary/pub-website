@@ -27,4 +27,5 @@ COPY . /app
 
 RUN npm run build
 
+EXPOSE 80
 CMD ["uwsgi", "--ini=uwsgi.ini"]

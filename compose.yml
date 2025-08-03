@@ -17,6 +17,10 @@ services:
     networks:
       - reverse-proxy
     restart: "always"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rotarypub.rule=Host(`rotarypub.se`)||Host(`www.rotarypub.se`)"
+      - "traefik.http.routers.rotarypub.entrypoints=websecure"
 
 networks:
   reverse-proxy:
