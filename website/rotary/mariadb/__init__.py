@@ -9,6 +9,8 @@ def exec_mariadb(query: str):
         'user': current_app.config['MARIADB_USER'],
         'password': current_app.config['MARIADB_PASS'],
         'database': current_app.config['MARIADB_DB'],
+        'charset': 'utf8mb4',
+        'collation': 'utf8mb4_general_ci',
     }
     conn = mysql.connector.connect(**db_config)
     cur = conn.cursor()

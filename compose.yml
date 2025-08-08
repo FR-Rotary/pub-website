@@ -2,6 +2,9 @@ services:
   website:
     container_name: pub-website
     build: website
+    networks:
+      - reverse-proxy
+      - db-con
     environment:
       - ROTARY_SECRET_KEY=${SECRET_KEY}
       - ROTARY_DATABASE=instance/rotary.sqlite
@@ -23,3 +26,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.rotarypub.rule=Host(`rotarypub.se`)||Host(`www.rotarypub.se`)"
       - "traefik.http.routers.rotarypub.entrypoints=websecure"
+
+networks:
+  reverse-proxy:
+    external: true
+  db-con:
+    external: true
