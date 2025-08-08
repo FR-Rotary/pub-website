@@ -2,6 +2,20 @@
 {% block title %} {{ g.strings.nav.index }} {% endblock%}
 {% block content %}
 <div class="container">
+  <h1 class="has-text-centered title">Larmstatus</h1>
+  {% if alarm_disarmed %}
+    <div class="box has-text-centered" style="background:hsl(141, 71%, 48%);color:#FFF">
+      The pub alarm has been disarmed since {{ alarm_datetime }}
+    </div>
+  {% elif alarm_armed %}
+    <div class="box has-text-centered" style="background:hsl(348, 100%, 61%);color:#FFF">
+      The pub alarm has been armed since {{ alarm_datetime }}
+    </div>
+  {% else %}
+    <div class="box has-text-centered" style="background:hsl(39, 100%, 50%);color:#000">
+      The pub alarm has been in an unknown state since {{ alarm_datetime }}
+    </div>
+  {% endif %}
   <div class="columns">
     <div class="column">
       <div class="content">

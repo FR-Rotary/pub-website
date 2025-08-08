@@ -40,7 +40,8 @@ RUN python3 -m pip install \
     flask \
     flask_compress \
     flask-talisman \
-    pycountry
+    pycountry \
+    mysql-connector-python
 
 ENV FLASK_ENV=development
 ENV FLASK_DEBUG=1
@@ -49,4 +50,4 @@ ENV FLASK_APP=rotary
 
 
 EXPOSE 5000
-CMD ["python3", "-m", "flask", "run"]
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]

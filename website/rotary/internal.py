@@ -1,12 +1,14 @@
 import os
 import random
 import datetime
+import mysql.connector
 
 from flask import Blueprint, render_template, redirect, request, url_for, jsonify, current_app
 from pycountry import countries
 from werkzeug.utils import secure_filename
 
 from rotary.db import get_db
+from rotary.mariadb import exec_mariadb
 from rotary.auth import login_required
 from rotary.i18n import strings_en
 from rotary.utils.util import dict_from_row
@@ -19,6 +21,11 @@ bp = Blueprint('internal', __name__, url_prefix='/internal')
 def index():
     # Call the existing randomize_comic_strip function
     directory = 'rotary/static/images/comics/'
+    result = exec_mariadb("SELECT `status`, DATE_FORMAT(`date`, '%W %Y-%m-%d %H:%i') as `time` "
+                          "FROM `larmlog` ORDER BY `date` DESC LIMIT 1")[0]
+    ## status field is first
+    alarm_disarmed = result[0] == 0 
+    alarm_armed = result[0] == 1 
     try:
         files = os.listdir(directory)
         if files:
@@ -29,7 +36,7 @@ def index():
     except Exception as e:
         comic_strip_url = None
     # Pass the comic strip URL to the template
-    return render_template('internal/index.html', comic_strip_url=comic_strip_url)
+    return render_template('internal/index.html', comic_strip_url=comic_strip_url, alarm_disarmed=alarm_disarmed, alarm_armed=alarm_armed, alarm_datetime=result[1])
 
 @bp.route('/')
 @login_required

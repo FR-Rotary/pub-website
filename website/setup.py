@@ -10,6 +10,7 @@ setup(
         'flask',
         'flask_compress',
         'flask-talisman',
-        'pycountry'
+        'pycountry',
+        'mysql-connector-python',
     ],
 )

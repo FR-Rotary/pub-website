@@ -7,6 +7,10 @@ services:
       - ROTARY_DATABASE=instance/rotary.sqlite
       - ROTARY_USERNAME=${USERNAME}
       - ROTARY_PASSWORD=${PASSWORD}
+      - ROTARY_MARIADB_HOST=${MARIADB_HOST}
+      - ROTARY_MARIADB_USER=${MARIADB_USER}
+      - ROTARY_MARIADB_PASS=${MARIADB_PASS}
+      - ROTARY_MARIADB_DB=${MARIADB_DB}
       - ROTARY_SMTP_PORT=587
       - ROTARY_SMTP_HOST=smtp.gmail.com
       - ROTARY_SMTP_USERNAME=${GOOGLE_USERNAME}
@@ -14,14 +18,8 @@ services:
       - ROTARY_SMTP_CONTACT_FORM_ADDRESS=info@rotarypub.se
     volumes:
       - ./instance:/app/instance
-    networks:
-      - reverse-proxy
     restart: "always"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.rotarypub.rule=Host(`rotarypub.se`)||Host(`www.rotarypub.se`)"
       - "traefik.http.routers.rotarypub.entrypoints=websecure"
-
-networks:
-  reverse-proxy:
-    external: true

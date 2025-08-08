@@ -1,6 +1,8 @@
 services:
   website:
     container_name: pub-website
+    ports:
+      - "5000:5000"
     build: 
       context: "website" 
       dockerfile: "Dockerfile.dev"
@@ -9,6 +11,10 @@ services:
       - ROTARY_DATABASE=/app/instance/rotary.sqlite
       - ROTARY_USERNAME=${USERNAME}
       - ROTARY_PASSWORD=${PASSWORD}
+      - ROTARY_MARIADB_HOST=${MARIADB_HOST}
+      - ROTARY_MARIADB_USER=${MARIADB_USER}
+      - ROTARY_MARIADB_PASS=${MARIADB_PASS}
+      - ROTARY_MARIADB_DB=${MARIADB_DB}
       - ROTARY_SMTP_PORT=587
       - ROTARY_SMTP_HOST=smtp.gmail.com
       - ROTARY_SMTP_USERNAME=${GOOGLE_USERNAME}
@@ -18,4 +24,13 @@ services:
       - ./instance:/app/instance
       - ./website/rotary:/app/rotary
       - /app/rotary/static/css
-    network_mode: host
+
+  db:
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: test123
+  phpMyAdmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8081:80
