@@ -4,6 +4,29 @@
 {% block content%}
 
 <script type="module" src="{{ url_for('static', filename='js/beers.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+
+<style>
+.hover-success:hover {
+  /* Use Bulma's success color */
+  background-color: hsl(141, 71%, 48%); /* Bulma $success */
+  border-color: hsl(141, 71%, 48%);
+  color: white;
+}
+.hover-link:hover {
+  /* Use Bulma's success color */
+  background-color:  hsl(217, 71%, 53%); /* Bulma $link */
+  border-color: hsl(217, 71%, 53%);
+  color: white;
+}
+.hover-danger:hover {
+  /* Use Bulma's success color */
+  background-color: hsl(348, 100%, 61%); /* Bulma $danger */
+  border-color: hsl(348, 100%, 61%);
+  color: white;
+}
+</style>
+
 
 <div class="container mt-6 mb-6">
   <div class="box has-background">
@@ -28,85 +51,132 @@
 
   <input class="input" type="text" id="searchInput" placeholder="Search..." style="width: 20%;">
 
-  <div class="table-container">
-    <table id="beersTable" class="table is-striped is-fullwidth is-narrow">
-      <thead>
-        <tr>
-          <th>AVAIL</th>
-          <th width="30%">NAME</th>
-          <th>CAT</th>
-          <th>STYLE</th>
-          <th>ABV</th>
-          <th>VOL</th>
-          <th>PRICE</th>
-          <th>CNTRY</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for beer in beers %}
-        <tr>
-          <td>
-            <div class="checkbox-column">
-              <form action="{{ url_for('internal.toggle_beer', n=beer.id) }}" method="POST" class="toggle-beer-form">
-                <input type="checkbox" class="chungus-checkbox" {% if beer.available %}checked{% endif %}>
-              </form>
-            </div>
-          </td>
-          <td>{{ beer.name }}</td>
-          <td>{{ beer.category }}</td>
-          <td>{{ beer.style }}</td>
-          <td>{{ beer.abv }}%</td>
-          <td>{{ beer.volume_ml }}ml</td>
-          <td>{{ beer.price_kr }}kr</td>
-          <td>{{ to_letter_code(beer.country_iso_3166_id) }}</td>
-          <td>
-            <form action="{{ url_for('internal.delete_beer', n=beer.id) }}" method="POST">
-              <button type="submit" class="button is-danger is-small uniform-button">Delete</button>
-            </form>
-            <form action="{{ url_for('internal.edit_beer', n=beer.id) }}" method="POST">
-              <a href="{{ url_for('internal.edit_beer', n=beer.id) }}" class="button is-link is-small uniform-button">Edit</a>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <nav id="pagination" class="pagination is-centered" role="navigation" aria-label="pagination">
-      <a href="#" class="pagination-previous">Previous</a>
-      <a href="#" class="pagination-next">Next page</a>
-      <ul class="pagination-list"></ul>
-    </nav>
+  <div class="columns mt-2 mb-2">
+    <div class="column">
+      <div class="table-container box">
+        <h2 class="title is-4">Unavailable</h2>
+        <table id="unavailableBeersTable" class="table is-striped is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th width="30%">NAME</th>
+              <th>VOL</th>
+              <th>PRICE</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="unavailableBeersTableBody">
+            {% for beer in beers %}
+            {% if not beer.available %}
+            <tr id={{beer.id}}>
+              <td>{{ beer.name }}</td>
+              <td>{{ beer.volume_ml }}ml</td>
+              <td>{{ beer.price_kr }}kr</td>
+              <td>
+                <form action="{{ url_for('internal.delete_beer', n=beer.id) }}" method="POST">
+                  <button type="submit" class="button hover-danger is-small uniform-button">Delete</button>
+                </form>
+                <form action="{{ url_for('internal.edit_beer', n=beer.id) }}" method="POST">
+                  <a href="{{ url_for('internal.edit_beer', n=beer.id) }}" class="button hover-link is-small uniform-button">Edit</a>
+                </form>
+              </td>
+              <td>
+                <button class="button is-success arrow-right" data-url="{{ url_for('internal.toggle_beer', n=beer.id)}}">
+                  <span class="icon arrow-right">
+                    <i class="fas fa-arrow-right arrow-right"></i> <!-- Font Awesome -->
+                  </span>
+                </button>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <nav id="unavailablePagination" class="pagination is-centered" role="navigation" aria-label="pagination">
+          <a href="#" class="pagination-previous">Previous</a>
+          <a href="#" class="pagination-next">Next page</a>
+          <ul class="pagination-list"></ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="table-container box">
+        <h2 class="title is-4">On Menu</h2>
+        <table id="onMenuBeersTable" class="table is-striped is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th width="30%">NAME</th>
+              <th>VOL</th>
+              <th>PRICE</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="onMenuBeersTableBody">
+            {% for beer in beers %}
+            {% if beer.available %}
+            <tr id={{beer.id}}>
+              <td>{{ beer.name }}</td>
+              <td>{{ beer.volume_ml }}ml</td>
+              <td>{{ beer.price_kr }}kr</td>
+              <td>
+                <form action="{{ url_for('internal.delete_beer', n=beer.id) }}" method="POST">
+                  <button type="submit" class="button hover-danger is-small uniform-button">Delete</button>
+                </form>
+                <form action="{{ url_for('internal.edit_beer', n=beer.id) }}" method="POST">
+                  <a href="{{ url_for('internal.edit_beer', n=beer.id) }}" class="button hover-link is-small uniform-button">Edit</a>
+                </form>
+              </td>
+              <td>
+                <button class="button is-danger arrow-left" data-url="{{ url_for('internal.toggle_beer', n=beer.id)}}">
+                  <span class="icon arrow-left">
+                    <i class="fas fa-arrow-left arrow-left"></i> <!-- Font Awesome -->
+                  </span>
+                </button>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <nav id="onMenuPagination" class="pagination is-centered" role="navigation" aria-label="pagination">
+          <a href="#" class="pagination-previous">Previous</a>
+          <a href="#" class="pagination-next">Next page</a>
+          <ul class="pagination-list"></ul>
+        </nav>
+      </div>
+    </div>
   </div>
 
   <h1 class="title">Ölkategorier</h1>
-    <div class="box has-background">
-      <label class="label">Add a new category!</label>
-      <p class="paragraph">Below you can fill in the form for the category to be added. This should not be done often since new categories of beer rarely emerge. This should not be confused with the style property.</p>
-      <form action="{{ url_for('internal.add_category') }}" method="POST">
-        <table class="table is-narrow has-background">
-          <tr>
-            <td>Name SV: </td>
-            <td> 
-              <input class="input" type="text" name="name_sv" placeholder="Suröl">
-            </td>
-          </tr>
-          <tr>
-            <td>Name EN: </td>
-            <td>
-              <input class="input" type="text" name="name_en" placeholder="Sour beer">
-            </td>
-          </tr>
-          <tr>
-            <td>Priority </td>
-            <td>
-              <input class="input" type="text" name="priority" placeholder="69">
-            </td>
-          </tr>
-        </table>
-        <button type="submit" formmethod="post" class="button is-link">Add</a>
-      </form>
-    </div>
+  <div class="box has-background">
+    <label class="label">Add a new category!</label>
+    <p class="paragraph">Below you can fill in the form for the category to be added. This should not be done often since new categories of beer rarely emerge. This should not be confused with the style property.</p>
+    <form action="{{ url_for('internal.add_category') }}" method="POST">
+      <table class="table is-narrow has-background">
+        <tr>
+          <td>Name SV: </td>
+          <td> 
+            <input class="input" type="text" name="name_sv" placeholder="Suröl">
+          </td>
+        </tr>
+        <tr>
+          <td>Name EN: </td>
+          <td>
+            <input class="input" type="text" name="name_en" placeholder="Sour beer">
+          </td>
+        </tr>
+        <tr>
+          <td>Priority </td>
+          <td>
+            <input class="input" type="text" name="priority" placeholder="69">
+          </td>
+        </tr>
+      </table>
+      <button type="submit" formmethod="post" class="button is-link">Add</a>
+    </form>
+  </div>
 
   <div class="table-container">
     <table class="table is-striped is-fullwidth is-narrow">

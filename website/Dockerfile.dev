@@ -31,7 +31,7 @@ COPY . /app
 RUN npm run build-css
 RUN npm run purge-css
 
-COPY ./rotary/static/css /app/rotary/static/css
+COPY ./rotary/static/css/* /app/rotary/static/css
 
 RUN python3 -m venv .venv
 

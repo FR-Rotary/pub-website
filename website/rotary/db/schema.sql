@@ -21,6 +21,7 @@ CREATE TABLE beer (
     price_kr INTEGER NOT NULL,
     category_id INTEGER NOT NULL,
     available BOOLEAN NOT NULL,
+    last_moved INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (category_id) REFERENCES beer_category (id)
 );
 
@@ -95,3 +96,12 @@ CREATE TABLE news (
     title_sv TEXT NOT NULL,
     body_sv TEXT NOT NULL
 );
+
+-- Triggers
+
+CREATE TRIGGER update_beer_timestamp
+AFTER UPDATE of available ON beer 
+BEGIN
+    UPDATE beer SET last_moved = unixepoch('now')
+    WHERE id = NEW.id;
+END;

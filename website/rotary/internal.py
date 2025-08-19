@@ -70,11 +70,11 @@ def beers():
             db.rollback()
 
     beers = db.execute(
-        'SELECT b.available, b.name, b.id, b.style, b.abv, b.country_iso_3166_id, b.volume_ml, b.price_kr, '
+        'SELECT b.available, b.name, b.id, b.style, b.abv, b.country_iso_3166_id, b.volume_ml, b.price_kr, b.last_moved, '
         'IFNULL(bc.name_sv, \'<unknown category>\') as category '
         'FROM beer b '
         'LEFT JOIN beer_category bc ON b.category_id = bc.id '
-        'ORDER BY b.name ASC'
+        'ORDER BY b.last_moved DESC, b.name ASC'
     ).fetchall()
     
     # Fetch categories only if needed for other parts of the template
