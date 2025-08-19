@@ -2,7 +2,6 @@ import { initializeTable } from './tableutils.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     initializeTable('beersTable', 'searchInput', 'pagination', 25);
-    
     // Move this event listener setup inside DOMContentLoaded
     function setupToggleListeners() {
         const forms = document.querySelectorAll('.toggle-beer-form');

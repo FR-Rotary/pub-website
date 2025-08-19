@@ -26,6 +26,7 @@ RUN python3 setup.py install
 COPY . /app
 
 RUN npm run build
+COPY ./rotary/static/css /app/rotary/static/css
 
 EXPOSE 80
 CMD ["uwsgi", "--ini=uwsgi.ini"]
