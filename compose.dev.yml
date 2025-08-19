@@ -29,6 +29,9 @@ services:
     image: mariadb
     environment:
       MARIADB_ROOT_PASSWORD: test123
+      TZ: "Europe/Stockholm"
+    volumes:
+      - ./development/mariadb:/var/lib/mysql:Z
   phpMyAdmin:
     image: phpmyadmin
     restart: always
