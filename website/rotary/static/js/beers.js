@@ -1,8 +1,8 @@
-import { initializeTable } from './tableutils.js';
+import { addRowToTable, removeRowFromTable, initializeTable } from './tableutils.js';
 
-document.addEventListener('DOMContentLoaded', function () {
-    initializeTable('unavailableBeersTable', 'searchInput', 'unavailablePagination', 25);
-    initializeTable('onMenuBeersTable', 'searchInput', 'onMenuPagination', 25);
+document.addEventListener('DOMContentLoaded', function() {
+    const unavailableTableObj = initializeTable('unavailableBeersTable', 'searchInput', 'paginationInput', 'unavailablePagination', 25);
+    const onMenuTableObj = initializeTable('onMenuBeersTable', 'searchInput', 'paginationInput', 'onMenuPagination', 25);
     // Move this event listener setup inside DOMContentLoaded
     const unavailableBeersBody = document.getElementById("unavailableBeersTableBody");
     const onMenuBeersBody = document.getElementById("onMenuBeersTableBody");
@@ -16,9 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
             button.setAttribute("class", "button is-danger arrow-left ")
             button.children[0].setAttribute("class", "icon arrow-left")
             button.children[0].children[0].setAttribute("class", "fas fa-arrow-left arrow-left")
-            // Then we move the row to other table 
+            // Then we move the row to other ta:ble 
             // For some reason there is no need to remove tableRow from old table
-            onMenuBeersBody.prepend(tableRow);
+            addRowToTable(onMenuTableObj, tableRow)
+            removeRowFromTable(unavailableTableObj, tableRow);
             // Do DB stuff here
             const beerId = tableRow.id;
             const requestUrl = window.location.origin + button.getAttribute("data-url");
@@ -40,7 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
             button.children[0].children[0].setAttribute("class", "fas fa-arrow-right arrow-right")
             // Then we move the row to other table 
             // For some reason there is no need to remove tableRow from old table
-            unavailableBeersBody.prepend(tableRow);
+            addRowToTable(unavailableTableObj, tableRow)
+            removeRowFromTable(onMenuTableObj, tableRow);
+
+            //unavailableBeersBody.prepend(tableRow);
             // Do DB stuff here
             const beerId = tableRow.id;
             const requestUrl = window.location.origin + button.getAttribute("data-url");
