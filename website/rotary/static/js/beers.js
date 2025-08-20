@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
             addRowToTable(onMenuTableObj, tableRow)
             removeRowFromTable(unavailableTableObj, tableRow);
             // Do DB stuff here
-            const beerId = tableRow.id;
             const requestUrl = window.location.origin + button.getAttribute("data-url");
             //Ignore fetch response, just post a toggle
             fetch(requestUrl, {
@@ -46,7 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             //unavailableBeersBody.prepend(tableRow);
             // Do DB stuff here
-            const beerId = tableRow.id;
             const requestUrl = window.location.origin + button.getAttribute("data-url");
             //Ignore fetch response, just post a toggle
             fetch(requestUrl, {

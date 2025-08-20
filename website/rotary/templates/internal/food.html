@@ -2,6 +2,30 @@
 
 {% block content%}
 
+<script type="module" src="{{ url_for('static', filename='js/food.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+
+<style>
+.hover-success:hover {
+  /* Use Bulma's success color */
+  background-color: hsl(141, 71%, 48%); /* Bulma $success */
+  border-color: hsl(141, 71%, 48%);
+  color: white;
+}
+.hover-link:hover {
+  /* Use Bulma's success color */
+  background-color:  hsl(217, 71%, 53%); /* Bulma $link */
+  border-color: hsl(217, 71%, 53%);
+  color: white;
+}
+.hover-danger:hover {
+  /* Use Bulma's success color */
+  background-color: hsl(348, 100%, 61%); /* Bulma $danger */
+  border-color: hsl(348, 100%, 61%);
+  color: white;
+}
+</style>
+
 <script nonce="{{ csp_nonce() }}">
   document.addEventListener('DOMContentLoaded', function () {
     const forms = document.querySelectorAll('.toggle-food-form');
@@ -33,106 +57,253 @@
   <div class="box has-background">
     <label class="label">Add a new food!</label>
     <p class="paragraph">Below you can fill in the form for course to be added.</p>
-    <form action="{{ url_for('internal.add_food') }}" method="POST">
-     {% include 'internal/_food_form_fields.html' %}
-      <div class="field">
-        <div class="control">
-          <button type="submit" formmethod="post" class="button is-link">Add</button>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <div class="table-container">
-    <h1 class="title">Food</h1>
-    <table class="table is-striped is-fullwidth is-narrow">
-      <thead>
-        <tr>
-          <th width="5%">AVAIL</th>
-          <th>NAME</th>
-          <th>PRICE</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-        </tr>
-        {% for food in foods %}
-        <tr>
-          <td>
-            <div class="checkbox-column">
-              <form action="{{ url_for('internal.toggle_food', n=food.id) }}" method="POST" class="toggle-food-form">
-                <input type="checkbox" class="chungus-checkbox" {% if food.available %}checked{% endif %}>
-              </form>
+    <div class="columns">
+      <div class="column">
+        <form action="{{ url_for('internal.add_food') }}" method="POST">
+         {% include 'internal/_food_form_fields.html' %}
+          <div class="field">
+            <div class="control">
+              <button type="submit" formmethod="post" class="button is-link">Add</button>
             </div>
-          </td>
-          <td>{{ food.name }}</td>
-          <td>{{ food.price_kr }}kr</td>
-          <td>
-            <form action="{{ url_for('internal.delete_food', n=food.id) }}" method="POST">
-              <button class="button is-danger is-small uniform-button">Delete</button>
-            </form>
-            <form action="{{ url_for('internal.edit_food', n=food.id) }}" method="POST">
-              <a href="{{ url_for('internal.edit_food', n=food.id) }}" class="button is-link is-small uniform-button">Edit</a>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-
-      </tbody>
-    </table>
+          </div>
+        </form>
+      </div>
+      <div class="column">
+        <a href="/internal/print_menu" class="button is-link">Print Menu</a>
+      </div>
+    </div>
   </div>
+
+  <!-- FOODS --->
+  <div class="flex is-flex-direction-row">
+    <input class="input" type="text" id="foodSearchInput" placeholder="Search by name..." style="width: 20%;">
+    <div class="select">
+      <select class="input" type="number" id="foodPaginationInput">
+        <option value="10">10</option>
+        <option value="25" selected>25</option>
+        <option value="50">50</option>
+        <option value="75">75</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <div class="columns mt-2 mb-2">
+    <div class="column">
+      <div class="table-container box">
+        <h1 class="title">Unavailable Food</h1>
+        <table id="unavailableFoodsTable" class="table is-striped is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>PRICE</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="unavailableFoodsTableBody">
+            {% for food in foods %}
+            {% if not food.available %}
+            <tr>
+              <td>{{ food.name }}</td>
+              <td>{{ food.price_kr }}kr</td>
+              <td>
+                <form action="{{ url_for('internal.delete_food', n=food.id) }}" method="POST">
+                  <button class="button hover-danger is-small uniform-button">Delete</button>
+                </form>
+                <form action="{{ url_for('internal.edit_food', n=food.id) }}" method="POST">
+                  <a href="{{ url_for('internal.edit_food', n=food.id) }}" class="button hover-link is-small uniform-button">Edit</a>
+                </form>
+              </td>
+              <td>
+                <button class="button is-success arrow-right" data-url="{{ url_for('internal.toggle_food', n=food.id)}}">
+                  <span class="icon arrow-right">
+                    <i class="fas fa-arrow-right arrow-right"></i> <!-- Font Awesome -->
+                  </span>
+                </button>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <nav id="unavailableFoodsPagination" class="pagination is-centered" role="navigation" aria-label="pagination">
+          <a href="#" class="pagination-previous">Previous</a>
+          <a href="#" class="pagination-next">Next page</a>
+          <ul class="pagination-list"></ul>
+        </nav>
+      </div>
+    </div>
+    <div class="column">
+      <div class="table-container box">
+        <h1 class="title">Food On Menu</h1>
+        <table id="onMenuFoodsTable" class="table is-striped is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>PRICE</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="onMenuFoodsTableBody">
+            {% for food in foods %}
+            {% if food.available %}
+            <tr>
+              <td>{{ food.name }}</td>
+              <td>{{ food.price_kr }}kr</td>
+              <td>
+                <form action="{{ url_for('internal.delete_food', n=food.id) }}" method="POST">
+                  <button class="button hover-danger is-small uniform-button">Delete</button>
+                </form>
+                <form action="{{ url_for('internal.edit_food', n=food.id) }}" method="POST">
+                  <a href="{{ url_for('internal.edit_food', n=food.id) }}" class="button hover-link is-small uniform-button">Edit</a>
+                </form>
+              </td>
+              <td>
+                <button class="button is-danger arrow-left" data-url="{{ url_for('internal.toggle_food', n=food.id)}}">
+                  <span class="icon arrow-left">
+                    <i class="fas fa-arrow-left arrow-left"></i> <!-- Font Awesome -->
+                  </span>
+                </button>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <nav id="onMenuFoodsPagination" class="pagination is-centered" role="navigation" aria-label="pagination">
+          <a href="#" class="pagination-previous">Previous</a>
+          <a href="#" class="pagination-next">Next page</a>
+          <ul class="pagination-list"></ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
 
   <div class="box has-background">
     <label class="label">Add a new snack!</label>
     <p class="paragraph">Below you can fill in the form for the snack to be added.</p>
-    <form action="{{ url_for('internal.add_snacks') }}" method="POST">
-      {% include 'internal/_snack_form_fields.html' %}
-      <div class="field">
-        <div class="control">
-          <button type="submit" formmethod="post" class="button is-link">Add</button>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <div class="table-container">
-    <h1 class="title">Snack</h1>
-    <table class="table is-striped is-fullwidth is-narrow">
-      <thead>
-        <tr>
-          <th width="5%">AVAIL</th>
-          <th>NAME</th>
-          <th>PRICE</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for snack in snacks %}
-        <tr>
-          <td>
-            <div class="checkbox-column">
-              <form action="{{ url_for('internal.toggle_snack', n=snack.id) }}" method="POST" class="toggle-snack-form">
-                <input type="checkbox" class="chungus-checkbox" {% if snack.available %}checked{% endif %}>
-              </form>
+    <div class="columns">
+      <div class="column">
+        <form action="{{ url_for('internal.add_snacks') }}" method="POST">
+          {% include 'internal/_snack_form_fields.html' %}
+          <div class="field">
+            <div class="control">
+              <button type="submit" formmethod="post" class="button is-link">Add</button>
             </div>
-          </td>
-          <td>{{ snack.name }}</td>
-          <td>{{ snack.price_kr }}kr</td>
-          <td>
-            <form action="{{ url_for('internal.delete_snacks', n=snack.id) }}" method="POST">
-              <button class="button is-danger is-small uniform-button">Delete</button>
-            </form>
-            <form action="{{ url_for('internal.edit_snack', n=snack.id) }}" method="POST">
-              <a href="{{ url_for('internal.edit_snack', n=snack.id) }}" class="button is-link is-small uniform-button">Edit</a>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-
-      </tbody>
-    </table>
+          </div>
+        </form>
+      </div>
+      <div class="column">
+        <a href="/internal/print_menu" class="button is-link">Print Menu</a>
+      </div>
+    </div>
   </div>
 
+  <!-- SNACKS --->
+  <div class="flex is-flex-direction-row">
+    <input class="input" type="text" id="snackSearchInput" placeholder="Search by name..." style="width: 20%;">
+    <div class="select">
+      <select class="input" type="number" id="snackPaginationInput">
+        <option value="10">10</option>
+        <option value="25" selected>25</option>
+        <option value="50">50</option>
+        <option value="75">75</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <div class="columns mt-2 mb-2">
+    <div class="column">
+      <div class="table-container box">
+        <h1 class="title">Unavailable Snack</h1>
+        <table id="unavailableSnacksTable" class="table is-striped is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>PRICE</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="unavailableSnacksTableBody">
+            {% for snack in snacks %}
+            {% if not snack.available %}
+            <tr>
+              <td>{{ snack.name }}</td>
+              <td>{{ snack.price_kr }}kr</td>
+              <td>
+                <form action="{{ url_for('internal.delete_snacks', n=snack.id) }}" method="POST">
+                  <button class="button hover-danger is-small uniform-button">Delete</button>
+                </form>
+                <form action="{{ url_for('internal.edit_snack', n=snack.id) }}" method="POST">
+                  <a href="{{ url_for('internal.edit_snack', n=snack.id) }}" class="button hover-link is-small uniform-button">Edit</a>
+                </form>
+              </td>
+              <td>
+                <button class="button is-success arrow-right" data-url="{{ url_for('internal.toggle_snack', n=snack.id)}}">
+                  <span class="icon arrow-right">
+                    <i class="fas fa-arrow-right arrow-right"></i> <!-- Font Awesome -->
+                  </span>
+                </button>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <nav id="unavailableSnacksPagination" class="pagination is-centered" role="navigation" aria-label="pagination">
+          <a href="#" class="pagination-previous">Previous</a>
+          <a href="#" class="pagination-next">Next page</a>
+          <ul class="pagination-list"></ul>
+        </nav>
+      </div>
+    </div>
+    <div class="column">
+      <div class="table-container box">
+        <h1 class="title">Snack On Menu</h1>
+        <table id="onMenuSnacksTable"class="table is-striped is-fullwidth is-narrow">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>PRICE</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="onMenuSnacksTableBody">
+            {% for snack in snacks %}
+            {% if snack.available %}
+            <tr>
+              <td>{{ snack.name }}</td>
+              <td>{{ snack.price_kr }}kr</td>
+              <td>
+                <form action="{{ url_for('internal.delete_snacks', n=snack.id) }}" method="POST">
+                  <button class="button hover-danger is-small uniform-button">Delete</button>
+                </form>
+                <form action="{{ url_for('internal.edit_snack', n=snack.id) }}" method="POST">
+                  <a href="{{ url_for('internal.edit_snack', n=snack.id) }}" class="button hover-link is-small uniform-button">Edit</a>
+                </form>
+              </td>
+              <td>
+                <button class="button is-danger arrow-left" data-url="{{ url_for('internal.toggle_snack', n=snack.id)}}">
+                  <span class="icon arrow-left">
+                    <i class="fas fa-arrow-left arrow-left"></i> <!-- Font Awesome -->
+                  </span>
+                </button>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        <nav id="onMenuSnacksPagination" class="pagination is-centered" role="navigation" aria-label="pagination">
+          <a href="#" class="pagination-previous">Previous</a>
+          <a href="#" class="pagination-next">Next page</a>
+          <ul class="pagination-list"></ul>
+        </nav>
+      </div>
+    </div>
 </div>
 {% endblock %}
