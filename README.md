@@ -22,3 +22,7 @@ Detta bör vara så lätt som att bara köra skriptet migrate.py, tyvärr är de
 
 
 *Det är ganska mycket onödig css, då mycket i Bulma inte används. Då Bulma är modulärt bör en del av detta kunna åtgärdas genom att bara importerar de modulerna vi använder oss av men detta blr kollas närmare på, i dagsläget är purgecss dock ett bra mellansteg.
+
+## Google bös
+https://github.com/googleapis/google-api-python-client/blob/main/docs/start.md
+https://googleapis.github.io/google-api-python-client/docs/dyn/admin_directory_v1.html

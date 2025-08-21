@@ -1,6 +1,9 @@
 # Docker dev stuff
 development/
 
+# Secrets
+**/secretKey.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

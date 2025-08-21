@@ -9,6 +9,7 @@ from werkzeug.utils import secure_filename
 
 from rotary.db import get_db
 from rotary.mariadb import exec_mariadb
+from rotary.mail.maillist import update_maillist
 from rotary.auth import login_required
 from rotary.i18n import strings_en
 from rotary.utils.util import dict_from_row
@@ -577,6 +578,23 @@ def delete_shifts(n):
         db.commit()
 
     return redirect(url_for('internal.shifts'))
+
+@bp.route('/update_mail_lists')
+@login_required
+def update_mail_lists():
+    ## status id = 1 => WORKER
+    ## status id = 2 => WORKER_PUBLIC
+    ## status_id = 3 => EX_WORKER
+    db = get_db()
+    worker_emails = db.execute('SELECT email FROM worker '
+               'WHERE status_id = 1').fetchall()
+    public_emails = db.execute('SELECT email FROM worker '
+               'WHERE status_id = 2').fetchall()
+    alumni_emails = db.execute('SELECT email FROM worker '
+               'WHERE status_id = 3').fetchall()
+    worker_emails = list(map(lambda x: x['email'], worker_emails))
+    public_emails = list(map(lambda x: x['email'], public_emails))
+    alumni_emails = list(map(lambda x: x['email'], alumni_emails))
 
 @bp.route('/print_menu')
 @login_required

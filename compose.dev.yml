@@ -22,6 +22,7 @@ services:
       - ROTARY_SMTP_CONTACT_FORM_ADDRESS=info@rotarypub.se
     volumes:
       - ./instance:/app/instance
+      - ./secretKey.json:/app/rotary/secretKey.json:ro
       - ./website/rotary:/app/rotary
       - /app/rotary/static/css
 

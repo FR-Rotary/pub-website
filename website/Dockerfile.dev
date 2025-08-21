@@ -37,13 +37,7 @@ RUN python3 -m venv .venv
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-RUN python3 -m pip install \ 
-    Flask \
-    flask \
-    flask_compress \
-    flask-talisman \
-    pycountry \
-    mysql-connector-python
+RUN python3 -m pip install -r requirements.txt 
 
 ENV FLASK_ENV=development
 ENV FLASK_DEBUG=1

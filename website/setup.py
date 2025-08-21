@@ -12,5 +12,6 @@ setup(
         'flask-talisman',
         'pycountry',
         'mysql-connector-python',
+        'google-api-python-client'
     ],
 )

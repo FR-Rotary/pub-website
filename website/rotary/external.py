@@ -7,7 +7,7 @@ from flask import (
 from rotary.utils.menu import fetch_menu_data
 from rotary.utils.util import dict_from_row, format_time
 from rotary.db import get_db
-from rotary.mail import Mail, Server
+from rotary.mail.mail import Mail, Server
 
 bp = Blueprint('external', __name__)
 
