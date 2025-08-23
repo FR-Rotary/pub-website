@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://rotarypub.se/</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>https://rotarypub.se/menu</loc>
+        <changefreq>daily</changefreq>
+    </url>
+    <url>
+        <loc>https://rotarypub.se/rentals</loc>
+        <changefreq>yearly</changefreq>
+    </url>
+    <url>
+        <loc>https://rotarypub.se/work</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.1</priority>
+    </url>
+    <url>
+        <loc>https://rotarypub.se/contact</loc>
+        <changefreq>yearly</changefreq>
+    </url>
+</urlset>

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /internal/
+Disallow: /login/
+Sitemap: https://rotarypub.se/sitemap.xml

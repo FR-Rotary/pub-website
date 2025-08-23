@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, request, send_from_directory
 from flask_compress import Compress
 from flask_talisman import Talisman
 
@@ -66,6 +66,11 @@ def create_app(test_config=None):
 
     from . import internal
     app.register_blueprint(internal.bp)
+
+    @app.route('/robots.txt')
+    @app.route('/sitemap.xml')
+    def static_from_root():
+        return send_from_directory(app.static_folder, request.path[1:])
 
     @app.route('/internt/')
     def internt_slash_redirect():
