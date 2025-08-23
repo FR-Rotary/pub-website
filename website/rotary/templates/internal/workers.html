@@ -8,9 +8,17 @@
 
   <!-- Display add new workers -->
   <div class="box has-background">
-    <label class="label">Add a new worker!</label>
-    <p class="paragraph">Below you can fill in the form for the new worker to be added. Make sure to show the new puber around and go through the "new puber" list with them.</p>
-    {% include 'internal/add_workers_form.html' %}
+    <div class="columns">
+      <div class="column is-four-fifths">
+        <label class="label">Add a new worker!</label>
+        <p class="paragraph">Below you can fill in the form for the new worker to be added. Make sure to show the new puber around and go through the "new puber" list with them.</p>
+        {% include 'internal/add_workers_form.html' %}
+      </div>
+      <div class="column is-one-fifth">
+        <label class="label">Updating Maillists</label>
+        <p class="paragraph">This should be done automatically when adding, deleting and updating users, but it is possible to force a sync of all users into their appropriate maillists if necessary for some reason. This may take some time, please be patient.</p>
+        <a href="/internal/update_maillists" class="button mt-4 pt-4 is-danger">Force Maillist Update</a>
+      </div>
   </div>
 
   <!-- Display current workers -->
@@ -39,8 +47,8 @@
             <td>{{ worker.telephone }}</td>
             <td>{{ worker.email }}</td>
             <td>
-              <a href="{{ url_for('internal.edit_worker',n=worker.id) }}" class="button is-link is-small">Edit</a>
-              <a href="{{ url_for('internal.delete_worker',n=worker.id) }}" class="button is-danger is-small">Delete</a>
+              <a href="{{ url_for('internal.edit_worker',n=worker.id) }}" class="button hover-link is-small">Edit</a>
+              <a href="{{ url_for('internal.delete_worker',n=worker.id) }}" class="button hover-danger is-small">Delete</a>
             </td>
           </tr>
           {% endif %}

@@ -25,6 +25,7 @@ services:
       - ./secretKey.json:/app/rotary/secretKey.json:ro
       - ./website/rotary:/app/rotary
       - /app/rotary/static/css
+      - /app/rotary/static/sass
 
   db:
     image: mariadb

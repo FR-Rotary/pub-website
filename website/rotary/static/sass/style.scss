@@ -60,6 +60,29 @@ footer {
     margin: 0; // Removes default margin to aid in centering
 }
 
+//Hover-versions of button colors
+.hover-success {
+    &:hover {
+        background-color: hsl(141, 71%, 48%); /* Bulma $success */
+        border-color: hsl(141, 71%, 48%);
+        color: white;
+    }
+}
+.hover-link {
+    &:hover {
+        background-color:  hsl(217, 71%, 53%); /* Bulma $link */
+        border-color: hsl(217, 71%, 53%);
+        color: white;
+    }
+}
+.hover-danger {
+    &:hover {
+        background-color: hsl(348, 100%, 61%); /* Bulma $danger */
+        border-color: hsl(348, 100%, 61%);
+        color: white;
+    }
+}
+
 /* This style is for the upload and random comic buttons on internal page */
 .button:not(#undefined), .button-group .buttons.has-addons label.button:not(#undefined) {
     border-radius: var(--bulma-radius-rounded); 

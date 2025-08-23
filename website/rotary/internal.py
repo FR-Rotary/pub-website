@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 
 from rotary.db import get_db
 from rotary.mariadb import exec_mariadb
-from rotary.mail.maillist import update_maillist
+from rotary.mail.maillist import update_maillist, is_valid_email, remove_from_maillists, add_to_maillists
 from rotary.auth import login_required
 from rotary.i18n import strings_en
 from rotary.utils.util import dict_from_row
@@ -374,7 +374,7 @@ def workers():
         address = request.form['address']
         note = request.form['note']
         status_id = request.form['status_id']
-
+        current_app.logger.info("Creating new user {0}, {1} with worker status: {2}".format(display_name, email, status_id))
         db.execute(
             'INSERT INTO worker '
             '(display_name, first_name, last_name, '
@@ -385,6 +385,12 @@ def workers():
              telephone, p_id, email, address, note, status_id)
         )
         db.commit()
+        if is_valid_email(email):
+            if status_id == "1":
+                add_to_maillists(["pubare@rotarypub.se"],email)
+            if status_id == "2":
+                add_to_maillists(["pubare@rotarypub.se", "public@rotarypub.se"],email)
+
 
         return redirect(url_for('internal.workers'))
     ## Provide all current workers
@@ -412,6 +418,15 @@ def edit_worker(n):
 
         return render_template('internal/add_workers.html', worker=worker, worker_status=worker_status)
     elif request.method == 'POST' and n is not None:
+        worker = db.execute(
+            'SELECT * FROM worker WHERE id = ?',
+            (n,)
+        ).fetchone()
+        if is_valid_email(worker["email"]):
+            if worker["status_id"] == 1:
+                remove_from_maillists(["pubare@rotarypub.se"],worker["email"])
+            if worker["status_id"] == 2:
+                remove_from_maillists(["pubare@rotarypub.se", "public@rotarypub.se"],worker["email"])
         display_name = request.form['display_name']
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -421,6 +436,7 @@ def edit_worker(n):
         address = request.form['address']
         note = request.form['note']
         status_id = request.form['status_id']
+        current_app.logger.info("Updating user {0} to {1}, {2} with worker status: {3}".format(worker["display_name"], display_name, email, status_id))
 
         db.execute(
             'UPDATE worker SET '
@@ -432,6 +448,11 @@ def edit_worker(n):
              note, status_id, n)
         )
         db.commit()
+        if is_valid_email(email):
+            if status_id == "1":
+                add_to_maillists(["pubare@rotarypub.se"],email)
+            if status_id == "2":
+                add_to_maillists(["pubare@rotarypub.se", "public@rotarypub.se"],email)
 
     return redirect(url_for('internal.workers'))
 
@@ -439,9 +460,17 @@ def edit_worker(n):
 @bp.route('/workers/delete/<int:n>', methods=('POST', 'GET'))
 @login_required
 def delete_worker(n):
-    # TODO: Mailing list stuff
     if n is not None:
         db = get_db()
+        worker = db.execute('SELECT email, status_id FROM worker WHERE id = ?', (n,)).fetchone()
+
+        ## Don't remove from alumni maillist ever (?)
+        if is_valid_email(worker["email"]):
+            if worker["status_id"] == 1:
+                remove_from_maillists(["pubare@rotarypub.se"],worker["email"])
+            if worker["status_id"] == 2:
+                remove_from_maillists(["pubare@rotarypub.se", "public@rotarypub.se"],worker["email"])
+
         db.execute('DELETE FROM worker WHERE id = ?', (n,))
         db.commit()
 
@@ -579,12 +608,15 @@ def delete_shifts(n):
 
     return redirect(url_for('internal.shifts'))
 
-@bp.route('/update_mail_lists')
+## CORRECT
+#@bp.route('/update_maillists', methods="POST")
+## WRONG
+@bp.route('/update_maillists')
 @login_required
-def update_mail_lists():
-    ## status id = 1 => WORKER
-    ## status id = 2 => WORKER_PUBLIC
-    ## status_id = 3 => EX_WORKER
+def update_maillists():
+    ## status id = 1 => WORKER         => pubare@rotarypub.se
+    ## status id = 2 => WORKER_PUBLIC  => pubare@rotarypub.se info@rotarypub.se
+    ## status_id = 3 => EX_WORKER      => alumni@rotarypub.se
     db = get_db()
     worker_emails = db.execute('SELECT email FROM worker '
                'WHERE status_id = 1').fetchall()
@@ -592,9 +624,14 @@ def update_mail_lists():
                'WHERE status_id = 2').fetchall()
     alumni_emails = db.execute('SELECT email FROM worker '
                'WHERE status_id = 3').fetchall()
-    worker_emails = list(map(lambda x: x['email'], worker_emails))
-    public_emails = list(map(lambda x: x['email'], public_emails))
-    alumni_emails = list(map(lambda x: x['email'], alumni_emails))
+    worker_emails = list(filter(lambda x: is_valid_email(x), map(lambda x: x['email'], worker_emails)))
+    public_emails = list(filter(lambda x: is_valid_email(x), map(lambda x: x['email'], public_emails)))
+    alumni_emails = list(filter(lambda x: is_valid_email(x), map(lambda x: x['email'], alumni_emails)))
+    current_app.logger.info(len(alumni_emails))
+    update_maillist(groupKey="pubare@rotarypub.se", desiredMembers=worker_emails + public_emails, removeMissing=True)
+    update_maillist(groupKey="public@rotarypub.se", desiredMembers=public_emails, removeMissing=True)
+    update_maillist(groupKey="alumni@rotarypub.se", desiredMembers=alumni_emails, removeMissing=False)
+    return redirect(url_for('internal.workers'))
 
 @bp.route('/print_menu')
 @login_required

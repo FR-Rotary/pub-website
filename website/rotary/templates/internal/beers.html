@@ -6,28 +6,6 @@
 <script type="module" src="{{ url_for('static', filename='js/beers.js') }}"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 
-<style>
-.hover-success:hover {
-  /* Use Bulma's success color */
-  background-color: hsl(141, 71%, 48%); /* Bulma $success */
-  border-color: hsl(141, 71%, 48%);
-  color: white;
-}
-.hover-link:hover {
-  /* Use Bulma's success color */
-  background-color:  hsl(217, 71%, 53%); /* Bulma $link */
-  border-color: hsl(217, 71%, 53%);
-  color: white;
-}
-.hover-danger:hover {
-  /* Use Bulma's success color */
-  background-color: hsl(348, 100%, 61%); /* Bulma $danger */
-  border-color: hsl(348, 100%, 61%);
-  color: white;
-}
-</style>
-
-
 <div class="container mt-6 mb-6">
   <div class="box has-background">
     <label class="label">Add a new beer!</label>
@@ -80,7 +58,9 @@
             {% for beer in beers %}
             {% if not beer.available %}
             <tr id={{beer.id}}>
-              <td>{{ beer.name }}</td>
+              <td>
+                <a href="https://untappd.com/search?q={{ beer.name }}&type=beer&sort=all" target="_blank">{{ beer.name }}</a>
+              </td>
               <td>{{ beer.volume_ml }}ml</td>
               <td>{{ beer.price_kr }}kr</td>
               <td>
@@ -128,7 +108,9 @@
             {% for beer in beers %}
             {% if beer.available %}
             <tr id={{beer.id}}>
-              <td>{{ beer.name }}</td>
+              <td>
+                <a href="https://untappd.com/search?q={{ beer.name }}&type=beer&sort=all" target="_blank">{{ beer.name }}</a>
+              </td>
               <td>{{ beer.volume_ml }}ml</td>
               <td>{{ beer.price_kr }}kr</td>
               <td>
