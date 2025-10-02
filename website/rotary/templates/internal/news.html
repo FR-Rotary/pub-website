@@ -75,11 +75,7 @@
           </div>
           <div class="message-body">
             <h3 class="heading">{{ post.day }}</h3>
-            <p>
-              {% for line in post.body_en %}
-                {{ line }} </br>
-              {% endfor %}
-            </p>
+            <p style="white-space: pre-wrap;">{{ post.body_en }}</p>
           </div>
         </article>
       </div>
@@ -91,11 +87,7 @@
           </div>
           <div class="message-body">
             <h3 class="heading">{{ post.day }}</h3>
-            <p>
-              {% for line in post.body_sv %}
-                {{ line }} </br>
-              {% endfor %}
-            </p>
+            <p style="white-space: pre-wrap;">{{ post.body_sv }}</p>
           </div>
         </article>
       </div>

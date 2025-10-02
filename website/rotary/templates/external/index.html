@@ -40,11 +40,7 @@
           </div>
           <div class="message-body">
             <h3 class="heading">{{ news.day }}</h3>
-            <p>
-            {% for line in news.body %}
-              {{ line }}</br>
-            {% endfor %}
-            </p>
+            <p style="white-space: pre-wrap;">{{news.body}}</p>
           </div>
         </article>
       </div>

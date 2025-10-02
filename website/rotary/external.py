@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 from flask import (
-    Blueprint, g, render_template, request, session, current_app, Response
+    Blueprint, g, render_template, request, session, current_app, Response, current_app
 )
 
 from rotary.utils.menu import fetch_menu_data

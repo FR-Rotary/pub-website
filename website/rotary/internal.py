@@ -342,10 +342,8 @@ def news():
         db.commit()
 
     posts = db.execute('SELECT * FROM news ORDER BY time DESC')
-    #posts = list(posts)
 
     return render_template('internal/news.html', posts=posts)
-
 
 @bp.post('/news/delete/<int:n>')
 @login_required
