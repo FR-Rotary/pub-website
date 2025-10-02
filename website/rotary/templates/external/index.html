@@ -29,7 +29,10 @@
         </p>
       </div>
 
-      <div class="blog">
+    </div>
+
+    <div class="column">
+      <div class="content blog">
         <h2 class="title">{{ g.strings.index.news.header }}</h2>
         <article class="message">
           <div class="message-header">
@@ -37,13 +40,15 @@
           </div>
           <div class="message-body">
             <h3 class="heading">{{ news.day }}</h3>
-            <p>{{ news.body }}</p>
+            <p>
+            {% for line in news.body %}
+              {{ line }}</br>
+            {% endfor %}
+            </p>
           </div>
         </article>
       </div>
-    </div>
 
-    <div class="column">
       <div class="content hours">
         <h2>{{ g.strings.index.opening_hours }}</h2>
         <table class="table is-fullwidth">
