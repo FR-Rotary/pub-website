@@ -25,7 +25,7 @@ services:
     restart: "always"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.rotarypub.rule=Host(`rotary.kryddan.xyz`) && !PathPrefix(`/api`)"
+      - "traefik.http.routers.rotarypub.rule=( Host(`rotarypub.se`) || Host(`www.rotarypub.se`) ) && !PathPrefix(`/api`)"
       - "traefik.http.routers.rotarypub.entrypoints=websecure"
   sveltekit:
     container_name: sveltekit-pub-website
@@ -38,7 +38,7 @@ services:
       - ./instance:/instance
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.rotaryapi.rule=Host(`rotary.kryddan.xyz`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.rotaryapi.rule=Host(`rotarypub.se`) && PathPrefix(`/api`)"
       - "traefik.http.routers.rotaryapi.entrypoints=websecure"
 
 networks:
