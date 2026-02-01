@@ -545,11 +545,12 @@ def shifts():
                 (date, worker_id)
             ).fetchone()
             if existing_shift is None:
+                now = datetime.datetime.now()
                 db.execute(
                     'INSERT INTO shift '
-                    '(worker_id, date, start, end, shift_type_id)'
-                    'VALUES (?, date(?), time(?), time(?), ?)',
-                    (worker_id, date, start, end, shift_type)
+                    '(worker_id, date, start, end, shift_type_id, created_at)'
+                    'VALUES (?, date(?), time(?), time(?), ?, ?)',
+                    (worker_id, date, start, end, shift_type, now)
                 )
             else:
                 db.execute(
@@ -563,6 +564,7 @@ def shifts():
         'SELECT * FROM worker ORDER BY display_name ASC'
     ).fetchall()
     all_workers = [dict_from_row(worker) for worker in all_workers]
+    current_app.logger.info(all_workers)
 
     default_start = "17:00"
     default_end = "01:00"
@@ -601,7 +603,12 @@ def shifts():
 def delete_shifts(n):
     if n is not None:
         db = get_db()
-        db.execute('DELETE FROM shift WHERE id = ?', (n,))
+        shift = db.execute(
+        'SELECT * FROM shift WHERE id = ?', (n,)
+        ).fetchone()
+        shift = dict_from_row(shift)
+        current_app.logger.info(shift)
+        ##db.execute('DELETE FROM shift WHERE id = ? AND created_at > ?', (n,))
         db.commit()
 
     return redirect(url_for('internal.shifts'))

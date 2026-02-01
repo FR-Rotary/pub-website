@@ -1,8 +1,6 @@
 services:
   website:
     container_name: pub-website
-    ports:
-      - "5000:5000"
     build: 
       context: "website" 
       dockerfile: "Dockerfile.dev"
@@ -20,22 +18,68 @@ services:
       - ROTARY_SMTP_USERNAME=${GOOGLE_USERNAME}
       - ROTARY_SMTP_PASSWORD=${GOOGLE_PASSWORD}
       - ROTARY_SMTP_CONTACT_FORM_ADDRESS=info@rotarypub.se
+    networks:
+      - reverse-proxy
+      - legacy-con
+      - db-con
     volumes:
       - ./instance:/app/instance
       - ./secretKey.json:/app/rotary/secretKey.json:ro
       - ./website/rotary:/app/rotary
       - /app/rotary/static/css
       - /app/rotary/static/sass
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rotary.rule=Host(`rotary.kryddan.xyz`) && !PathPrefix(`/api`)"
+      - "traefik.http.routers.rotary.priority=2"
+      - "traefik.http.routers.rotary.middlewares=auth@file"
+      - "traefik.http.routers.rotary.entrypoints=websecure"
+
+  sveltekit:
+    image: node:25.5.0
+    user: "node"
+    environment:
+      - NODE_ENV=development
+      - TEST=TEST
+    networks:
+      - legacy-con
+      - reverse-proxy
+    working_dir: /home/node/app
+    volumes:
+      - ./instance:/home/node/instance
+      - ./sveltekit:/home/node/app
+    command: ["npm", "run", "dev"]
+    ports: 
+      - 5173:5173
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rotaryapi.rule=Host(`rotary.kryddan.xyz`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.rotaryapi.entrypoints=websecure"
+      - "traefik.http.routers.rotaryapi.priority=1"
 
   db:
     image: mariadb
     environment:
       MARIADB_ROOT_PASSWORD: test123
       TZ: "Europe/Stockholm"
+    networks:
+      - db-con
     volumes:
       - ./development/mariadb:/var/lib/mysql:Z
   phpMyAdmin:
     image: phpmyadmin
     restart: always
-    ports:
-      - 8081:80
+    networks:
+      - db-con
+      - reverse-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rotarydb.rule=Host(`rotarydb.kryddan.xyz`)"
+      - "traefik.http.routers.rotarydb.middlewares=auth@file"
+      - "traefik.http.routers.rotarydb.entrypoints=websecure"
+
+networks:
+  reverse-proxy:
+    external: true
+  db-con:
+  legacy-con:

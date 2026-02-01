@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, redirect, url_for, request, send_from_directory
+from flask import Flask, redirect, url_for, request, send_from_directory, Response, Flask
 from flask_compress import Compress
 from flask_talisman import Talisman
 

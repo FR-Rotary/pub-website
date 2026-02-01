@@ -72,6 +72,7 @@ CREATE TABLE shift (
     date TEXT NOT NULL,
     start TEXT NOT NULL,
     end TEXT NOT NULL,
+    created_at TIMESTAMP,
     FOREIGN KEY (worker_id) REFERENCES worker (id)
     FOREIGN KEY (shift_type_id) REFERENCES shift_type (id)
 );

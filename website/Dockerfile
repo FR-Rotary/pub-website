@@ -5,6 +5,7 @@ RUN ln -snf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
     python3 \
+    python3.11-venv \
     python3-pip \
     uwsgi \
     uwsgi-plugin-python3 \
@@ -20,10 +21,10 @@ WORKDIR /app
 COPY package.json /app/
 RUN npm install
 
-COPY setup.py /app/
-RUN python3 setup.py install
-
 COPY . /app
+RUN python3 -m venv venv
+RUN ./venv/bin/pip install -r requirements.txt
+
 
 RUN npm run build
 COPY ./rotary/static/css/* /app/rotary/static/css
