@@ -1,10 +1,7 @@
 import { initializeTable } from './tableutils.js';
 
 document.addEventListener('DOMContentLoaded', function () {
-    initializeTable('shiftsTable', 'searchInput', 'pagination', 25);
-});
-
-document.addEventListener('DOMContentLoaded', function () {
+    const shiftsTable = initializeTable('shiftsTable', 'searchInput', 'paginationInput', 'pagination', 25);
     const container = document.getElementById('workers-container');
     const addWorkerBtn = document.getElementById('add-worker');
     const removeWorkerBtn = document.getElementById('remove-worker');
@@ -32,11 +29,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateWorkerSelectOptions() {
         const workersToUse = allWorkers.filter((worker) => {
-          if (toggleAllWorkersCheckbox.checked){
-            return true;
-          } else {
-            return worker.status_id === 1 || worker.status_id === 2
-          }
+            if (toggleAllWorkersCheckbox.checked) {
+                return true;
+            } else {
+                return worker.status_id === 1 || worker.status_id === 2
+            }
         });
         const workerSelects = container.querySelectorAll('.worker-select select[name="workerid[]"]');
 

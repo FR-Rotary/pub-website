@@ -1,5 +1,6 @@
 # Docker dev stuff
 development/
+.ignore
 
 # Secrets
 **/secretKey.json
