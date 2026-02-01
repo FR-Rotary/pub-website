@@ -38,7 +38,7 @@ services:
       - ./instance:/instance
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.rotaryapi.rule=Host(`rotarypub.se`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.rotaryapi.rule=( Host(`rotarypub.se`) || Host(`www.rotarypub.se`) ) && PathPrefix(`/api`)"
       - "traefik.http.routers.rotaryapi.entrypoints=websecure"
 
 networks:
