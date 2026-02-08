@@ -130,9 +130,11 @@
             <td>{{ shift.worker_personal_id_number }}</td>
             <td>{{ shift.type }}</td>
             <td>
-              <form action="{{ request.path }}/delete/{{ shift.id }}" method="post">
-                <button class="button is-danger is-small" type="submit">Delete</button>
-              </form>
+              {% if shift.deletable %}
+                <form action="{{ request.path }}/delete/{{ shift.id }}" method="post">
+                  <button class="button is-danger is-small" type="submit">Delete</button>
+                </form>
+              {% endif %}
             </td>
           </tr>
         {% endfor %}

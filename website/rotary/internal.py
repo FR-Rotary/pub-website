@@ -564,7 +564,6 @@ def shifts():
         'SELECT * FROM worker ORDER BY display_name ASC'
     ).fetchall()
     all_workers = [dict_from_row(worker) for worker in all_workers]
-    current_app.logger.info(all_workers)
 
     default_start = "17:00"
     default_end = "01:00"
@@ -575,12 +574,28 @@ def shifts():
         'IFNULL(w.first_name, \'<deleted worker>\') AS worker_first_name, '
         'IFNULL(w.last_name, \'<deleted worker>\') AS worker_last_name, '
         'IFNULL(w.personal_id_number, \'<deleted worker>\') AS worker_personal_id_number, '
-        's.date, s.start, s.end, s.id '
+        's.date, s.start, s.end, s.id, s.created_at '
         'FROM shift s '
         'LEFT JOIN worker w ON w.id = s.worker_id '
         'LEFT JOIN shift_type st ON st.id = s.shift_type_id '
         'ORDER BY s.date DESC'
     ).fetchall()
+
+    time = datetime.datetime.now() - datetime.timedelta(days=2)
+
+    shifts = [dict_from_row(shift) for shift in shifts]
+
+    newShifts = []
+
+    for shift in shifts:
+        newShift = shift
+        createdAt = newShift.pop("created_at", None)
+        if createdAt != None and createdAt > time :
+            newShift["deletable"] = True
+        else: 
+            newShift["deletable"] = False
+        newShifts.append(newShift)
+
 
     today = datetime.date.today().isoformat()
 
@@ -594,7 +609,7 @@ def shifts():
         default_start=default_start,
         default_end=default_end,
         today=today,
-        shifts=shifts,
+        shifts=newShifts,
         shift_types=shift_types
     )
 
@@ -607,9 +622,11 @@ def delete_shifts(n):
         'SELECT * FROM shift WHERE id = ?', (n,)
         ).fetchone()
         shift = dict_from_row(shift)
-        current_app.logger.info(shift)
-        ##db.execute('DELETE FROM shift WHERE id = ? AND created_at > ?', (n,))
+        time = datetime.datetime.now() - datetime.timedelta(days=2)
+        db.execute('DELETE FROM shift WHERE id = ? AND created_at > ?', (n, time))
         db.commit()
+        if shift["created_at"] > time:
+            current_app.logger.info(f"Deleted shift {shift}")
 
     return redirect(url_for('internal.shifts'))
 
@@ -632,7 +649,6 @@ def update_maillists():
     worker_emails = list(filter(lambda x: is_valid_email(x), map(lambda x: x['email'], worker_emails)))
     public_emails = list(filter(lambda x: is_valid_email(x), map(lambda x: x['email'], public_emails)))
     alumni_emails = list(filter(lambda x: is_valid_email(x), map(lambda x: x['email'], alumni_emails)))
-    current_app.logger.info(len(alumni_emails))
     update_maillist(groupKey="pubare@rotarypub.se", desiredMembers=worker_emails + public_emails, removeMissing=True)
     update_maillist(groupKey="public@rotarypub.se", desiredMembers=public_emails, removeMissing=True)
     update_maillist(groupKey="alumni@rotarypub.se", desiredMembers=alumni_emails, removeMissing=False)
