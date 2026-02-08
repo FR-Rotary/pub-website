@@ -393,9 +393,27 @@ def workers():
         return redirect(url_for('internal.workers'))
     ## Provide all current workers
     else:
-        all_workers = db.execute('SELECT * FROM worker ORDER BY display_name ASC').fetchall()
+        ## Gets all workers, and their most recent shift date
+        all_workers = db.execute(
+            'SELECT w.id, w.status_id, w.display_name, w.first_name, '
+            'w.last_name, w.telephone, w.email, s.date as last_shift '
+            'FROM worker w INNER JOIN shift s ON s.worker_id = w.id '
+            'WHERE s.date = (SELECT MAX(date) FROM shift WHERE worker_id = w.id) '
+            'ORDER BY last_shift DESC')
+        all_workers = [dict_from_row(worker) for worker in all_workers]
+        newWorkers = []
+        ## Deduplication step to guard against multiple shifts on the same day
+        for worker in all_workers:
+            if worker not in newWorkers: 
+                newWorkers.append(worker)
+
         worker_status = db.execute('SELECT * FROM worker_status').fetchall()
-        return render_template('internal/workers.html', workers=all_workers, worker=None, worker_status=worker_status)
+        return render_template(
+            'internal/workers.html',
+            workers=newWorkers,
+            worker=None,
+            worker_status=worker_status
+        )
 
 
 @bp.route('/workers/edit/<int:n>', methods=('POST', 'GET'))
