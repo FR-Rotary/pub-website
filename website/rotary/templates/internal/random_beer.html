@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %} {{ g.strings.nav.index }} {% endblock%}
+
+{% block content%}
+
+<div class="container mt-6 mb-6">
+  <div class="box has-background">
+    <label class="label">Randomize a beer!</label>
+    <p class="paragraph">Enter some parameters to randomize a beer. Only beers which are set to be on menu will be selected</p>
+    <div class="columns">
+      <div class="column">
+        <form action="{{ request.path }}" method="POST">
+          <table class="table is-narrow has-background">
+            <tr>
+              <td>Category: </td>
+              <td>
+                <div class="select">
+                  <select name="category_id" required>
+                    {% for category in categories %}
+                    <option value="-1"> All </option>
+                    <option value="{{ category.id }}" {% if previous_parameters and category.id == previous_parameters["category_id"] %}selected{% endif %}>
+                      {{ category_names[category.id] }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Low Price: </td>
+              <td>
+                {% if previous_parameters %}
+                  <input class="input" type="text" name="low_price" value={{ previous_parameters["low_price"] }} placeholder="100" pattern="^\d+$" title="Please enter a valid integer" required>
+                {% else %}
+                  <input class="input" type="text" name="low_price" placeholder="10" pattern="^\d+$" title="Please enter a valid integer" required>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>High Price: </td>
+              <td>
+                {% if previous_parameters %}
+                  <input class="input" type="text" name="high_price" value={{ previous_parameters["high_price"] }} placeholder="100" pattern="^\d+$" title="Please enter a valid integer" required>
+                {% else %}
+                  <input class="input" type="text" name="high_price" placeholder="10" pattern="^\d+$" title="Please enter a valid integer" required>
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+          <div class="field">
+            <div class="control">
+              <button type="submit" formmethod="post" class="button is-link">Randomize!</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="column">
+        {% if selected_beer %}
+        <table class="table is-narrow has-background">
+          <tr>
+            <td> Beer: </td>
+            <td> {{ selected_beer.name }} </td>
+          </tr>
+          <tr>
+            <td> Style: </td>
+            <td> {{ category_names[selected_beer.category_id] }} </td>
+          </tr>
+          <tr>
+            <td> ABV: </td>
+            <td> {{ selected_beer.abv }} % </td>
+          </tr>
+          <tr>
+            <td> Price: </td>
+            <td> {{ selected_beer.price_kr }} kr </td>
+          </tr>
+        </table>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -91,6 +91,75 @@ def beers():
         category_names={category['id']: category['name'] for category in categories}
     )
 
+@bp.route('/random_beer', methods=('GET', 'POST'))
+@login_required
+def random_beer():
+    db = get_db()
+
+    # Fetch categories only if needed for other parts of the template
+    categories = db.execute(
+        'SELECT id, name_sv AS name, name_en, priority FROM beer_category ORDER BY priority ASC'
+    ).fetchall()
+
+
+    if request.method == 'POST':
+        current_app.logger.info("post random beer")
+        current_app.logger.info(f"{request.form}")
+        if request.form['category_id'] == "-1": 
+            beers = db.execute(
+                'SELECT * FROM beer '
+                'WHERE price_kr >= ? AND price_kr <= ? AND available = 1',
+                (
+                    int(request.form['low_price']),
+                    int(request.form['high_price']),
+                )
+            ).fetchall()
+        else: 
+            beers = db.execute(
+                'SELECT * FROM beer '
+                'WHERE category_id = ? AND price_kr >= ? AND price_kr <= ? AND available = 1',
+                (
+                    int(request.form['category_id']),
+                    int(request.form['low_price']),
+                    int(request.form['high_price']),
+                )
+            ).fetchall()
+        
+
+        if len(beers) == 0:
+            return render_template(
+                'internal/random_beer.html',
+                categories=categories,
+                selected_beer={'no_beer': "No beers found"},
+                category_names={category['id']: category['name'] for category in categories},
+                previous_parameters={
+                    'category_id': int(request.form['category_id']),
+                    'low_price': int(request.form['low_price']),
+                    'high_price': int(request.form['high_price']),
+                }
+            )
+
+        beer = dict_from_row(beers[random.randint(0,len(beers)-1)])
+
+        return render_template(
+            'internal/random_beer.html',
+            categories=categories,
+            selected_beer=beer,
+            category_names={category['id']: category['name'] for category in categories},
+            previous_parameters={
+                'category_id': int(request.form['category_id']),
+                'low_price': int(request.form['low_price']),
+                'high_price': int(request.form['high_price']),
+            }
+        )
+
+    return render_template(
+        'internal/random_beer.html',
+        categories=categories,
+        category_names={category['id']: category['name'] for category in categories}
+    )
+
+
 @bp.route('/beers/edit/<int:n>', methods=('GET', 'POST'))
 @login_required
 def edit_beer(n):
@@ -676,12 +745,14 @@ def update_maillists():
 @login_required
 def print_menu():
     categories, foods, snacks = fetch_menu_data()
+
     tex = render_template(
         'external/menu.tex',
         beer_categories=categories,
         foods=foods,
         snacks=snacks,
     )
+
     return generate_pdf(tex)
 
 

@@ -2,7 +2,7 @@ import os
 import subprocess
 from tempfile import TemporaryDirectory
 
-from flask import Response
+from flask import Response, current_app
 
 from rotary.db import get_db
 
@@ -20,6 +20,7 @@ def generate_pdf(tex_content, output_filename='texput.pdf'):
             with open(pdf_path, 'rb') as pdf:
                 return Response(pdf.read(), mimetype='application/pdf')
         except subprocess.CalledProcessError as e:
+            current_app.logger.info(e)
             return Response(
                 f"Error: {e.stderr.decode('utf8')}",
                 mimetype='text/plain'
