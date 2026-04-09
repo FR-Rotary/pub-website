@@ -16,8 +16,8 @@
               <td>
                 <div class="select">
                   <select name="category_id" required>
-                    {% for category in categories %}
                     <option value="-1"> All </option>
+                    {% for category in categories %}
                     <option value="{{ category.id }}" {% if previous_parameters and category.id == previous_parameters["category_id"] %}selected{% endif %}>
                       {{ category_names[category.id] }}
                     </option>
@@ -56,24 +56,28 @@
       </div>
       <div class="column">
         {% if selected_beer %}
-        <table class="table is-narrow has-background">
-          <tr>
-            <td> Beer: </td>
-            <td> {{ selected_beer.name }} </td>
-          </tr>
-          <tr>
-            <td> Style: </td>
-            <td> {{ category_names[selected_beer.category_id] }} </td>
-          </tr>
-          <tr>
-            <td> ABV: </td>
-            <td> {{ selected_beer.abv }} % </td>
-          </tr>
-          <tr>
-            <td> Price: </td>
-            <td> {{ selected_beer.price_kr }} kr </td>
-          </tr>
-        </table>
+	  {% if selected_beer.no_beer %}
+	    <p> No beer found, try with different parameters ya goof </p>
+	  {% else %}
+            <table class="table is-narrow has-background">
+              <tr>
+                <td> Beer: </td>
+                <td> {{ selected_beer.name }} </td>
+              </tr>
+              <tr>
+                <td> Style: </td>
+                <td> {{ category_names[selected_beer.category_id] }} </td>
+              </tr>
+              <tr>
+                <td> ABV: </td>
+                <td> {{ selected_beer.abv }} % </td>
+              </tr>
+              <tr>
+                <td> Price: </td>
+                <td> {{ selected_beer.price_kr }} kr </td>
+              </tr>
+            </table>
+          {% endif %}
         {% endif %}
       </div>
     </div>

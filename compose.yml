@@ -4,7 +4,6 @@ services:
     build: website
     networks:
       - reverse-proxy
-      - db-con
     environment:
       - ROTARY_SECRET_KEY=${SECRET_KEY}
       - ROTARY_DATABASE=instance/rotary.sqlite
@@ -34,6 +33,7 @@ services:
       - NODE_ENV=production
     networks:
       - reverse-proxy
+    restart: "always"
     volumes:
       - ./instance:/instance
     labels:
