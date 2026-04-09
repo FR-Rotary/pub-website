@@ -20,14 +20,14 @@ def generate_pdf(tex_content, output_filename='texput.pdf'):
             with open(pdf_path, 'rb') as pdf:
                 return Response(pdf.read(), mimetype='application/pdf')
         except subprocess.CalledProcessError as e:
-            current_app.logger.info(e)
+            # current_app.logger.error(e.output)
             return Response(
-                f"Error: {e.stderr.decode('utf8')}",
+                f"Error: {e.output.decode('utf-8')} {e.stderr.decode('utf8')}",
                 mimetype='text/plain'
             )
         except subprocess.TimeoutExpired as e:
             return Response(
-                f"Timeout: {e.stderr.decode('utf8')}",
+                f"Timeout: {e.output.decode('utf-8')} {e.stderr.decode('utf8')}",
                 mimetype='text/plain'
             )
         
